@@ -40,6 +40,8 @@
         .app-badge-lineman { background-color: #00c300; color: white; }
         .app-badge-shopee { background-color: #ee4d2d; color: white; }
         .app-badge-robinhood { background-color: #9d223c; color: white; }
+        .app-badge-delivery { background-color: #8b5cf6; color: white; } /* 📦 ส่งของ */
+        .app-badge-passenger { background-color: #f59e0b; color: white; } /* 👤 ส่งคน */
         .app-badge-other { background-color: #475569; color: white; }
     </style>
 </head>
@@ -93,7 +95,7 @@
                         <i class="fa-solid fa-arrow-down-left text-xs mr-1"></i> รายได้รวม
                     </span>
                     <span id="statTotalIncome" class="text-xl font-bold text-emerald-300">฿0</span>
-                    <span id="statTotalTrips" class="text-[11px] text-emerald-400/80 block mt-0.5">0 วิ่ง (0 บ้าน)</span>
+                    <span id="statTotalTrips" class="text-[11px] text-emerald-400/80 block mt-0.5">0 งาน (0 บ้าน/จุด)</span>
                 </div>
                 <div class="bg-rose-950/40 border border-rose-800/50 rounded-xl p-3">
                     <span class="text-xs font-medium text-rose-400 block mb-1">
@@ -111,8 +113,8 @@
                     <span id="statNetProfit" class="text-2xl font-black tracking-tight">฿0</span>
                 </div>
                 <div class="text-right">
-                    <span class="text-xs text-sky-200 block font-light">เฉลี่ยต่อบ้าน</span>
-                    <span id="statAvgPerTrip" class="text-base font-bold text-yellow-300">฿0 / บ้าน</span>
+                    <span class="text-xs text-sky-200 block font-light">เฉลี่ยต่อจุด/บ้าน</span>
+                    <span id="statAvgPerTrip" class="text-base font-bold text-yellow-300">฿0 / จุด</span>
                 </div>
             </div>
 
@@ -166,26 +168,28 @@
                         <input type="date" id="tripDate" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">แอปพลิเคชัน</label>
+                        <label class="block text-xs text-slate-400 font-medium mb-1">ประเภทงาน / แอป</label>
                         <select id="tripApp" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none font-medium">
-                            <option value="Grab">Grab</option>
+                            <option value="Grab">Grab (อาหาร/ส่งของ)</option>
                             <option value="MAXIM">MAXIM</option>
                             <option value="LINE MAN">LINE MAN</option>
                             <option value="ShopeeFood">ShopeeFood</option>
                             <option value="Robinhood">Robinhood</option>
-                            <option value="Other">แอปอื่นๆ / วิน</option>
+                            <option value="ส่งของ">📦 ส่งของ / พัสดุ</option>
+                            <option value="ส่งคน">👤 ส่งคน / วินรับจ้าง</option>
+                            <option value="Other">แอปอื่นๆ</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">จำนวนออเดอร์ (บ้าน)</label>
+                        <label class="block text-xs text-slate-400 font-medium mb-1">จำนวนจุดส่ง (บ้าน/คน)</label>
                         <select id="tripOrdersCount" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-sky-400 focus:ring-2 focus:ring-sky-500 focus:outline-none font-semibold">
-                            <option value="1">1 บ้าน (เดี่ยว)</option>
-                            <option value="2">2 บ้าน (ซ้อน)</option>
-                            <option value="3">3 บ้าน (ซ้อน)</option>
-                            <option value="4">4 บ้าน (ซ้อน)</option>
+                            <option value="1">1 จุด (เดี่ยว)</option>
+                            <option value="2">2 จุด (ซ้อน)</option>
+                            <option value="3">3 จุด (ซ้อน)</option>
+                            <option value="4">4 จุด (ซ้อน)</option>
                         </select>
                     </div>
                     <div>
@@ -211,7 +215,7 @@
 
                 <div>
                     <label class="block text-xs text-slate-400 font-medium mb-1">หมายเหตุ</label>
-                    <input type="text" id="tripNote" placeholder="ระบุเพิ่มเติม (ไม่บังคับ)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                    <input type="text" id="tripNote" placeholder="ระบุเพิ่มเติม เช่น จุดรับ-ส่ง, ชื่อลูกค้า" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none">
                 </div>
 
                 <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 active:scale-[0.99] text-white font-medium py-3 rounded-xl shadow-lg shadow-sky-900/40 flex items-center justify-center space-x-2 transition">
@@ -245,4 +249,4 @@
                 </div>
 
                 <!-- Mileage Inputs -->
-                <div class="grid grid-cols-2 gap-3 bg-slate-900
+                <div class="grid grid
