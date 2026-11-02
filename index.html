@@ -35,7 +35,7 @@
             border-bottom: 3px solid #38bdf8;
             font-weight: 600;
         }
-        /* Custom App Colors & Logos */
+        /* Custom App Colors & Badges */
         .app-badge-grab { background-color: #10b981; color: white; } 
         .app-badge-maxim { background-color: #eab308; color: #1e293b; font-weight: 700; } 
         .app-badge-shopee { background-color: #f97316; color: white; } 
@@ -169,59 +169,16 @@
                     <div>
                         <label class="block text-xs text-slate-400 font-medium mb-1">แอปพลิเคชัน</label>
                         <select id="tripApp" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none font-medium">
-                            <option value="Grab">🟢 Grab</option>
-                            <option value="MAXIM">🟡 MAXIM</option>
-                            <option value="LINE MAN">🟢 LINE MAN</option>
-                            <option value="ShopeeFood">🟠 ShopeeFood</option>
-                            <option value="Robinhood">🔴 Robinhood</option>
-                            <option value="Other">⚪ แอปอื่นๆ / วิน</option>
+                            <option value="Grab">Grab</option>
+                            <option value="MAXIM">MAXIM</option>
+                            <option value="LINE MAN">LINE MAN</option>
+                            <option value="ShopeeFood">ShopeeFood</option>
+                            <option value="Robinhood">Robinhood</option>
+                            <option value="Other">แอปอื่นๆ / วิน</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">จำนวนออเดอร์ (บ้าน)</label>
-                        <select id="tripOrdersCount" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-sky-400 focus:ring-2 focus:ring-sky-500 focus:outline-none font-semibold">
-                            <option value="1">1 บ้าน (เดี่ยว)</option>
-                            <option value="2">2 บ้าน (ซ้อน)</option>
-                            <option value="3">3 บ้าน (ซ้อน)</option>
-                            <option value="4">4 บ้าน (ซ้อน)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">ช่องทางรับเงิน</label>
-                        <select id="tripPaymentMethod" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none font-medium">
-                            <option value="เงินสด">💵 เงินสด</option>
-                            <option value="เงินโอน">🏦 เงินโอน</option>
-                            <option value="เป๋าตัง">🟦 เป๋าตัง</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">ค่ารอบรวม (บาท)</label>
-                        <input type="number" step="0.01" id="tripFare" placeholder="0.00" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-slate-100 focus:ring-2 focus:ring-sky-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">เงินทิปรวม (ถ้ามี)</label>
-                        <input type="number" step="0.01" id="tripTip" placeholder="0.00" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-emerald-400 focus:ring-2 focus:ring-sky-500 focus:outline-none">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs text-slate-400 font-medium mb-1">หมายเหตุ</label>
-                    <input type="text" id="tripNote" placeholder="ระบุเพิ่มเติม (ไม่บังคับ)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none">
-                </div>
-
-                <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 active:scale-[0.99] text-white font-medium py-3 rounded-xl shadow-lg shadow-sky-900/40 flex items-center justify-center space-x-2 transition">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    <span>บันทึกงานรายรอบ</span>
-                </button>
-            </form>
-
-            <!-- EXPENSE & MILEAGE FORM (Hidden by default) -->
-            <form id="expenseForm" onsubmit="handleSaveExpense(event)" class="bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-700 space-y-3 hidden">
-                <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2 border-b border-slate-700 pb-2">
-                    <span class="w-2 h-4 bg-rose-5
+                        <label class="block text-xs text-slate-400 font
