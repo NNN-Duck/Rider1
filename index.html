@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rider Income & Expense Tracker - Dark Pro</title>
+    <title>Rider Income & Expense Tracker - ระบบบันทึกรายรับรายจ่ายไรเดอร์</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -16,18 +16,16 @@
         body {
             font-family: 'Kanit', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            background-color: #0f172a;
-            color: #f1f5f9;
         }
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #1e293b;
+            background: #0f172a;
         }
         ::-webkit-scrollbar-thumb {
-            background: #475569;
+            background: #334155;
             border-radius: 9999px;
         }
         .active-tab {
@@ -35,32 +33,31 @@
             border-bottom: 3px solid #38bdf8;
             font-weight: 600;
         }
-        /* Custom App Colors & Badges */
-        .app-badge-grab { background-color: #10b981; color: white; } 
-        .app-badge-maxim { background-color: #eab308; color: #1e293b; font-weight: 700; } 
-        .app-badge-shopee { background-color: #f97316; color: white; } 
-        .app-badge-lineman { background-color: #059669; color: white; }
+        .app-badge-grab { background-color: #00b14f; color: white; }
+        .app-badge-maxim { background-color: #ea1d24; color: white; }
+        .app-badge-lineman { background-color: #00c300; color: white; }
+        .app-badge-shopee { background-color: #ee4d2d; color: white; }
         .app-badge-robinhood { background-color: #9d223c; color: white; }
         .app-badge-other { background-color: #475569; color: white; }
     </style>
 </head>
-<body class="min-h-screen pb-20">
+<body class="bg-slate-950 min-h-screen text-slate-100 pb-20">
 
     <!-- Top Navigation Bar -->
-    <header class="bg-slate-900/80 backdrop-blur-md text-white sticky top-0 z-30 border-b border-slate-800 shadow-lg">
+    <header class="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-30 shadow-lg backdrop-blur-md bg-opacity-90">
         <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-2.5">
-                <div class="w-10 h-10 bg-sky-500/10 border border-sky-500/30 rounded-xl flex items-center justify-center">
-                    <i class="fa-solid fa-motorcycle text-xl text-yellow-400"></i>
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-sky-500/20 border border-sky-500/30 rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-motorcycle text-xl text-sky-400"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-base leading-tight text-slate-100">Rider Tracker Pro</h1>
-                    <p class="text-[11px] text-sky-400 font-medium">Dark Mode Edition</p>
+                    <h1 class="font-bold text-lg leading-tight text-slate-100">Rider Tracker Pro</h1>
+                    <p class="text-xs text-sky-400 font-light">ระบบบันทึกรายรับ-รายจ่ายไรเดอร์</p>
                 </div>
             </div>
-            <button onclick="exportCSV()" title="ส่งออก CSV" class="p-2 bg-slate-800 hover:bg-slate-700 active:scale-95 rounded-xl border border-slate-700 transition flex items-center text-xs space-x-1 text-emerald-400">
-                <i class="fa-solid fa-file-csv text-base"></i>
-                <span class="hidden sm:inline">Export</span>
+            <button onclick="exportCSV()" title="ส่งออก CSV" class="p-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 active:scale-95 rounded-lg transition flex items-center text-xs space-x-1">
+                <i class="fa-solid fa-file-csv text-base text-emerald-400"></i>
+                <span class="hidden sm:inline text-slate-300">Export</span>
             </button>
         </div>
     </header>
@@ -68,66 +65,95 @@
     <!-- Main Container -->
     <main class="max-w-md mx-auto px-4 pt-4">
 
-        <!-- Period Selector & Summary Card Header -->
-        <div class="bg-slate-800/90 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-slate-700/80 mb-4 space-y-3">
-            <div class="flex justify-between items-center">
-                <label for="filterPeriod" class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar-days text-sky-400"></i> ช่วงเวลาสรุปผล
+        <!-- Date Filter & Summary Card Header -->
+        <div class="bg-slate-900 rounded-2xl p-4 shadow-xl border border-slate-800 mb-4 space-y-3">
+            
+            <!-- Quick Date Filters -->
+            <div>
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1 mb-2">
+                    <i class="fa-regular fa-calendar-check text-sky-400"></i> เลือกช่วงเวลาสรุปผล
                 </label>
-                <select id="filterPeriod" onchange="onPeriodChange()" class="bg-slate-900 border border-slate-700 text-sky-400 text-xs rounded-xl px-3 py-1.5 focus:ring-2 focus:ring-sky-500 focus:outline-none font-bold">
-                    <option value="day">📅 เลือกดูตามวัน</option>
-                    <option value="week">📆 สัปดาห์นี้ (จันทร์ - อาทิตย์)</option>
-                    <option value="month">🗓️ เดือนนี้</option>
-                </select>
-            </div>
+                <div class="grid grid-cols-3 gap-1.5 mb-2">
+                    <button onclick="setQuickDate('today')" id="btn-quick-today" class="py-1.5 px-2 bg-slate-800 text-slate-300 font-medium text-xs rounded-xl border border-slate-700 transition flex items-center justify-center space-x-1">
+                        <i class="fa-solid fa-sun text-amber-400"></i>
+                        <span>วันนี้</span>
+                    </button>
+                    <button onclick="setQuickDate('week')" id="btn-quick-week" class="py-1.5 px-2 bg-slate-800 text-slate-300 font-medium text-xs rounded-xl border border-slate-700 transition flex items-center justify-center space-x-1">
+                        <i class="fa-solid fa-calendar-week text-sky-400"></i>
+                        <span>สัปดาห์นี้</span>
+                    </button>
+                    <button onclick="setQuickDate('month')" id="btn-quick-month" class="py-1.5 px-2 bg-slate-800 text-slate-300 font-medium text-xs rounded-xl border border-slate-700 transition flex items-center justify-center space-x-1">
+                        <i class="fa-solid fa-calendar-days text-indigo-400"></i>
+                        <span>เดือนนี้</span>
+                    </button>
+                </div>
 
-            <!-- Specific Date Picker (Shown only in 'day' mode) -->
-            <div id="datePickerContainer" class="flex justify-between items-center bg-slate-900/60 px-3 py-2 rounded-xl border border-slate-700/60">
-                <span class="text-xs text-slate-400">วันที่เจาะจง:</span>
-                <input type="date" id="filterDate" onchange="renderDashboard()" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 focus:ring-1 focus:ring-sky-500 focus:outline-none font-medium">
+                <!-- Custom Range Pickers -->
+                <div class="grid grid-cols-2 gap-2 bg-slate-950/70 p-2 rounded-xl border border-slate-800">
+                    <div>
+                        <span class="text-[10px] text-slate-500 block mb-0.5">ตั้งแต่วันที่</span>
+                        <input type="date" id="startDate" onchange="customDateChanged()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 focus:ring-sky-500 focus:border-sky-500 font-medium">
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-slate-500 block mb-0.5">ถึงวันที่</span>
+                        <input type="date" id="endDate" onchange="customDateChanged()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 focus:ring-sky-500 focus:border-sky-500 font-medium">
+                    </div>
+                </div>
             </div>
 
             <!-- Main Financial Summary Cards -->
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-emerald-950/40 border border-emerald-800/50 rounded-xl p-3">
+                <div class="bg-emerald-950/40 border border-emerald-500/20 rounded-xl p-3">
                     <span class="text-xs font-medium text-emerald-400 block mb-1">
                         <i class="fa-solid fa-arrow-down-left text-xs mr-1"></i> รายได้รวม
                     </span>
-                    <span id="statTotalIncome" class="text-xl font-bold text-emerald-300">฿0</span>
-                    <span id="statTotalTrips" class="text-[11px] text-emerald-400/80 block mt-0.5">0 วิ่ง (0 บ้าน)</span>
+                    <span id="statTotalIncome" class="text-xl font-bold text-emerald-400">฿0</span>
+                    <span id="statTotalTrips" class="text-[11px] text-emerald-500/70 block mt-0.5">0 รอบ</span>
                 </div>
-                <div class="bg-rose-950/40 border border-rose-800/50 rounded-xl p-3">
+                <div class="bg-rose-950/40 border border-rose-500/20 rounded-xl p-3">
                     <span class="text-xs font-medium text-rose-400 block mb-1">
                         <i class="fa-solid fa-arrow-up-right text-xs mr-1"></i> ค่าใช้จ่ายรวม
                     </span>
-                    <span id="statTotalExpense" class="text-xl font-bold text-rose-300">฿0</span>
-                    <span id="statExpenseBreakdown" class="text-[11px] text-rose-400/80 block mt-0.5">น้ำมัน ฿0</span>
+                    <span id="statTotalExpense" class="text-xl font-bold text-rose-400">฿0</span>
+                    <span id="statExpenseBreakdown" class="text-[11px] text-rose-500/70 block mt-0.5">น้ำมัน ฿0</span>
+                </div>
+            </div>
+
+            <!-- Detailed Breakdown (Tip & Payment Types) -->
+            <div class="grid grid-cols-4 gap-1.5 pt-1">
+                <div class="bg-amber-950/40 border border-amber-500/20 rounded-xl p-2 text-center">
+                    <span class="text-[10px] text-amber-400 font-medium block">ทิปรวม</span>
+                    <span id="statTotalTip" class="text-xs font-bold text-amber-300 block mt-0.5">฿0</span>
+                </div>
+                <div class="bg-teal-950/40 border border-teal-500/20 rounded-xl p-2 text-center">
+                    <span class="text-[10px] text-teal-400 font-medium block">เงินสด</span>
+                    <span id="statTotalCash" class="text-xs font-bold text-teal-300 block mt-0.5">฿0</span>
+                </div>
+                <div class="bg-blue-950/40 border border-blue-500/20 rounded-xl p-2 text-center">
+                    <span class="text-[10px] text-blue-400 font-medium block">เงินโอน</span>
+                    <span id="statTotalTransfer" class="text-xs font-bold text-blue-300 block mt-0.5">฿0</span>
+                </div>
+                <div class="bg-purple-950/40 border border-purple-500/20 rounded-xl p-2 text-center">
+                    <span class="text-[10px] text-purple-400 font-medium block">กระเป๋าแอป</span>
+                    <span id="statTotalWallet" class="text-xs font-bold text-purple-300 block mt-0.5">฿0</span>
                 </div>
             </div>
 
             <!-- Net Profit Banner -->
-            <div id="netProfitBox" class="bg-gradient-to-r from-sky-600 to-indigo-700 rounded-xl p-3.5 text-white flex justify-between items-center shadow-md">
+            <div id="netProfitBox" class="bg-gradient-to-r from-sky-600 via-sky-500 to-indigo-600 rounded-xl p-3.5 text-white flex justify-between items-center shadow-lg border border-sky-400/20">
                 <div>
-                    <span class="text-xs text-sky-200 block font-light">กำไรสุทธิ (Net Income)</span>
+                    <span class="text-xs text-sky-100 block font-light">กำไรสุทธิ (Net Income)</span>
                     <span id="statNetProfit" class="text-2xl font-black tracking-tight">฿0</span>
                 </div>
                 <div class="text-right">
-                    <span class="text-xs text-sky-200 block font-light">เฉลี่ยต่อบ้าน</span>
-                    <span id="statAvgPerTrip" class="text-base font-bold text-yellow-300">฿0 / บ้าน</span>
+                    <span class="text-xs text-sky-100 block font-light">เฉลี่ยต่อรอบ</span>
+                    <span id="statAvgPerTrip" class="text-base font-bold text-yellow-300">฿0 / รอบ</span>
                 </div>
-            </div>
-
-            <!-- Mileage Summary Widget -->
-            <div class="pt-2 border-t border-slate-700/80 flex justify-between items-center text-xs text-slate-300">
-                <span class="flex items-center gap-1 text-slate-400">
-                    <i class="fa-solid fa-road text-sky-400"></i> ระยะทางรวมช่วงนี้:
-                </span>
-                <span id="statTotalKm" class="font-bold text-sky-300 text-sm">0 กม.</span>
             </div>
         </div>
 
         <!-- Navigation Tabs -->
-        <div class="flex border-b border-slate-800 mb-4 bg-slate-800/80 rounded-t-2xl px-2 border-x border-t border-slate-700/60">
+        <div class="flex border-b border-slate-800 mb-4 bg-slate-900 rounded-t-xl px-2">
             <button onclick="switchTab('add')" id="tab-btn-add" class="flex-1 py-3 text-center text-sm active-tab flex items-center justify-center space-x-1.5">
                 <i class="fa-solid fa-circle-plus"></i>
                 <span>ลงบันทึก</span>
@@ -145,18 +171,18 @@
         <!-- TAB 1: ADD DATA FORM -->
         <div id="tab-add" class="space-y-4">
             <!-- Form Type Switcher -->
-            <div class="grid grid-cols-2 p-1 bg-slate-800 rounded-xl text-xs font-medium border border-slate-700">
-                <button onclick="toggleFormType('trip')" id="form-type-trip" class="py-2 rounded-lg bg-sky-600 text-white font-bold transition shadow">
+            <div class="grid grid-cols-2 p-1 bg-slate-900 rounded-xl text-xs font-medium border border-slate-800">
+                <button onclick="toggleFormType('trip')" id="form-type-trip" class="py-2 rounded-lg bg-sky-600 text-white font-bold transition shadow-sm">
                     <i class="fa-solid fa-motorcycle mr-1"></i> บันทึกงานรายรอบ
                 </button>
                 <button onclick="toggleFormType('expense')" id="form-type-expense" class="py-2 rounded-lg text-slate-400 transition">
-                    <i class="fa-solid fa-gas-pump mr-1"></i> บันทึกค่าใช้จ่าย/ไมล์
+                    <i class="fa-solid fa-gas-pump mr-1"></i> บันทึกค่าใช้จ่าย
                 </button>
             </div>
 
             <!-- TRIP FORM -->
-            <form id="tripForm" onsubmit="handleSaveTrip(event)" class="bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-700 space-y-3">
-                <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2 border-b border-slate-700 pb-2">
+            <form id="tripForm" onsubmit="handleSaveTrip(event)" class="bg-slate-900 rounded-2xl p-4 shadow-xl border border-slate-800 space-y-3">
+                <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2 border-b border-slate-800 pb-2">
                     <span class="w-2 h-4 bg-sky-500 rounded-full inline-block"></span>
                     ข้อมูลรับงานรายรอบ
                 </h3>
@@ -164,11 +190,18 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs text-slate-400 font-medium mb-1">วันที่</label>
-                        <input type="date" id="tripDate" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        <input type="date" id="tripDate" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
                     </div>
                     <div>
+                        <label class="block text-xs text-slate-400 font-medium mb-1">เวลา</label>
+                        <input type="time" id="tripTime" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
                         <label class="block text-xs text-slate-400 font-medium mb-1">แอปพลิเคชัน</label>
-                        <select id="tripApp" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none font-medium">
+                        <select id="tripApp" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none font-medium">
                             <option value="Grab">Grab</option>
                             <option value="MAXIM">MAXIM</option>
                             <option value="LINE MAN">LINE MAN</option>
@@ -177,109 +210,85 @@
                             <option value="Other">แอปอื่นๆ / วิน</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">จำนวนออเดอร์ (บ้าน)</label>
-                        <select id="tripOrdersCount" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-sky-400 focus:ring-2 focus:ring-sky-500 focus:outline-none font-semibold">
-                            <option value="1">1 บ้าน (เดี่ยว)</option>
-                            <option value="2">2 บ้าน (ซ้อน)</option>
-                            <option value="3">3 บ้าน (ซ้อน)</option>
-                            <option value="4">4 บ้าน (ซ้อน)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">ช่องทางรับเงิน</label>
-                        <select id="tripPaymentMethod" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none font-medium">
-                            <option value="เงินสด">💵 เงินสด</option>
-                            <option value="เงินโอน">🏦 เงินโอน</option>
-                            <option value="เป๋าตัง">🟦 เป๋าตัง</option>
-                        </select>
+                        <label class="block text-xs text-slate-400 font-medium mb-1">ระยะทาง (กม.)</label>
+                        <input type="number" step="0.1" id="tripDistance" placeholder="0.0" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">ค่ารอบรวม (บาท)</label>
-                        <input type="number" step="0.01" id="tripFare" placeholder="0.00" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-slate-100 focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        <label class="block text-xs text-slate-400 font-medium mb-1">ค่ารอบ/ค่าโดยสาร (บาท)</label>
+                        <input type="number" step="0.01" id="tripFare" placeholder="0.00" required class="w-full bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-sky-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">เงินทิปรวม (ถ้ามี)</label>
-                        <input type="number" step="0.01" id="tripTip" placeholder="0.00" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-emerald-400 focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        <label class="block text-xs text-slate-400 font-medium mb-1">เงินทิป (ถ้ามี)</label>
+                        <input type="number" step="0.01" id="tripTip" placeholder="0.00" value="0" class="w-full bg-slate-950 border border-slate-800 text-emerald-400 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-sky-500 focus:outline-none">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs text-slate-400 font-medium mb-1">หมายเหตุ</label>
-                    <input type="text" id="tripNote" placeholder="ระบุเพิ่มเติม (ไม่บังคับ)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                    <label class="block text-xs text-slate-400 font-medium mb-1">ช่องทางรับเงิน</label>
+                    <select id="tripPaymentType" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none font-medium">
+                        <option value="wallet">💼 กระเป๋าแอป</option>
+                        <option value="cash">💵 เงินสด</option>
+                        <option value="transfer">📱 เงินโอน/สแกน</option>
+                    </select>
                 </div>
 
-                <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 active:scale-[0.99] text-white font-medium py-3 rounded-xl shadow-lg shadow-sky-900/40 flex items-center justify-center space-x-2 transition">
+                <div>
+                    <label class="block text-xs text-slate-400 font-medium mb-1">หมายเหตุ (เช่น รับลูกค้าจากไหน ไปไหน)</label>
+                    <input type="text" id="tripNote" placeholder="ระบุเพิ่มเติม (ไม่บังคับ)" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                </div>
+
+                <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 active:scale-[0.99] text-white font-medium py-3 rounded-xl shadow-lg shadow-sky-950 flex items-center justify-center space-x-2 transition">
                     <i class="fa-solid fa-floppy-disk"></i>
                     <span>บันทึกงานรายรอบ</span>
                 </button>
             </form>
 
-            <!-- EXPENSE & MILEAGE FORM (Hidden by default) -->
-            <form id="expenseForm" onsubmit="handleSaveExpense(event)" class="bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-700 space-y-3 hidden">
-                <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2 border-b border-slate-700 pb-2">
+            <!-- EXPENSE FORM (Hidden by default) -->
+            <form id="expenseForm" onsubmit="handleSaveExpense(event)" class="bg-slate-900 rounded-2xl p-4 shadow-xl border border-slate-800 space-y-3 hidden">
+                <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2 border-b border-slate-800 pb-2">
                     <span class="w-2 h-4 bg-rose-500 rounded-full inline-block"></span>
-                    ข้อมูลค่าใช้จ่าย & เลขไมล์รถ
+                    ข้อมูลค่าใช้จ่าย
                 </h3>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs text-slate-400 font-medium mb-1">วันที่</label>
-                        <input type="date" id="expDate" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                        <input type="date" id="expDate" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">ประเภทค่าใช้จ่าย</label>
-                        <select id="expCategory" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-rose-500 focus:outline-none font-medium">
-                            <option value="น้ำมัน">⛽ ค่าน้ำมัน</option>
-                            <option value="อาหาร/เครื่องดื่ม">🍲 ค่าอาหาร/เครื่องดื่ม</option>
-                            <option value="เติมเครดิตแอป">📱 เติมเครดิตแอป</option>
-                            <option value="ซ่อมบำรุงรถ">🔧 ซ่อมบำรุง/ถ่ายน้ำมันเครื่อง</option>
-                            <option value="อื่นๆ">📦 ค่าใช้จ่ายอื่นๆ</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Mileage Inputs -->
-                <div class="grid grid-cols-2 gap-3 bg-slate-900/60 p-3 rounded-xl border border-slate-700/80">
-                    <div>
-                        <label class="block text-[11px] text-sky-400 font-medium mb-1"><i class="fa-solid fa-gauge mr-1"></i> เลขไมล์เริ่มต้น</label>
-                        <input type="number" id="mileageStart" placeholder="เช่น 12500" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:ring-1 focus:ring-sky-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] text-sky-400 font-medium mb-1"><i class="fa-solid fa-flag-checkered mr-1"></i> เลขไมล์สิ้นสุด</label>
-                        <input type="number" id="mileageEnd" placeholder="เช่น 12620" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:ring-1 focus:ring-sky-500 focus:outline-none">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">ช่องทางจ่ายเงิน</label>
-                        <select id="expPaymentMethod" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-rose-500 focus:outline-none font-medium">
-                            <option value="เงินสด">💵 เงินสด</option>
-                            <option value="เงินโอน">🏦 เงินโอน</option>
-                            <option value="เป๋าตัง">🟦 เป๋าตัง</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">จำนวนเงิน (บาท)</label>
-                        <input type="number" step="0.01" id="expAmount" placeholder="0.00" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-rose-400 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                        <label class="block text-xs text-slate-400 font-medium mb-1">เวลา</label>
+                        <input type="time" id="expTime" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:outline-none">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs text-slate-400 font-medium mb-1">รายละเอียดเพิ่มเติม</label>
-                    <input type="text" id="expNote" placeholder="เช่น เติม 95 เพียวๆ, ซ่อมยางรั่ว" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                    <label class="block text-xs text-slate-400 font-medium mb-1">ประเภทค่าใช้จ่าย</label>
+                    <select id="expCategory" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:outline-none font-medium">
+                        <option value="น้ำมัน">⛽ ค่าน้ำมัน</option>
+                        <option value="อาหาร/เครื่องดื่ม">🍲 ค่าอาหาร/เครื่องดื่ม</option>
+                        <option value="เติมเครดิตแอป">📱 เติมเครดิตแอป</option>
+                        <option value="ซ่อมบำรุงรถ">🔧 ซ่อมบำรุง/ถ่ายน้ำมันเครื่อง</option>
+                        <option value="อื่นๆ">📦 ค่าใช้จ่ายอื่นๆ</option>
+                    </select>
                 </div>
 
-                <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 active:scale-[0.99] text-white font-medium py-3 rounded-xl shadow-lg shadow-rose-900/40 flex items-center justify-center space-x-2 transition">
+                <div>
+                    <label class="block text-xs text-slate-400 font-medium mb-1">จำนวนเงิน (บาท)</label>
+                    <input type="number" step="0.01" id="expAmount" placeholder="0.00" required class="w-full bg-slate-950 border border-slate-800 text-rose-400 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs text-slate-400 font-medium mb-1">รายละเอียดเพิ่มเติม</label>
+                    <input type="text" id="expNote" placeholder="เช่น เติม 95 เพียวๆ, ซ่อมยางรั่ว" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                </div>
+
+                <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 active:scale-[0.99] text-white font-medium py-3 rounded-xl shadow-lg shadow-rose-950 flex items-center justify-center space-x-2 transition">
                     <i class="fa-solid fa-floppy-disk"></i>
-                    <span>บันทึกค่าใช้จ่าย / เลขไมล์</span>
+                    <span>บันทึกค่าใช้จ่าย</span>
                 </button>
             </form>
         </div>
@@ -287,7 +296,7 @@
         <!-- TAB 2: HISTORY LIST -->
         <div id="tab-history" class="space-y-3 hidden">
             <div class="flex justify-between items-center px-1">
-                <h3 class="font-bold text-slate-200 text-sm">ประวัติรายการทั้งหมด</h3>
+                <h3 class="font-bold text-slate-200 text-sm">ประวัติรายการบันทึก</h3>
                 <span id="historyCount" class="text-xs text-slate-400 font-normal">0 รายการ</span>
             </div>
 
@@ -299,7 +308,7 @@
         <!-- TAB 3: STATS & OVERVIEW -->
         <div id="tab-stats" class="space-y-4 hidden">
             <!-- App Breakdown Chart Card -->
-            <div class="bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-700">
+            <div class="bg-slate-900 rounded-2xl p-4 shadow-xl border border-slate-800">
                 <h4 class="font-bold text-slate-200 text-sm mb-3 flex items-center gap-2">
                     <i class="fa-solid fa-chart-column text-sky-400"></i> สัดส่วนรายได้แยกตามค่ายแอป
                 </h4>
@@ -309,7 +318,7 @@
             </div>
 
             <!-- Expense Breakdown Chart Card -->
-            <div class="bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-700">
+            <div class="bg-slate-900 rounded-2xl p-4 shadow-xl border border-slate-800">
                 <h4 class="font-bold text-slate-200 text-sm mb-3 flex items-center gap-2">
                     <i class="fa-solid fa-pie-chart text-rose-400"></i> สัดส่วนค่าใช้จ่าย
                 </h4>
@@ -319,16 +328,26 @@
             </div>
 
             <!-- Data Management Actions -->
-            <div class="bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-700 space-y-3">
-                <h4 class="font-bold text-slate-200 text-sm flex items-center gap-2 border-b border-slate-700 pb-2">
+            <div class="bg-slate-900 rounded-2xl p-4 shadow-xl border border-slate-800 space-y-3">
+                <h4 class="font-bold text-slate-200 text-sm flex items-center gap-2 border-b border-slate-800 pb-2">
                     <i class="fa-solid fa-database text-slate-400"></i> จัดการข้อมูลระบบ
                 </h4>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="exportCSV()" class="p-2.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition">
+                    <button onclick="exportCSV()" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-slate-700">
                         <i class="fa-solid fa-download text-emerald-400"></i>
                         <span>ดาวน์โหลด CSV</span>
                     </button>
-                    <button onclick="confirmClearData()" class="p-2.5 bg-rose-950/60 hover:bg-rose-900/60 text-rose-400 border border-rose-900/50 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition">
+                    <button onclick="exportGoogleSheets()" class="p-2.5 bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-emerald-500/30">
+                        <i class="fa-solid fa-file-excel text-emerald-400"></i>
+                        <span>เปิดใน Google Sheets</span>
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="loadDemoData()" class="p-2.5 bg-sky-950/60 hover:bg-sky-900/60 text-sky-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-sky-500/30">
+                        <i class="fa-solid fa-flask text-sky-400"></i>
+                        <span>ทดลองใส่ข้อมูลตัวอย่าง</span>
+                    </button>
+                    <button onclick="confirmClearData()" class="p-2.5 bg-rose-950/60 hover:bg-rose-900/60 text-rose-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-rose-500/30">
                         <i class="fa-solid fa-trash-can"></i>
                         <span>ล้างข้อมูลทั้งหมด</span>
                     </button>
@@ -339,15 +358,15 @@
     </main>
 
     <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-slate-900 border border-slate-700 text-slate-100 text-xs px-4 py-2.5 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center space-x-2">
+    <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-slate-800 border border-slate-700 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center space-x-2">
         <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
         <span id="toastMsg">บันทึกข้อมูลเรียบร้อย</span>
     </div>
 
     <!-- Modal confirmation for delete -->
-    <div id="confirmModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 max-w-xs w-full shadow-2xl space-y-4 text-center">
-            <div class="w-12 h-12 bg-rose-950/80 border border-rose-800 rounded-full flex items-center justify-center mx-auto text-rose-400">
+    <div id="confirmModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 max-w-xs w-full shadow-2xl space-y-4 text-center">
+            <div class="w-12 h-12 bg-rose-950/80 border border-rose-500/30 rounded-full flex items-center justify-center mx-auto text-rose-400">
                 <i class="fa-solid fa-triangle-exclamation text-xl"></i>
             </div>
             <div>
@@ -355,69 +374,153 @@
                 <p class="text-xs text-slate-400 mt-1">รายการบันทึกทั้งหมดจะถูกลบและไม่สามารถฟื้นคืนได้</p>
             </div>
             <div class="flex space-x-2">
-                <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-700 text-slate-300 text-xs font-medium rounded-xl hover:bg-slate-600">ยกเลิก</button>
-                <button onclick="executeClearData()" class="flex-1 py-2.5 bg-rose-600 text-white text-xs font-medium rounded-xl shadow-lg shadow-rose-900/50 hover:bg-rose-500">ลบข้อมูล</button>
+                <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-800 text-slate-300 text-xs font-medium rounded-xl border border-slate-700">ยกเลิก</button>
+                <button onclick="executeClearData()" class="flex-1 py-2.5 bg-rose-600 text-white text-xs font-medium rounded-xl shadow-lg shadow-rose-950">ลบข้อมูล</button>
             </div>
         </div>
     </div>
 
     <!-- JavaScript Logic -->
     <script>
+        // State Management
         let trips = JSON.parse(localStorage.getItem('rider_trips')) || [];
         let expenses = JSON.parse(localStorage.getItem('rider_expenses')) || [];
 
+        // Chart instances
         let appChartInstance = null;
         let expenseChartInstance = null;
 
-        const appLogos = {
-            'Grab': 'https://upload.wikimedia.org/wikipedia/commons/f/f6/Grab_Logo.svg',
-            'MAXIM': 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Maxim_service_logo.svg',
-            'LINE MAN': 'https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_Apps_Logo.svg',
-            'ShopeeFood': 'https://upload.wikimedia.org/wikipedia/commons/f/fe/Shopee.svg',
-            'Robinhood': 'https://cdn-icons-png.flaticon.com/512/2972/2972531.png'
-        };
+        // Helper function to get local real-time ISO date string (YYYY-MM-DD)
+        function getRealtimeDateString() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
 
+        // Helper function to get real-time time string (HH:MM)
+        function getRealtimeTimeString() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+        // Initialize App
         window.addEventListener('DOMContentLoaded', () => {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('tripDate').value = today;
-            document.getElementById('expDate').value = today;
-            document.getElementById('filterDate').value = today;
+            // Set initial dates & time to real-time today
+            resetFormDatesToRealtime();
 
-            onPeriodChange();
+            // Load sample demo data automatically if empty
+            if (trips.length === 0 && expenses.length === 0) {
+                generateDemoData();
+            }
+
+            // Default filter to Today
+            setQuickDate('today');
         });
 
-        function onPeriodChange() {
-            const period = document.getElementById('filterPeriod').value;
-            const datePickerContainer = document.getElementById('datePickerContainer');
-            
-            if (period === 'day') {
-                datePickerContainer.classList.remove('hidden');
-            } else {
-                datePickerContainer.classList.add('hidden');
+        // Function to update form date & time inputs to real-time current date/time
+        function resetFormDatesToRealtime() {
+            const todayRealtime = getRealtimeDateString();
+            const currentTime = getRealtimeTimeString();
+            document.getElementById('tripDate').value = todayRealtime;
+            document.getElementById('tripTime').value = currentTime;
+            document.getElementById('expDate').value = todayRealtime;
+            document.getElementById('expTime').value = currentTime;
+        }
+
+        // Function to set Quick Date Filters
+        function setQuickDate(type) {
+            const today = new Date();
+            let start = new Date();
+            let end = new Date();
+
+            if (type === 'today') {
+                // start and end are today
+            } else if (type === 'week') {
+                const day = today.getDay();
+                const diffToMonday = today.getDate() - day + (day === 0 ? -6 : 1);
+                start.setDate(diffToMonday);
+                end.setDate(start.getDate() + 6);
+            } else if (type === 'month') {
+                start = new Date(today.getFullYear(), today.getMonth(), 1);
+                end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
             }
+
+            const format = (d) => {
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            document.getElementById('startDate').value = format(start);
+            document.getElementById('endDate').value = format(end);
+
+            // Highlight preset buttons UI for Dark Mode
+            ['today', 'week', 'month'].forEach(r => {
+                const btn = document.getElementById(`btn-quick-${r}`);
+                if (r === type) {
+                    btn.className = "py-1.5 px-2 bg-sky-600 text-white font-medium text-xs rounded-xl shadow-md border border-sky-500 transition flex items-center justify-center space-x-1";
+                } else {
+                    btn.className = "py-1.5 px-2 bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium text-xs rounded-xl border border-slate-700 transition flex items-center justify-center space-x-1";
+                }
+            });
+
             renderDashboard();
         }
 
+        // Function to create realistic demo data with time
+        function generateDemoData() {
+            const today = getRealtimeDateString();
+            const yesterdayDate = new Date(Date.now() - 86400000);
+            const yesterday = yesterdayDate.toISOString().split('T')[0];
+            
+            trips = [
+                { id: 'T_1', date: today, time: '14:20', app: 'Grab', fare: 65, tip: 20, total: 85, paymentType: 'cash', distance: 4.2, note: 'ส่งของคอนโด A (ทิปเงินสด 20)', createdAt: new Date(Date.now() - 3600000*2).toISOString() },
+                { id: 'T_2', date: today, time: '13:10', app: 'LINE MAN', fare: 52, tip: 0, total: 52, paymentType: 'transfer', distance: 3.1, note: 'ส่งอาหารหมู่บ้าน B (ลูกค้าสแกนจ่าย)', createdAt: new Date(Date.now() - 3600000*3).toISOString() },
+                { id: 'T_3', date: today, time: '12:05', app: 'ShopeeFood', fare: 48, tip: 15, total: 63, paymentType: 'wallet', distance: 2.8, note: 'ส่งชานมไข่มุก (ทิปในแอป)', createdAt: new Date(Date.now() - 3600000*4).toISOString() },
+                { id: 'T_4', date: today, time: '10:45', app: 'Grab', fare: 110, tip: 10, total: 120, paymentType: 'transfer', distance: 8.5, note: 'วิ่งส่งผู้โดยสารข้ามเขต', createdAt: new Date(Date.now() - 3600000*5).toISOString() },
+                { id: 'T_5', date: today, time: '09:30', app: 'MAXIM', fare: 40, tip: 0, total: 40, paymentType: 'cash', distance: 2.0, note: 'รับส่งด่วนในซอย', createdAt: new Date(Date.now() - 3600000*6).toISOString() },
+                { id: 'T_6', date: yesterday, time: '18:15', app: 'Grab', fare: 85, tip: 30, total: 115, paymentType: 'wallet', distance: 5.4, note: 'ส่งของหนัก ลูกค้าใจดีให้ทิปเพิ่ม', createdAt: new Date(yesterdayDate.getTime() - 3600000*2).toISOString() },
+                { id: 'T_7', date: yesterday, time: '15:40', app: 'LINE MAN', fare: 60, tip: 0, total: 60, paymentType: 'cash', distance: 4.0, note: 'อาหารชุดใหญ่', createdAt: new Date(yesterdayDate.getTime() - 3600000*4).toISOString() }
+            ];
+
+            expenses = [
+                { id: 'E_1', date: today, time: '09:00', category: 'น้ำมัน', amount: 120, note: 'เติมแก๊สโซฮอล์ 95 เต็มถัง', createdAt: new Date(Date.now() - 3600000*6).toISOString() },
+                { id: 'E_2', date: today, time: '12:30', category: 'อาหาร/เครื่องดื่ม', amount: 65, note: 'ข้าวเที่ยง + กาแฟดำ', createdAt: new Date(Date.now() - 3600000*3).toISOString() },
+                { id: 'E_3', date: yesterday, time: '14:00', category: 'เติมเครดิตแอป', amount: 200, note: 'เติมเงินเข้ากระเป๋าแอป Grab', createdAt: new Date(yesterdayDate.getTime() - 3600000*5).toISOString() }
+            ];
+
+            localStorage.setItem('rider_trips', JSON.stringify(trips));
+            localStorage.setItem('rider_expenses', JSON.stringify(expenses));
+        }
+
+        // Save Trip Function
         function handleSaveTrip(e) {
             e.preventDefault();
 
             const date = document.getElementById('tripDate').value;
+            const time = document.getElementById('tripTime').value || getRealtimeTimeString();
             const app = document.getElementById('tripApp').value;
-            const ordersCount = parseInt(document.getElementById('tripOrdersCount').value) || 1;
             const fare = parseFloat(document.getElementById('tripFare').value) || 0;
             const tip = parseFloat(document.getElementById('tripTip').value) || 0;
-            const paymentMethod = document.getElementById('tripPaymentMethod').value;
+            const paymentType = document.getElementById('tripPaymentType').value || 'wallet';
+            const distance = parseFloat(document.getElementById('tripDistance').value) || 0;
             const note = document.getElementById('tripNote').value.trim();
 
             const newTrip = {
                 id: 'T_' + Date.now(),
                 date,
+                time,
                 app,
-                ordersCount,
                 fare,
                 tip,
                 total: fare + tip,
-                paymentMethod,
+                paymentType,
+                distance,
                 note,
                 createdAt: new Date().toISOString()
             };
@@ -427,38 +530,30 @@
 
             document.getElementById('tripFare').value = '';
             document.getElementById('tripTip').value = '0';
+            document.getElementById('tripDistance').value = '';
             document.getElementById('tripNote').value = '';
-            document.getElementById('tripOrdersCount').value = '1';
+            resetFormDatesToRealtime();
 
             showToast('บันทึกงานรายรอบสำเร็จ!', 'fa-circle-check text-emerald-400');
             renderDashboard();
         }
 
+        // Save Expense Function
         function handleSaveExpense(e) {
             e.preventDefault();
 
             const date = document.getElementById('expDate').value;
+            const time = document.getElementById('expTime').value || getRealtimeTimeString();
             const category = document.getElementById('expCategory').value;
             const amount = parseFloat(document.getElementById('expAmount').value) || 0;
-            const paymentMethod = document.getElementById('expPaymentMethod').value;
-            const mileageStart = parseFloat(document.getElementById('mileageStart').value) || 0;
-            const mileageEnd = parseFloat(document.getElementById('mileageEnd').value) || 0;
             const note = document.getElementById('expNote').value.trim();
-
-            let distance = 0;
-            if (mileageEnd > mileageStart) {
-                distance = mileageEnd - mileageStart;
-            }
 
             const newExpense = {
                 id: 'E_' + Date.now(),
                 date,
+                time,
                 category,
                 amount,
-                paymentMethod,
-                mileageStart,
-                mileageEnd,
-                distance,
                 note,
                 createdAt: new Date().toISOString()
             };
@@ -467,88 +562,75 @@
             localStorage.setItem('rider_expenses', JSON.stringify(expenses));
 
             document.getElementById('expAmount').value = '';
-            document.getElementById('mileageStart').value = '';
-            document.getElementById('mileageEnd').value = '';
             document.getElementById('expNote').value = '';
+            resetFormDatesToRealtime();
 
-            showToast('บันทึกค่าใช้จ่ายและเลขไมล์สำเร็จ!', 'fa-circle-check text-emerald-400');
+            showToast('บันทึกค่าใช้จ่ายสำเร็จ!', 'fa-circle-check text-emerald-400');
             renderDashboard();
         }
 
-        function isInCurrentWeek(dateStr) {
-            const d = new Date(dateStr);
-            const now = new Date();
-            const currentDay = now.getDay();
-            const diffToMonday = now.getDate() - currentDay + (currentDay === 0 ? -6 : 1);
-            const monday = new Date(now.setDate(diffToMonday));
-            monday.setHours(0, 0, 0, 0);
-
-            const sunday = new Date(monday);
-            sunday.setDate(monday.getDate() + 6);
-            sunday.setHours(23, 59, 59, 999);
-
-            return d >= monday && d <= sunday;
-        }
-
-        function isInCurrentMonth(dateStr) {
-            const d = new Date(dateStr);
-            const now = new Date();
-            return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
-        }
-
+        // Render Dashboard Data & Charts
         function renderDashboard() {
-            const period = document.getElementById('filterPeriod').value;
-            const selectedDate = document.getElementById('filterDate').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
 
-            let filteredTrips = [];
-            let filteredExpenses = [];
+            const filteredTrips = trips.filter(t => {
+                if (!startDate && !endDate) return true;
+                if (startDate && t.date < startDate) return false;
+                if (endDate && t.date > endDate) return false;
+                return true;
+            });
 
-            if (period === 'day') {
-                filteredTrips = trips.filter(t => t.date === selectedDate);
-                filteredExpenses = expenses.filter(e => e.date === selectedDate);
-            } else if (period === 'week') {
-                filteredTrips = trips.filter(t => isInCurrentWeek(t.date));
-                filteredExpenses = expenses.filter(e => isInCurrentWeek(e.date));
-            } else if (period === 'month') {
-                filteredTrips = trips.filter(t => isInCurrentMonth(t.date));
-                filteredExpenses = expenses.filter(e => isInCurrentMonth(e.date));
-            }
+            const filteredExpenses = expenses.filter(e => {
+                if (!startDate && !endDate) return true;
+                if (startDate && e.date < startDate) return false;
+                if (endDate && e.date > endDate) return false;
+                return true;
+            });
 
             const totalIncome = filteredTrips.reduce((sum, t) => sum + t.total, 0);
             const totalTrips = filteredTrips.length;
-            const totalOrders = filteredTrips.reduce((sum, t) => sum + (t.ordersCount || 1), 0);
             const totalExpense = filteredExpenses.reduce((sum, e) => sum + e.amount, 0);
-            const totalKm = filteredExpenses.reduce((sum, e) => sum + (e.distance || 0), 0);
             const netProfit = totalIncome - totalExpense;
-            const avgPerOrder = totalOrders > 0 ? (totalIncome / totalOrders) : 0;
+            const avgPerTrip = totalTrips > 0 ? (totalIncome / totalTrips) : 0;
+
+            const totalTip = filteredTrips.reduce((sum, t) => sum + (t.tip || 0), 0);
+            const totalCash = filteredTrips.filter(t => t.paymentType === 'cash').reduce((sum, t) => sum + t.total, 0);
+            const totalTransfer = filteredTrips.filter(t => t.paymentType === 'transfer').reduce((sum, t) => sum + t.total, 0);
+            const totalWallet = filteredTrips.filter(t => (t.paymentType === 'wallet' || !t.paymentType)).reduce((sum, t) => sum + t.total, 0);
 
             const fuelExpense = filteredExpenses
                 .filter(e => e.category === 'น้ำมัน')
                 .reduce((sum, e) => sum + e.amount, 0);
 
             document.getElementById('statTotalIncome').innerText = `฿${totalIncome.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            document.getElementById('statTotalTrips').innerText = `${totalTrips} วิ่ง (${totalOrders} บ้าน)`;
+            document.getElementById('statTotalTrips').innerText = `${totalTrips} รอบ`;
             
             document.getElementById('statTotalExpense').innerText = `฿${totalExpense.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             document.getElementById('statExpenseBreakdown').innerText = `ค่าน้ำมัน ฿${fuelExpense.toLocaleString('th-TH')}`;
-            document.getElementById('statTotalKm').innerText = `${totalKm.toLocaleString()} กม.`;
+
+            document.getElementById('statTotalTip').innerText = `฿${totalTip.toLocaleString()}`;
+            document.getElementById('statTotalCash').innerText = `฿${totalCash.toLocaleString()}`;
+            document.getElementById('statTotalTransfer').innerText = `฿${totalTransfer.toLocaleString()}`;
+            document.getElementById('statTotalWallet').innerText = `฿${totalWallet.toLocaleString()}`;
 
             const netProfitEl = document.getElementById('statNetProfit');
             netProfitEl.innerText = `฿${netProfit.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             
             const profitBox = document.getElementById('netProfitBox');
             if (netProfit < 0) {
-                profitBox.className = "bg-gradient-to-r from-rose-600 to-pink-700 rounded-xl p-3.5 text-white flex justify-between items-center shadow-md";
+                profitBox.className = "bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 rounded-xl p-3.5 text-white flex justify-between items-center shadow-lg border border-rose-400/20";
             } else {
-                profitBox.className = "bg-gradient-to-r from-sky-600 to-indigo-700 rounded-xl p-3.5 text-white flex justify-between items-center shadow-md";
+                profitBox.className = "bg-gradient-to-r from-sky-600 via-sky-500 to-indigo-600 rounded-xl p-3.5 text-white flex justify-between items-center shadow-lg border border-sky-400/20";
             }
 
-            document.getElementById('statAvgPerTrip').innerText = `฿${avgPerOrder.toFixed(1)} / บ้าน`;
+            document.getElementById('statAvgPerTrip').innerText = `฿${avgPerTrip.toFixed(1)} / รอบ`;
 
             renderHistoryList(filteredTrips, filteredExpenses);
             renderCharts(filteredTrips, filteredExpenses);
         }
 
+        // Render History List UI
         function renderHistoryList(filteredTrips, filteredExpenses) {
             const container = document.getElementById('historyContainer');
             container.innerHTML = '';
@@ -556,15 +638,15 @@
             const combinedList = [
                 ...filteredTrips.map(t => ({ ...t, type: 'trip' })),
                 ...filteredExpenses.map(e => ({ ...e, type: 'expense' }))
-            ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            ].sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${a.time || '00:00'}`));
 
             document.getElementById('historyCount').innerText = `${combinedList.length} รายการ`;
 
             if (combinedList.length === 0) {
                 container.innerHTML = `
-                    <div class="bg-slate-800 rounded-2xl p-8 text-center border border-slate-700">
+                    <div class="bg-slate-900 rounded-2xl p-8 text-center border border-slate-800">
                         <i class="fa-solid fa-inbox text-3xl text-slate-600 mb-2"></i>
-                        <p class="text-xs text-slate-400">ยังไม่มีรายการบันทึกในช่วงเวลานี้</p>
+                        <p class="text-xs text-slate-500">ยังไม่มีรายการบันทึกในช่วงเวลาที่เลือก</p>
                     </div>
                 `;
                 return;
@@ -572,7 +654,9 @@
 
             combinedList.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "bg-slate-800 rounded-xl p-3 shadow-md border border-slate-700/80 flex items-center justify-between";
+                card.className = "bg-slate-900 rounded-xl p-3 shadow-sm border border-slate-800 flex items-center justify-between";
+
+                const timeDisplay = item.time ? `<span class="text-sky-400 font-mono text-[11px]"><i class="fa-regular fa-clock text-[10px] mr-0.5"></i>${item.time} น.</span>` : '';
 
                 if (item.type === 'trip') {
                     let badgeClass = 'app-badge-other';
@@ -582,29 +666,16 @@
                     else if (item.app === 'ShopeeFood') badgeClass = 'app-badge-shopee';
                     else if (item.app === 'Robinhood') badgeClass = 'app-badge-robinhood';
 
-                    const logoUrl = appLogos[item.app];
-                    const logoHtml = logoUrl 
-                        ? `<img src="${logoUrl}" alt="${item.app}" class="w-3.5 h-3.5 object-contain inline-block mr-1 bg-white/20 rounded p-0.5">` 
-                        : '';
-
-                    const ordersCount = item.ordersCount || 1;
-                    const orderBadge = ordersCount > 1 
-                        ? `<span class="text-[10px] bg-purple-950 border border-purple-800 text-purple-300 px-1.5 py-0.5 rounded font-bold">ซ้อน ${ordersCount} บ้าน</span>`
-                        : '';
-
                     card.innerHTML = `
                         <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-950/60 border border-emerald-800 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-950/80 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
                                 <i class="fa-solid fa-arrow-down-left"></i>
                             </div>
                             <div>
                                 <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
-                                    <span class="text-xs font-semibold px-2 py-0.5 rounded inline-flex items-center ${badgeClass}">
-                                        ${logoHtml} ${item.app}
-                                    </span>
-                                    ${orderBadge}
-                                    <span class="text-[10px] bg-slate-700 text-slate-300 px-1.5 py-0.5 rounded font-medium">${item.paymentMethod || 'เงินสด'}</span>
-                                    ${item.tip > 0 ? `<span class="text-[10px] bg-amber-950 border border-amber-800 text-amber-300 px-1.5 py-0.5 rounded font-medium">+ทิป ฿${item.tip}</span>` : ''}
+                                    <span class="text-xs font-semibold px-2 py-0.5 rounded ${badgeClass}">${item.app}</span>
+                                    ${item.tip > 0 ? `<span class="text-[10px] bg-amber-950/80 border border-amber-500/30 text-amber-300 px-1.5 py-0.5 rounded font-medium">+ทิป ฿${item.tip}</span>` : ''}
+                                    ${timeDisplay}
                                 </div>
                                 <p class="text-xs text-slate-400 mt-1">${item.note || 'ไม่มีหมายเหตุ'}</p>
                             </div>
@@ -614,28 +685,23 @@
                                 <span class="text-sm font-bold text-emerald-400 block">+฿${item.total.toLocaleString()}</span>
                                 <span class="text-[10px] text-slate-500">${item.date}</span>
                             </div>
-                            <button onclick="deleteItem('trip', '${item.id}')" class="text-slate-500 hover:text-rose-400 p-1 transition">
+                            <button onclick="deleteItem('trip', '${item.id}')" class="text-slate-600 hover:text-rose-400 p-1 transition">
                                 <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
                         </div>
                     `;
                 } else {
-                    const distanceBadge = item.distance > 0 
-                        ? `<span class="text-[10px] bg-sky-950 border border-sky-800 text-sky-300 px-1.5 py-0.5 rounded font-bold">${item.distance} กม.</span>`
-                        : '';
-
                     card.innerHTML = `
                         <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-400 flex items-center justify-center font-bold text-xs">
+                            <div class="w-10 h-10 rounded-xl bg-rose-950/80 border border-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xs">
                                 <i class="fa-solid fa-arrow-up-right"></i>
                             </div>
                             <div>
-                                <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
+                                <div class="flex items-center space-x-1.5">
                                     <span class="text-xs font-semibold text-slate-200">${item.category}</span>
-                                    ${distanceBadge}
-                                    <span class="text-[10px] bg-slate-700 text-slate-300 px-1.5 py-0.5 rounded font-medium">${item.paymentMethod || 'เงินสด'}</span>
+                                    ${timeDisplay}
                                 </div>
-                                <p class="text-xs text-slate-400 mt-0.5">${item.note || (item.distance > 0 ? `ไมล์: ${item.mileageStart} ➔ ${item.mileageEnd}` : 'ค่าใช้จ่ายทั่วไป')}</p>
+                                <p class="text-xs text-slate-400 mt-0.5">${item.note || 'ค่าใช้จ่ายทั่วไป'}</p>
                             </div>
                         </div>
                         <div class="text-right flex items-center space-x-2">
@@ -643,7 +709,7 @@
                                 <span class="text-sm font-bold text-rose-400 block">-฿${item.amount.toLocaleString()}</span>
                                 <span class="text-[10px] text-slate-500">${item.date}</span>
                             </div>
-                            <button onclick="deleteItem('expense', '${item.id}')" class="text-slate-500 hover:text-rose-400 p-1 transition">
+                            <button onclick="deleteItem('expense', '${item.id}')" class="text-slate-600 hover:text-rose-400 p-1 transition">
                                 <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
                         </div>
@@ -654,6 +720,7 @@
             });
         }
 
+        // Delete Individual Record
         function deleteItem(type, id) {
             if (type === 'trip') {
                 trips = trips.filter(t => t.id !== id);
@@ -666,6 +733,7 @@
             renderDashboard();
         }
 
+        // Render Charts using Chart.js (Dark Mode Adjusted)
         function renderCharts(filteredTrips, filteredExpenses) {
             const appTotals = {};
             filteredTrips.forEach(t => {
@@ -678,16 +746,6 @@
             const ctxApp = document.getElementById('appChart').getContext('2d');
             if (appChartInstance) appChartInstance.destroy();
 
-            const colorMap = {
-                'Grab': '#10b981',
-                'MAXIM': '#eab308',
-                'LINE MAN': '#059669',
-                'ShopeeFood': '#f97316',
-                'Robinhood': '#9d223c',
-                'Other': '#475569'
-            };
-            const backgroundColors = appLabels.map(label => colorMap[label] || '#475569');
-
             appChartInstance = new Chart(ctxApp, {
                 type: 'bar',
                 data: {
@@ -695,7 +753,7 @@
                     datasets: [{
                         label: 'รายได้ (บาท)',
                         data: appData.length > 0 ? appData : [0],
-                        backgroundColor: backgroundColors,
+                        backgroundColor: ['#00b14f', '#ea1d24', '#00c300', '#ee4d2d', '#9d223c', '#64748b'],
                         borderRadius: 8
                     }]
                 },
@@ -703,9 +761,9 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
-                    scales: { 
+                    scales: {
                         x: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
-                        y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' }, beginAtZero: true } 
+                        y: { beginAtZero: true, ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }
                     }
                 }
             });
@@ -727,18 +785,18 @@
                     labels: expLabels.length > 0 ? expLabels : ['ไม่มีข้อมูล'],
                     datasets: [{
                         data: expData.length > 0 ? expData : [1],
-                        backgroundColor: ['#f43f5e', '#fb923c', '#a855f7', '#0ea5e9', '#475569'],
-                        borderWidth: 0
+                        backgroundColor: ['#f43f5e', '#fb923c', '#a855f7', '#0ea5e9', '#64748b']
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 10 }, color: '#cbd5e1' } } }
+                    plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 10 }, color: '#94a3b8' } } }
                 }
             });
         }
 
+        // Tab Switcher
         function switchTab(tabName) {
             ['add', 'history', 'stats'].forEach(tab => {
                 document.getElementById(`tab-${tab}`).classList.add('hidden');
@@ -751,6 +809,7 @@
             document.getElementById(`tab-btn-${tabName}`).classList.remove('text-slate-400');
         }
 
+        // Form Type Switcher (Trip vs Expense)
         function toggleFormType(type) {
             const tripBtn = document.getElementById('form-type-trip');
             const expBtn = document.getElementById('form-type-expense');
@@ -758,18 +817,19 @@
             const expForm = document.getElementById('expenseForm');
 
             if (type === 'trip') {
-                tripBtn.className = "py-2 rounded-lg bg-sky-600 text-white font-bold transition shadow";
+                tripBtn.className = "py-2 rounded-lg bg-sky-600 text-white font-bold transition shadow-sm";
                 expBtn.className = "py-2 rounded-lg text-slate-400 transition";
                 tripForm.classList.remove('hidden');
                 expForm.classList.add('hidden');
             } else {
-                expBtn.className = "py-2 rounded-lg bg-rose-600 text-white font-bold transition shadow";
+                expBtn.className = "py-2 rounded-lg bg-rose-600 text-white font-bold transition shadow-sm";
                 tripBtn.className = "py-2 rounded-lg text-slate-400 transition";
                 expForm.classList.remove('hidden');
                 tripForm.classList.add('hidden');
             }
         }
 
+        // Toast Notification Helper
         function showToast(msg, iconClass = 'fa-circle-check text-emerald-400') {
             const toast = document.getElementById('toast');
             document.getElementById('toastMsg').innerText = msg;
@@ -781,6 +841,7 @@
             }, 2500);
         }
 
+        // CSV Export Function
         function exportCSV() {
             if (trips.length === 0 && expenses.length === 0) {
                 showToast('ไม่มีข้อมูลสำหรับส่งออก', 'fa-circle-exclamation text-amber-400');
@@ -788,27 +849,63 @@
             }
 
             let csvContent = "\uFEFF";
-            csvContent += "ประเภท,วันที่,แอป,จำนวนบ้าน,ช่องทางจ่ายเงิน,เลขไมล์เริ่มต้น,เลขไมล์สิ้นสุด,ระยะทาง(กม.),ค่ารอบ/ค่าใช้จ่าย,ทิป,รวมเงิน,หมายเหตุ\n";
+            csvContent += "ประเภท,วันที่,เวลา,แอป/หมวดหมู่,ค่ารอบ/ค่าใช้จ่าย,ทิป,ช่องทางรับเงิน,ระยะทาง (กม.),รวมเงิน,หมายเหตุ\n";
 
             trips.forEach(t => {
-                csvContent += `รายรับ,${t.date},${t.app},${t.ordersCount || 1},${t.paymentMethod || 'เงินสด'},0,0,0,${t.fare},${t.tip},${t.total},"${t.note || ''}"\n`;
+                const payText = t.paymentType === 'cash' ? 'เงินสด' : (t.paymentType === 'transfer' ? 'เงินโอน' : 'กระเป๋าแอป');
+                csvContent += `รายรับ,${t.date},${t.time || '-'},${t.app},${t.fare},${t.tip},${payText},${t.distance || 0},${t.total},"${t.note || ''}"\n`;
             });
 
             expenses.forEach(e => {
-                csvContent += `รายจ่าย,${e.date},${e.category},1,${e.paymentMethod || 'เงินสด'},${e.mileageStart || 0},${e.mileageEnd || 0},${e.distance || 0},${e.amount},0,${e.amount},"${e.note || ''}"\n`;
+                csvContent += `รายจ่าย,${e.date},${e.time || '-'},${e.category},${e.amount},0,-,-,${e.amount},"${e.note || ''}"\n`;
             });
 
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Rider_DarkPro_Report_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `Rider_Report_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
             URL.revokeObjectURL(url);
 
             showToast('ส่งออก CSV เรียบร้อยแล้ว', 'fa-circle-check text-emerald-400');
         }
 
+        // Export to Google Sheets Helper
+        function exportGoogleSheets() {
+            if (trips.length === 0 && expenses.length === 0) {
+                showToast('ไม่มีข้อมูลสำหรับส่งออก', 'fa-circle-exclamation text-amber-400');
+                return;
+            }
+
+            let csvContent = "\uFEFF";
+            csvContent += "ประเภท,วันที่,เวลา,แอป/หมวดหมู่,ค่ารอบ/ค่าใช้จ่าย,ทิป,ช่องทางรับเงิน,ระยะทาง (กม.),รวมเงิน,หมายเหตุ\n";
+
+            trips.forEach(t => {
+                const payText = t.paymentType === 'cash' ? 'เงินสด' : (t.paymentType === 'transfer' ? 'เงินโอน' : 'กระเป๋าแอป');
+                csvContent += `รายรับ,${t.date},${t.time || '-'},${t.app},${t.fare},${t.tip},${payText},${t.distance || 0},${t.total},"${t.note || ''}"\n`;
+            });
+
+            expenses.forEach(e => {
+                csvContent += `รายจ่าย,${e.date},${e.time || '-'},${e.category},${e.amount},0,-,-,${e.amount},"${e.note || ''}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Rider_Report_GoogleSheets_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            setTimeout(() => {
+                window.open('https://sheets.new', '_blank');
+            }, 800);
+
+            showToast('กำลังดาวน์โหลดไฟล์และเปิด Google Sheets...', 'fa-circle-check text-emerald-400');
+        }
+
+        // Modal Clear Data Handlers
         function confirmClearData() {
             document.getElementById('confirmModal').classList.remove('hidden');
         }
