@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -65,30 +65,34 @@
     <header class="bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800/80 text-white sticky top-0 z-30 shadow-md">
         <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-2.5">
-                <!-- Cool Cyber Duck Rider SVG Logo -->
-                <div class="w-10 h-10 bg-gradient-to-br from-amber-400 via-yellow-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/30 border border-amber-300/40 relative overflow-hidden group">
-                    <svg class="w-8 h-8 transform group-hover:scale-110 transition duration-300 drop-shadow-md" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Motorcycle Wheel Speed effect -->
-                        <path d="M12 48C18 52 46 52 52 48" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 4" opacity="0.6"/>
-                        <!-- Motorcycle Body/Handlebar -->
-                        <path d="M18 42L28 44L44 38L52 35" stroke="#1e293b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                        <circle cx="16" cy="44" r="7" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
-                        <circle cx="48" cy="44" r="7" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
-                        <circle cx="16" cy="44" r="2.5" fill="#fef08a"/>
-                        <circle cx="48" cy="44" r="2.5" fill="#fef08a"/>
-                        <!-- Duck Body & Wing -->
-                        <path d="M22 36C22 36 26 28 36 28C42 28 46 32 46 36C46 40 40 43 32 43C25 43 22 36 22 36Z" fill="#facc15"/>
-                        <path d="M26 36C29 36 33 39 30 42C26 41 24 38 26 36Z" fill="#eab308"/>
-                        <!-- Duck Helmet (Cool Helmet) -->
-                        <path d="M25 21C25 14 31 10 39 10C47 10 51 16 51 22C51 24 49 26 47 26H28C26 26 25 24 25 21Z" fill="#0284c7"/>
-                        <!-- Helmet Visor Glow -->
-                        <path d="M38 15H46C49 15 50 17 49 20C47 21 44 22 39 22C36 22 35 21 36 19C36.5 17 37 15 38 15Z" fill="#38bdf8"/>
-                        <path d="M40 16H45" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
-                        <!-- Duck Beak -->
-                        <path d="M47 23C52 23 55 25 54 27C53 29 48 29 45 28L47 23Z" fill="#f97316"/>
-                        <!-- Goggles / Cool Scarf -->
-                        <path d="M24 25C28 27 34 27 38 26" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M22 26L15 29" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Cool K + Cyber Duck Rider SVG Logo -->
+                <div class="w-10 h-10 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20 border-2 border-amber-400/80 relative overflow-hidden group">
+                    <!-- Subtle Cyber Glow Background -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-amber-500/20 via-transparent to-sky-500/20 opacity-80"></div>
+                    <svg class="w-8 h-8 transform group-hover:scale-110 transition duration-300 drop-shadow-[0_2px_6px_rgba(251,191,36,0.4)] relative z-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Bold Geometric Letter "K" (Left Pillar & Speed Wings) -->
+                        <path d="M12 12H21V52H12V12Z" fill="url(#kGrad)" />
+                        <path d="M21 31L36 12H46L30 32L47 52H36L21 33V31Z" fill="url(#kGrad)" />
+                        
+                        <!-- Cool Duck Head & Helmet Integrated on Top-Right of K -->
+                        <!-- Helmet Dome -->
+                        <path d="M33 21C33 14.5 38 10 45 10C51.5 10 56 14.5 56 21C56 23.5 54.5 25 52 25H35C33.5 25 33 23.5 33 21Z" fill="#0284c7" stroke="#38bdf8" stroke-width="1.2"/>
+                        <!-- Futuristic Visor -->
+                        <path d="M43 15.5H52.5C54.5 15.5 55.5 17 54.5 19.5C53 20.5 49 21 44 21C41.5 21 41 19.5 41.5 18C42 16.5 42.5 15.5 43 15.5Z" fill="#0f172a"/>
+                        <path d="M44 17H51" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round"/>
+                        <!-- Duck Face & Sharp Beak -->
+                        <path d="M36 25H51V28C51 31.5 48 33.5 43.5 33.5C39 33.5 36 31.5 36 28V25Z" fill="#facc15"/>
+                        <path d="M49 25.5C54.5 25.5 58 27 57.5 29C57 31 52 31.5 48 30.5L49 25.5Z" fill="#f97316"/>
+                        <!-- Speed Accent Line -->
+                        <path d="M10 55H54" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-dasharray="16 4 6 4" opacity="0.8"/>
+
+                        <defs>
+                            <linearGradient id="kGrad" x1="12" y1="12" x2="47" y2="52" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#fde047"/>
+                                <stop offset="0.5" stop-color="#f59e0b"/>
+                                <stop offset="1" stop-color="#ea580c"/>
+                            </linearGradient>
+                        </defs>
                     </svg>
                 </div>
                 <div>
@@ -281,9 +285,9 @@
                     <label class="block text-xs text-slate-400 font-medium mb-1">เลือกค่ายแอปพลิเคชัน</label>
                     <select id="tripApp" onchange="updateAppGlow(this.value)" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none font-medium">
                         <option value="Grab">🟢 Grab </option>
-                        <option value="LINE MAN">🟢⚡ LINE MAN </option>
-                        <option value="ShopeeFood">🟠 ShopeeFood )</option>
-                        <option value="MAXIM">🟡 MAXIM )</option>
+                        <option value="LINE MAN">🟢LINE MAN </option>
+                        <option value="ShopeeFood">🟠 ShopeeFood </option>
+                        <option value="MAXIM">🟡 MAXIM </option>
                         <option value="Robinhood">🟣 Robinhood </option>
                         <option value="Other">⚪ อื่นๆ / วิน</option>
                     </select>
@@ -580,6 +584,116 @@
                 <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-800 text-slate-300 text-xs font-medium rounded-xl border border-slate-700">ยกเลิก</button>
                 <button onclick="executeClearData()" class="flex-1 py-2.5 bg-rose-600 text-white text-xs font-medium rounded-xl shadow-lg shadow-rose-950">ลบข้อมูล</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Edit Record Modal -->
+    <div id="editModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700/80 rounded-2xl p-4 max-w-sm w-full shadow-2xl space-y-3 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
+                <h3 class="font-bold text-slate-100 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-sky-400"></i>
+                    <span id="editModalTitle">แก้ไขรายการ</span>
+                </h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="editForm" onsubmit="handleUpdateRecord(event)" class="space-y-3">
+                <input type="hidden" id="editRecordId">
+                <input type="hidden" id="editRecordType">
+
+                <!-- Date & Time -->
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">วันที่</label>
+                        <input type="date" id="editDate" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-mono focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">เวลา</label>
+                        <input type="time" id="editTime" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-mono focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Trip Specific Fields -->
+                <div id="editTripFields" class="space-y-3">
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">ค่ายแอปพลิเคชัน</label>
+                        <select id="editTripApp" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                            <option value="Grab">🟢 Grab</option>
+                            <option value="LINE MAN">🟢⚡ LINE MAN</option>
+                            <option value="ShopeeFood">🟠 ShopeeFood</option>
+                            <option value="MAXIM">🟡 MAXIM</option>
+                            <option value="Robinhood">🟣 Robinhood</option>
+                            <option value="Other">⚪ อื่นๆ / วิน</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">จำนวนงานพ่วง</label>
+                        <select id="editTripBatch" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                            <option value="1">1 งาน</option>
+                            <option value="2">2 งาน</option>
+                            <option value="3">3 งาน</option>
+                            <option value="4">4+ งาน</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-[11px] text-slate-400 mb-1">ค่ารอบ (฿)</label>
+                            <input type="number" step="0.01" id="editTripFare" class="w-full bg-slate-950 border border-slate-800 text-sky-400 font-bold rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-400 mb-1">ทิป (฿)</label>
+                            <input type="number" step="0.01" id="editTripTip" class="w-full bg-slate-950 border border-slate-800 text-amber-300 font-semibold rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-400 mb-1">ระยะ (กม.)</label>
+                            <input type="number" step="0.1" id="editTripDistance" class="w-full bg-slate-950 border border-slate-800 text-slate-200 font-mono rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">ช่องทางรับเงิน</label>
+                        <select id="editTripPayment" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                            <option value="cash">💵 เงินสด</option>
+                            <option value="transfer">📱 เงินโอน</option>
+                            <option value="wallet">💼 กระเป๋าแอป</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Expense Specific Fields -->
+                <div id="editExpenseFields" class="space-y-3 hidden">
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">ประเภทค่าใช้จ่าย</label>
+                        <select id="editExpCategory" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-rose-500 focus:outline-none">
+                            <option value="น้ำมัน">⛽ ค่าน้ำมัน</option>
+                            <option value="อาหาร/เครื่องดื่ม">🍲 ค่าอาหาร/เครื่องดื่ม</option>
+                            <option value="เติมเครดิตแอป">📱 เติมเครดิตแอป</option>
+                            <option value="ซ่อมบำรุงรถ">🔧 ซ่อมบำรุง/ถ่ายน้ำมันเครื่อง</option>
+                            <option value="อื่นๆ">📦 ค่าใช้จ่ายอื่นๆ</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-400 mb-1">จำนวนเงิน (บาท)</label>
+                        <input type="number" step="0.01" id="editExpAmount" class="w-full bg-slate-950 border border-slate-800 text-rose-400 font-bold rounded-xl px-2.5 py-1.5 text-sm focus:ring-1 focus:ring-rose-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Common Note Field -->
+                <div>
+                    <label class="block text-[11px] text-slate-400 mb-1">หมายเหตุ / รายละเอียด</label>
+                    <input type="text" id="editNote" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                </div>
+
+                <div class="flex space-x-2 pt-2">
+                    <button type="button" onclick="closeEditModal()" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-xl border border-slate-700">ยกเลิก</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-sky-950">บันทึกการแก้ไข</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -927,30 +1041,34 @@
             const netProfitEl = document.getElementById('statNetProfit');
             netProfitEl.innerText = `฿${netProfit.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             
+            // Update Fuel Profit Meter & Hero Box Theme
             const profitBox = document.getElementById('netProfitBox');
+            const fuelStatusText = document.getElementById('fuelProfitStatusText');
+            const fuelBarExpense = document.getElementById('fuelBarExpense');
+            const fuelBarProfit = document.getElementById('fuelBarProfit');
+
             if (netProfit < 0) {
                 profitBox.className = "bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 rounded-xl p-3.5 text-white shadow-lg shadow-rose-950/50 border border-rose-400/30 transition-all duration-300";
+                fuelStatusText.innerText = "🚨 ขาดทุน / ค่าใช้จ่ายสูงกว่ารายรับ";
+                fuelBarExpense.style.width = "100%";
+                fuelBarProfit.style.width = "0%";
             } else {
                 profitBox.className = "bg-gradient-to-r from-sky-600 via-sky-500 to-indigo-600 rounded-xl p-3.5 text-white shadow-lg shadow-sky-950/50 border border-sky-400/30 transition-all duration-300";
+                if (totalIncome > 0) {
+                    const expRatio = Math.min(100, Math.round((totalExpense / totalIncome) * 100));
+                    const profitRatio = 100 - expRatio;
+                    fuelStatusText.innerText = `✅ กำไร ${profitRatio}% (ต้นทุน ${expRatio}%)`;
+                    fuelBarExpense.style.width = `${expRatio}%`;
+                    fuelBarProfit.style.width = `${profitRatio}%`;
+                } else {
+                    fuelStatusText.innerText = "พร้อมรับงานรอบแรกของวัน";
+                    fuelBarExpense.style.width = "0%";
+                    fuelBarProfit.style.width = "100%";
+                }
             }
 
             document.getElementById('statAvgPerTrip').innerText = `฿${avgPerTrip.toFixed(1)} / รอบ`;
             document.getElementById('statAvgPerKm').innerText = `฿${avgPerKm.toFixed(1)} / กม.`;
-
-            // Real-time Fuel Profit Status Meter
-            const fuelRatio = totalIncome > 0 ? Math.min(100, Math.max(0, (fuelExpense / totalIncome) * 100)) : 0;
-            const profitRatio = 100 - fuelRatio;
-            document.getElementById('fuelBarExpense').style.width = `${fuelRatio}%`;
-            document.getElementById('fuelBarProfit').style.width = `${profitRatio}%`;
-
-            const statusTextEl = document.getElementById('fuelProfitStatusText');
-            if (totalIncome === 0) {
-                statusTextEl.innerText = "ยังไม่มีข้อมูลรายได้";
-            } else if (fuelRatio > 50) {
-                statusTextEl.innerText = `⚠️ ค่าน้ำมันสูง (${fuelRatio.toFixed(0)}% ของรายได้)`;
-            } else {
-                statusTextEl.innerText = `✅ ค่าน้ำมันปกติ (${fuelRatio.toFixed(0)}% ของรายได้)`;
-            }
 
             renderHistoryList(filteredTrips, filteredExpenses);
             renderCharts(filteredTrips, filteredExpenses);
@@ -958,12 +1076,12 @@
 
         function filterHistoryType(type) {
             currentHistoryFilter = type;
-            ['all', 'trip', 'expense'].forEach(t => {
-                const btn = document.getElementById(`hist-filter-${t}`);
-                if (t === type) {
+            ['all', 'trip', 'expense'].forEach(f => {
+                const btn = document.getElementById(`hist-filter-${f}`);
+                if (f === type) {
                     btn.className = "px-2.5 py-1 rounded-lg bg-sky-600 text-white font-medium";
                 } else {
-                    btn.className = "px-2.5 py-1 rounded-lg text-slate-400";
+                    btn.className = "px-2.5 py-1 rounded-lg text-slate-400 hover:text-slate-200";
                 }
             });
             renderDashboard();
@@ -974,18 +1092,14 @@
             container.innerHTML = '';
 
             let combinedList = [];
-            if (currentHistoryFilter === 'all') {
-                combinedList = [
-                    ...filteredTrips.map(t => ({ ...t, type: 'trip' })),
-                    ...filteredExpenses.map(e => ({ ...e, type: 'expense' }))
-                ];
-            } else if (currentHistoryFilter === 'trip') {
-                combinedList = filteredTrips.map(t => ({ ...t, type: 'trip' }));
-            } else {
-                combinedList = filteredExpenses.map(e => ({ ...e, type: 'expense' }));
+            if (currentHistoryFilter === 'all' || currentHistoryFilter === 'trip') {
+                combinedList.push(...filteredTrips.map(t => ({ ...t, type: 'trip' })));
+            }
+            if (currentHistoryFilter === 'all' || currentHistoryFilter === 'expense') {
+                combinedList.push(...filteredExpenses.map(e => ({ ...e, type: 'expense' })));
             }
 
-            combinedList.sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${a.time || '00:00'}`));
+            combinedList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
             document.getElementById('historyCount').innerText = `${combinedList.length} รายการ`;
 
@@ -993,7 +1107,7 @@
                 container.innerHTML = `
                     <div class="glass-card rounded-2xl p-8 text-center border border-slate-800">
                         <i class="fa-solid fa-inbox text-3xl text-slate-600 mb-2"></i>
-                        <p class="text-xs text-slate-500">ยังไม่มีรายการบันทึกในช่วงเวลาที่เลือก</p>
+                        <p class="text-xs text-slate-400">ยังไม่มีรายการบันทึกในช่วงเวลาที่เลือก</p>
                     </div>
                 `;
                 return;
@@ -1001,70 +1115,135 @@
 
             combinedList.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "glass-card rounded-xl p-3 shadow-sm flex items-center justify-between";
-
-                const timeDisplay = item.time ? `<span class="text-sky-400 font-mono text-[11px]"><i class="fa-regular fa-clock text-[10px] mr-0.5"></i>${item.time} น.</span>` : '';
+                card.className = "glass-card rounded-xl p-3 shadow-md border border-slate-800/80 flex items-center justify-between";
+                const timeDisplay = item.time ? `<span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded font-mono">${item.time} น.</span>` : '';
 
                 if (item.type === 'trip') {
-                    let badgeClass = 'bg-slate-700 text-white';
-                    if (item.app === 'Grab') badgeClass = 'bg-[#00b14f] text-white';
-                    else if (item.app === 'MAXIM') badgeClass = 'bg-[#F7C600] text-white';
-                    else if (item.app === 'LINE MAN') badgeClass = 'bg-[#00c300] text-white';
-                    else if (item.app === 'ShopeeFood') badgeClass = 'bg-[#ee4d2d] text-white';
-                    else if (item.app === 'Robinhood') badgeClass = 'bg-[#9d223c] text-white';
+                    let appColor = 'bg-slate-700 text-white';
+                    let appLogoHtml = '';
 
-                    const payIcon = item.paymentType === 'cash' ? '💵 เงินสด' : (item.paymentType === 'transfer' ? '📱 เงินโอน' : '💼 กระเป๋าแอป');
-                    const batchBadge = item.batchCount && item.batchCount > 1 ? `<span class="text-[10px] bg-sky-950/80 border border-sky-500/30 text-sky-300 px-1.5 py-0.2 rounded font-medium">🍔 พ่วง ${item.batchCount} งาน</span>` : '';
+                    if (item.app === 'Grab') {
+                        appColor = 'bg-[#00b14f] text-white';
+                        appLogoHtml = `
+                            <div class="w-10 h-10 rounded-xl bg-[#06291a] border-2 border-[#00b14f] shadow-[0_0_12px_rgba(0,177,79,0.4)] flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none">
+                                    <path d="M25 13.5C23.5 11.5 21 10.5 18 10.5C12.8 10.5 9 14.2 9 18.5C9 22.8 12.8 26.5 18 26.5C22.8 26.5 26.5 23.2 26.5 18.5H18.5V21.5H23.2C22.5 23 20.5 23.8 18 23.8C14.5 23.8 12 21.5 12 18.5C12 15.5 14.5 13.2 18 13.2C20 13.2 21.6 13.9 22.8 15.2L25 13.5Z" fill="white" stroke="#00b14f" stroke-width="0.6"/>
+                                </svg>
+                            </div>
+                        `;
+                    } else if (item.app === 'LINE MAN') {
+                        appColor = 'bg-[#00c300] text-slate-950 font-bold';
+                        appLogoHtml = `
+                            <div class="w-10 h-10 rounded-xl bg-[#072b12] border-2 border-[#00c300] shadow-[0_0_12px_rgba(0,195,0,0.4)] flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none">
+                                    <rect x="8" y="10" width="20" height="14" rx="5" fill="#00c300"/>
+                                    <path d="M14 24L12 28L18 24H14Z" fill="#00c300"/>
+                                    <text x="18" y="19.5" text-anchor="middle" fill="#05200d" font-size="7.5" font-weight="900" font-family="sans-serif">LINE</text>
+                                </svg>
+                            </div>
+                        `;
+                    } else if (item.app === 'ShopeeFood') {
+                        appColor = 'bg-[#ee4d2d] text-white';
+                        appLogoHtml = `
+                            <div class="w-10 h-10 rounded-xl bg-[#38160c] border-2 border-[#ee4d2d] shadow-[0_0_12px_rgba(238,77,45,0.4)] flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none">
+                                    <path d="M11 13H25L26.5 26.5H9.5L11 13Z" fill="#ee4d2d"/>
+                                    <path d="M14.5 13V11.5C14.5 9.6 16 8 18 8C20 8 21.5 9.6 21.5 11.5V13" stroke="#ee4d2d" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M14.5 16.5V20M13.5 16.5V18.5C13.5 19.2 14 19.6 14.5 19.6C15 19.6 15.5 19.2 15.5 18.5V16.5M14.5 20V23.5" stroke="#38160c" stroke-width="1.3" stroke-linecap="round"/>
+                                    <path d="M19 16.5H22.5M19 16.5V23.5M19 19.8H21.8" stroke="#38160c" stroke-width="1.8" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                        `;
+                    } else if (item.app === 'MAXIM') {
+                        appColor = 'bg-amber-400 text-slate-950 font-bold';
+                        appLogoHtml = `
+                            <div class="w-10 h-10 rounded-xl bg-[#3d0c11] border-2 border-[#fbbf24] shadow-[0_0_12px_rgba(251,191,36,0.4)] flex flex-col items-center justify-center shrink-0">
+                                <svg class="w-5 h-4" viewBox="0 0 24 18" fill="none">
+                                    <path d="M4 13C6 8 11 5 18 6L15 8.5L21 9.5C17 11.5 13 12 10 15L11 11.5C8 12 6 13 4 13Z" fill="#fbbf24"/>
+                                </svg>
+                                <span class="text-[6.5px] font-black tracking-tighter text-[#fbbf24] leading-none mt-0.5">MAXIM</span>
+                            </div>
+                        `;
+                    } else if (item.app === 'Robinhood') {
+                        appColor = 'bg-[#9d223c] text-white';
+                        appLogoHtml = `
+                            <div class="w-10 h-10 rounded-xl bg-[#2a0b2e] border-2 border-[#c026d3] shadow-[0_0_12px_rgba(192,38,211,0.4)] flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none">
+                                    <path d="M10 23C13 17 19 13 27 12C24 18 19 23 12 25L10 23Z" fill="#e879f9"/>
+                                    <path d="M10 26L23 15" stroke="#f0abfc" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                        `;
+                    } else {
+                        appLogoHtml = `
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500/20 via-indigo-500/20 to-rose-500/20 border-2 border-sky-400 shadow-[0_0_12px_rgba(56,189,248,0.35)] flex items-center justify-center text-sky-300 shrink-0">
+                                <i class="fa-solid fa-motorcycle text-base"></i>
+                            </div>
+                        `;
+                    }
+
+                    const batchBadge = (item.batchCount && item.batchCount > 1) 
+                        ? `<span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-700/50 px-1.5 py-0.5 rounded font-medium">🍔 พ่วง ${item.batchCount} งาน</span>` 
+                        : '';
+
+                    const payLabel = item.paymentType === 'cash' ? '💵 สด' : (item.paymentType === 'transfer' ? '📱 โอน' : '💼 กระเป๋า');
 
                     card.innerHTML = `
                         <div class="flex items-center space-x-3">
-                            <div class="w-9 h-9 rounded-xl bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">
-                                <i class="fa-solid fa-arrow-down-left"></i>
-                            </div>
+                            ${appLogoHtml}
                             <div>
-                                <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
-                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded ${badgeClass}">${item.app}</span>
-                                    ${batchBadge}
-                                    ${item.tip > 0 ? `<span class="text-[10px] bg-amber-950/80 border border-amber-500/30 text-amber-300 px-1.5 py-0.2 rounded font-medium">+ทิป ฿${item.tip}</span>` : ''}
+                                <div class="flex flex-wrap items-center gap-1">
+                                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${appColor}">${item.app}</span>
                                     ${timeDisplay}
+                                    ${batchBadge}
+                                    <span class="text-[10px] bg-slate-800/90 text-slate-300 px-1.5 py-0.5 rounded">${payLabel}</span>
+                                    ${item.tip > 0 ? `<span class="text-[10px] bg-amber-950/80 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded font-medium">+ทิป ฿${item.tip}</span>` : ''}
                                 </div>
-                                <p class="text-xs text-slate-400 mt-1">${item.note || 'งานรับส่ง'}</p>
-                                <div class="text-[10px] text-slate-500 flex items-center space-x-2 mt-0.5">
-                                    <span>${payIcon}</span>
-                                    ${item.distance ? `<span>• ${item.distance} กม.</span>` : ''}
-                                </div>
+                                <p class="text-xs text-slate-400 mt-1">${item.note || 'ไม่มีหมายเหตุ'} ${item.distance > 0 ? `<span class="text-slate-500 font-mono">(${item.distance} กม.)</span>` : ''}</p>
                             </div>
                         </div>
-                        <div class="text-right flex items-center space-x-2 shrink-0">
-                            <div>
-                                <span class="text-sm font-bold text-emerald-400 block font-mono">+฿${item.total.toLocaleString()}</span>
+                        <div class="text-right flex items-center space-x-1.5 shrink-0">
+                            <div class="mr-1">
+                                <span class="text-sm font-bold text-emerald-400 block font-mono">+฿${(item.total || 0).toLocaleString()}</span>
                                 <span class="text-[10px] text-slate-500 font-mono">${item.date}</span>
                             </div>
-                            <button onclick="deleteItem('trip', '${item.id}')" class="text-slate-600 hover:text-rose-400 p-1 transition">
+                            <button onclick="openEditModal('trip', '${item.id}')" title="แก้ไข" class="text-slate-500 hover:text-sky-400 p-1.5 bg-slate-800/60 rounded-lg transition">
+                                <i class="fa-solid fa-pen-to-square text-xs"></i>
+                            </button>
+                            <button onclick="deleteItem('trip', '${item.id}')" title="ลบ" class="text-slate-500 hover:text-rose-400 p-1.5 bg-slate-800/60 rounded-lg transition">
                                 <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
                         </div>
                     `;
                 } else {
+                    let expIcon = 'fa-receipt';
+                    if (item.category === 'น้ำมัน') expIcon = 'fa-gas-pump';
+                    else if (item.category === 'อาหาร/เครื่องดื่ม') expIcon = 'fa-utensils';
+                    else if (item.category === 'เติมเครดิตแอป') expIcon = 'fa-wallet';
+                    else if (item.category === 'ซ่อมบำรุงรถ') expIcon = 'fa-wrench';
+
                     card.innerHTML = `
                         <div class="flex items-center space-x-3">
-                            <div class="w-9 h-9 rounded-xl bg-rose-950/80 border border-rose-500/30 text-rose-400 flex items-center justify-center font-bold text-xs shrink-0">
-                                <i class="fa-solid fa-arrow-up-right"></i>
+                            <div class="w-10 h-10 rounded-xl bg-[#360d17] border-2 border-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.35)] text-rose-400 flex items-center justify-center text-sm shrink-0">
+                                <i class="fa-solid ${expIcon}"></i>
                             </div>
                             <div>
-                                <div class="flex items-center space-x-1.5">
-                                    <span class="text-xs font-semibold text-slate-200">${item.category}</span>
+                                <div class="flex flex-wrap items-center gap-1">
+                                    <span class="text-xs font-semibold text-rose-300">${item.category}</span>
                                     ${timeDisplay}
                                 </div>
-                                <p class="text-xs text-slate-400 mt-0.5">${item.note || 'ค่าใช้จ่ายทั่วไป'}</p>
+                                <p class="text-xs text-slate-400 mt-1">${item.note || 'ค่าใช้จ่ายทั่วไป'}</p>
                             </div>
                         </div>
-                        <div class="text-right flex items-center space-x-2 shrink-0">
-                            <div>
-                                <span class="text-sm font-bold text-rose-400 block font-mono">-฿${item.amount.toLocaleString()}</span>
+                        <div class="text-right flex items-center space-x-1.5 shrink-0">
+                            <div class="mr-1">
+                                <span class="text-sm font-bold text-rose-400 block font-mono">-฿${(item.amount || 0).toLocaleString()}</span>
                                 <span class="text-[10px] text-slate-500 font-mono">${item.date}</span>
                             </div>
-                            <button onclick="deleteItem('expense', '${item.id}')" class="text-slate-600 hover:text-rose-400 p-1 transition">
+                            <button onclick="openEditModal('expense', '${item.id}')" title="แก้ไข" class="text-slate-500 hover:text-sky-400 p-1.5 bg-slate-800/60 rounded-lg transition">
+                                <i class="fa-solid fa-pen-to-square text-xs"></i>
+                            </button>
+                            <button onclick="deleteItem('expense', '${item.id}')" title="ลบ" class="text-slate-500 hover:text-rose-400 p-1.5 bg-slate-800/60 rounded-lg transition">
                                 <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
                         </div>
@@ -1073,6 +1252,108 @@
 
                 container.appendChild(card);
             });
+        }
+
+        function openEditModal(type, id) {
+            document.getElementById('editRecordId').value = id;
+            document.getElementById('editRecordType').value = type;
+
+            const tripFields = document.getElementById('editTripFields');
+            const expFields = document.getElementById('editExpenseFields');
+
+            if (type === 'trip') {
+                const item = trips.find(t => t.id === id);
+                if (!item) return;
+
+                document.getElementById('editModalTitle').innerText = 'แก้ไขรายการงานวิ่ง';
+                tripFields.classList.remove('hidden');
+                expFields.classList.add('hidden');
+
+                document.getElementById('editDate').value = item.date;
+                document.getElementById('editTime').value = item.time || '00:00';
+                document.getElementById('editTripApp').value = item.app;
+                document.getElementById('editTripBatch').value = item.batchCount || 1;
+                document.getElementById('editTripFare').value = item.fare;
+                document.getElementById('editTripTip').value = item.tip || 0;
+                document.getElementById('editTripDistance').value = item.distance || 0;
+                document.getElementById('editTripPayment').value = item.paymentType || 'cash';
+                document.getElementById('editNote').value = item.note || '';
+            } else {
+                const item = expenses.find(e => e.id === id);
+                if (!item) return;
+
+                document.getElementById('editModalTitle').innerText = 'แก้ไขรายการค่าใช้จ่าย';
+                tripFields.classList.add('hidden');
+                expFields.classList.remove('hidden');
+
+                document.getElementById('editDate').value = item.date;
+                document.getElementById('editTime').value = item.time || '00:00';
+                document.getElementById('editExpCategory').value = item.category;
+                document.getElementById('editExpAmount').value = item.amount;
+                document.getElementById('editNote').value = item.note || '';
+            }
+
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        function handleUpdateRecord(e) {
+            e.preventDefault();
+            const id = document.getElementById('editRecordId').value;
+            const type = document.getElementById('editRecordType').value;
+
+            const date = document.getElementById('editDate').value;
+            const time = document.getElementById('editTime').value;
+            const note = document.getElementById('editNote').value.trim();
+
+            if (type === 'trip') {
+                const idx = trips.findIndex(t => t.id === id);
+                if (idx !== -1) {
+                    const oldDistance = trips[idx].distance || 0;
+                    const newDistance = parseFloat(document.getElementById('editTripDistance').value) || 0;
+                    const fare = parseFloat(document.getElementById('editTripFare').value) || 0;
+                    const tip = parseFloat(document.getElementById('editTripTip').value) || 0;
+
+                    trips[idx] = {
+                        ...trips[idx],
+                        date,
+                        time,
+                        app: document.getElementById('editTripApp').value,
+                        batchCount: parseInt(document.getElementById('editTripBatch').value, 10) || 1,
+                        fare,
+                        tip,
+                        total: fare + tip,
+                        distance: newDistance,
+                        paymentType: document.getElementById('editTripPayment').value,
+                        note
+                    };
+
+                    // Update accumulated oil distance accurately
+                    accumulatedKm = Math.max(0, accumulatedKm - oldDistance + newDistance);
+                    localStorage.setItem('rider_oil_km', accumulatedKm.toString());
+                    localStorage.setItem('rider_trips', JSON.stringify(trips));
+                }
+            } else {
+                const idx = expenses.findIndex(e => e.id === id);
+                if (idx !== -1) {
+                    expenses[idx] = {
+                        ...expenses[idx],
+                        date,
+                        time,
+                        category: document.getElementById('editExpCategory').value,
+                        amount: parseFloat(document.getElementById('editExpAmount').value) || 0,
+                        note
+                    };
+                    localStorage.setItem('rider_expenses', JSON.stringify(expenses));
+                }
+            }
+
+            closeEditModal();
+            showToast('อัปเดตข้อมูลเรียบร้อยแล้ว!', 'fa-circle-check text-emerald-400');
+            renderDashboard();
         }
 
         function deleteItem(type, id) {
