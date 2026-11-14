@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rider Income & Expense Tracker - ระบบบันทึกรายรับรายจ่ายไรเดอร์</title>
+    <title>KAAB RIDER PRO v4.0 - ระบบบันทึกงานไรเดอร์มืออาชีพ</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -11,43 +11,70 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Font: Kanit -->
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Kanit', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            background-color: #070b14;
+            color: #f8fafc;
         }
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #090d16;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 9999px;
-        }
-        .bottom-nav-active {
-            color: #38bdf8;
-            font-weight: 600;
-        }
-        .bottom-nav-active i {
-            transform: translateY(-2px);
-            filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.4));
-        }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #070b14; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+
+        /* Glass & Surface Cards */
         .glass-card {
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
+
+        /* High-Contrast Sunlight Mode (โหมดสู้แดดจัด) */
+        body.sunlight-mode {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+        body.sunlight-mode .glass-card {
+            background: #090d16 !important;
+            border: 2px solid #475569 !important;
+            box-shadow: none !important;
+        }
+        body.sunlight-mode .text-slate-400,
+        body.sunlight-mode .text-slate-300 {
+            color: #e2e8f0 !important;
+            font-weight: 500;
+        }
+        body.sunlight-mode input, 
+        body.sunlight-mode select {
+            background-color: #000000 !important;
+            border: 2px solid #64748b !important;
+            color: #ffffff !important;
+        }
+
+        /* Bottom Nav Active */
+        .bottom-nav-active {
+            color: #fbbf24;
+            font-weight: 700;
+        }
+        .bottom-nav-active i {
+            transform: translateY(-2px);
+            filter: drop-shadow(0 2px 8px rgba(251, 191, 36, 0.5));
+        }
+
         /* App Neon Glow Styles */
-        .glow-grab { border-color: rgba(0, 177, 79, 0.5) !important; box-shadow: 0 0 15px rgba(0, 177, 79, 0.25); }
-        .glow-lineman { border-color: rgba(0, 195, 0, 0.5) !important; box-shadow: 0 0 15px rgba(0, 195, 0, 0.25); }
-        .glow-shopee { border-color: rgba(238, 77, 45, 0.5) !important; box-shadow: 0 0 15px rgba(238, 77, 45, 0.25); }
-        .glow-maxim { border-color: rgba(234, 29, 36, 0.5) !important; box-shadow: 0 0 15px rgba(234, 29, 36, 0.25); }
-        .glow-robinhood { border-color: rgba(157, 34, 60, 0.5) !important; box-shadow: 0 0 15px rgba(157, 34, 60, 0.25); }
-        .glow-other { border-color: rgba(56, 189, 248, 0.5) !important; box-shadow: 0 0 15px rgba(56, 189, 248, 0.25); }
+        .glow-grab { border-color: rgba(0, 177, 79, 0.65) !important; box-shadow: 0 0 18px rgba(0, 177, 79, 0.25); }
+        .glow-lineman { border-color: rgba(0, 195, 0, 0.65) !important; box-shadow: 0 0 18px rgba(0, 195, 0, 0.25); }
+        .glow-shopee { border-color: rgba(238, 77, 45, 0.65) !important; box-shadow: 0 0 18px rgba(238, 77, 45, 0.25); }
+        .glow-maxim { border-color: rgba(251, 191, 36, 0.65) !important; box-shadow: 0 0 18px rgba(251, 191, 36, 0.25); }
+        .glow-robinhood { border-color: rgba(192, 38, 211, 0.65) !important; box-shadow: 0 0 18px rgba(192, 38, 211, 0.25); }
+        .glow-other { border-color: rgba(56, 189, 248, 0.65) !important; box-shadow: 0 0 18px rgba(56, 189, 248, 0.25); }
+
+        /* App Tile Active States */
+        .app-tile-active {
+            transform: scale(1.02);
+            font-weight: 700;
+        }
 
         .recording-pulse {
             animation: pulse-red 1.2s infinite;
@@ -59,33 +86,24 @@
         }
     </style>
 </head>
-<body class="bg-[#0b0f19] min-h-screen text-slate-100 pb-24 select-none">
+<body class="min-h-screen pb-28 select-none">
 
-    <!-- Top Bar -->
-    <header class="bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800/80 text-white sticky top-0 z-30 shadow-md">
-        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- Top Sticky Header -->
+    <header class="bg-[#0b1120]/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-30 shadow-lg">
+        <div class="max-w-md mx-auto px-3.5 py-2.5 flex items-center justify-between">
             <div class="flex items-center space-x-2.5">
-                <!-- Cool K + Cyber Duck Rider SVG Logo -->
-                <div class="w-10 h-10 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20 border-2 border-amber-400/80 relative overflow-hidden group">
-                    <!-- Subtle Cyber Glow Background -->
+                <!-- K + Cyber Duck Rider SVG Logo -->
+                <div class="w-10 h-10 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20 border-2 border-amber-400 relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-tr from-amber-500/20 via-transparent to-sky-500/20 opacity-80"></div>
-                    <svg class="w-8 h-8 transform group-hover:scale-110 transition duration-300 drop-shadow-[0_2px_6px_rgba(251,191,36,0.4)] relative z-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Bold Geometric Letter "K" (Left Pillar & Speed Wings) -->
+                    <svg class="w-8 h-8 relative z-10" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 12H21V52H12V12Z" fill="url(#kGrad)" />
                         <path d="M21 31L36 12H46L30 32L47 52H36L21 33V31Z" fill="url(#kGrad)" />
-                        
-                        <!-- Cool Duck Head & Helmet Integrated on Top-Right of K -->
-                        <!-- Helmet Dome -->
                         <path d="M33 21C33 14.5 38 10 45 10C51.5 10 56 14.5 56 21C56 23.5 54.5 25 52 25H35C33.5 25 33 23.5 33 21Z" fill="#0284c7" stroke="#38bdf8" stroke-width="1.2"/>
-                        <!-- Futuristic Visor -->
                         <path d="M43 15.5H52.5C54.5 15.5 55.5 17 54.5 19.5C53 20.5 49 21 44 21C41.5 21 41 19.5 41.5 18C42 16.5 42.5 15.5 43 15.5Z" fill="#0f172a"/>
                         <path d="M44 17H51" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round"/>
-                        <!-- Duck Face & Sharp Beak -->
                         <path d="M36 25H51V28C51 31.5 48 33.5 43.5 33.5C39 33.5 36 31.5 36 28V25Z" fill="#facc15"/>
                         <path d="M49 25.5C54.5 25.5 58 27 57.5 29C57 31 52 31.5 48 30.5L49 25.5Z" fill="#f97316"/>
-                        <!-- Speed Accent Line -->
                         <path d="M10 55H54" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-dasharray="16 4 6 4" opacity="0.8"/>
-
                         <defs>
                             <linearGradient id="kGrad" x1="12" y1="12" x2="47" y2="52" gradientUnits="userSpaceOnUse">
                                 <stop stop-color="#fde047"/>
@@ -97,363 +115,393 @@
                 </div>
                 <div>
                     <div class="flex items-center space-x-1.5">
-                        <h1 class="font-bold text-base leading-none text-amber-400 tracking-wide">KAAB RIDER PRO</h1>
-                        <span class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold px-1.5 py-0.2 rounded-full">v3.2</span>
+                        <h1 class="font-extrabold text-base leading-none text-amber-400 tracking-wide">KAAB RIDER</h1>
+                        <span class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold px-1.5 py-0.2 rounded-full">v4.0 PRO</span>
                     </div>
-                    <p class="text-[11px] text-slate-400 font-light mt-0.5">ระบบบันทึกงานก๊าบไรเดอร์มืออาชีพ</p>
+                    <p class="text-[11px] text-slate-400 font-light mt-0.5">ระบบบันทึกไว 3 วินาที สำหรับไรเดอร์</p>
                 </div>
             </div>
+
+            <!-- Action Buttons: Sunlight Mode & Export -->
             <div class="flex items-center space-x-1.5">
-                <button onclick="exportCSV()" title="ส่งออก CSV" class="px-2.5 py-1.5 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 active:scale-95 rounded-xl transition flex items-center space-x-1.5 text-xs text-slate-300">
-                    <i class="fa-solid fa-file-csv text-emerald-400"></i>
-                    <span>ส่งออก</span>
+                <button onclick="toggleSunlightMode()" id="sunlightBtn" title="โหมดสู้แดด" class="px-2.5 py-1.5 bg-slate-800/90 hover:bg-slate-700 border border-slate-700 active:scale-95 rounded-xl transition flex items-center space-x-1 text-xs text-amber-300">
+                    <i class="fa-solid fa-sun"></i>
+                    <span class="hidden xs:inline">สู้แดด</span>
+                </button>
+                <button onclick="exportCSV()" title="ส่งออก CSV" class="px-2.5 py-1.5 bg-slate-800/90 hover:bg-slate-700 border border-slate-700 active:scale-95 rounded-xl transition flex items-center space-x-1 text-xs text-emerald-400 font-medium">
+                    <i class="fa-solid fa-file-csv"></i>
+                    <span>CSV</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="max-w-md mx-auto px-4 pt-3">
+    <!-- Main Container -->
+    <main class="max-w-md mx-auto px-3.5 pt-3 space-y-3">
 
-        <!-- Date Range Filter Card -->
-        <div class="glass-card rounded-2xl p-3.5 shadow-xl mb-3 space-y-2.5">
-            <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
-                <span class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar-check text-sky-400"></i> ช่วงเวลาสรุปผล
-                </span>
-                <span id="displayDateRangeText" class="text-[11px] text-sky-400 font-mono bg-sky-950/60 border border-sky-800/50 px-2 py-0.5 rounded-full">วันนี้</span>
-            </div>
-            
-            <!-- Quick Date Filter Buttons -->
-            <div class="grid grid-cols-3 gap-1.5">
-                <button onclick="setQuickDate('today')" id="btn-quick-today" class="py-1.5 px-2 bg-sky-600 text-white font-medium text-xs rounded-xl shadow-md border border-sky-400/30 transition flex items-center justify-center space-x-1">
-                    <i class="fa-solid fa-sun text-amber-300 text-[11px]"></i>
-                    <span>วันนี้</span>
-                </button>
-                <button onclick="setQuickDate('week')" id="btn-quick-week" class="py-1.5 px-2 bg-slate-800/80 text-slate-300 font-medium text-xs rounded-xl border border-slate-700/70 transition flex items-center justify-center space-x-1">
-                    <i class="fa-solid fa-calendar-week text-sky-400 text-[11px]"></i>
-                    <span>สัปดาห์นี้</span>
-                </button>
-                <button onclick="setQuickDate('month')" id="btn-quick-month" class="py-1.5 px-2 bg-slate-800/80 text-slate-300 font-medium text-xs rounded-xl border border-slate-700/70 transition flex items-center justify-center space-x-1">
-                    <i class="fa-solid fa-calendar-days text-indigo-400 text-[11px]"></i>
-                    <span>เดือนนี้</span>
+        <!-- COMPACT HERO DASHBOARD & GOAL TRACKER -->
+        <div class="glass-card rounded-2xl p-3 shadow-xl space-y-2.5">
+            <!-- Quick Date Selector Bar -->
+            <div class="flex items-center justify-between gap-1.5">
+                <div class="grid grid-cols-3 gap-1 flex-1 bg-slate-950/80 p-1 rounded-xl border border-slate-800">
+                    <button onclick="setQuickDate('today')" id="btn-quick-today" class="py-1 px-2 bg-sky-600 text-white font-semibold text-xs rounded-lg shadow transition">วันนี้</button>
+                    <button onclick="setQuickDate('week')" id="btn-quick-week" class="py-1 px-2 text-slate-400 font-medium text-xs rounded-lg transition">สัปดาห์นี้</button>
+                    <button onclick="setQuickDate('month')" id="btn-quick-month" class="py-1 px-2 text-slate-400 font-medium text-xs rounded-lg transition">เดือนนี้</button>
+                </div>
+                <button onclick="toggleDateDrawer()" class="p-2 bg-slate-800/90 hover:bg-slate-700 text-sky-400 rounded-xl border border-slate-700 text-xs flex items-center gap-1" title="เลือกวันที่เอง">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <span id="displayDateRangeText" class="text-[10px] font-mono hidden sm:inline">วันนี้</span>
                 </button>
             </div>
 
-            <!-- Custom Date Inputs -->
-            <div class="grid grid-cols-2 gap-2 bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+            <!-- Collapsible Custom Date Picker -->
+            <div id="customDateDrawer" class="hidden grid grid-cols-2 gap-2 bg-slate-950/90 p-2.5 rounded-xl border border-slate-800">
                 <div>
                     <span class="text-[10px] text-slate-400 block mb-0.5">จากวันที่</span>
-                    <input type="date" id="startDate" onchange="customDateChanged()" class="w-full bg-slate-900 border border-slate-700/80 text-slate-200 text-xs rounded-lg px-2 py-1 focus:ring-1 focus:ring-sky-500 focus:outline-none font-mono">
+                    <input type="date" id="startDate" onchange="customDateChanged()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 font-mono">
                 </div>
                 <div>
                     <span class="text-[10px] text-slate-400 block mb-0.5">ถึงวันที่</span>
-                    <input type="date" id="endDate" onchange="customDateChanged()" class="w-full bg-slate-900 border border-slate-700/80 text-slate-200 text-xs rounded-lg px-2 py-1 focus:ring-1 focus:ring-sky-500 focus:outline-none font-mono">
+                    <input type="date" id="endDate" onchange="customDateChanged()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-2 py-1 font-mono">
+                </div>
+            </div>
+
+            <!-- Net Profit & Hourly Rate Hero Box -->
+            <div id="netProfitBox" class="bg-gradient-to-r from-sky-600 via-sky-500 to-indigo-600 rounded-xl p-3 text-white shadow-lg border border-sky-400/30 transition-all duration-300">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-xs text-sky-100 font-medium">กำไรสุทธิ (หักรายจ่ายแล้ว)</span>
+                        </div>
+                        <span id="statNetProfit" class="text-3xl font-black tracking-tight drop-shadow-sm block mt-0.5">฿0.00</span>
+                    </div>
+                    <div class="text-right bg-black/25 px-2.5 py-1.5 rounded-xl border border-white/10">
+                        <span id="statHourlyRate" class="text-xs font-extrabold text-amber-300 block">⚡ ฿0 / ชม.</span>
+                        <span id="statAvgPerTrip" class="text-[11px] font-semibold text-white block">฿0 / รอบ</span>
+                        <span id="statAvgPerKm" class="text-[10px] text-sky-100 block">฿0.0 / กม.</span>
+                    </div>
+                </div>
+
+                <!-- Daily Target Progress Bar -->
+                <div class="mt-2.5 pt-2 border-t border-white/20">
+                    <div class="flex justify-between items-center text-[11px] mb-1">
+                        <button onclick="openGoalModal()" class="flex items-center gap-1 font-semibold text-white hover:text-amber-200 transition">
+                            <i class="fa-solid fa-bullseye text-amber-300"></i>
+                            <span>เป้าหมายรายวัน: <span id="goalTargetText" class="underline decoration-dotted">฿1,000</span></span>
+                            <i class="fa-solid fa-pen text-[9px] opacity-75"></i>
+                        </button>
+                        <span id="goalStatusText" class="font-bold text-amber-200">0%</span>
+                    </div>
+                    <div class="w-full bg-black/40 rounded-full h-2.5 overflow-hidden p-0.5">
+                        <div id="goalProgressBar" class="bg-gradient-to-r from-amber-400 to-emerald-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compact Summary Bar (Income vs Expense) + Expand Button -->
+            <div class="grid grid-cols-2 gap-2">
+                <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-xl px-3 py-2 flex justify-between items-center">
+                    <div>
+                        <span class="text-[10px] text-emerald-400 font-semibold block">รายรับรวม (<span id="statTotalTrips">0 รอบ</span>)</span>
+                        <span id="statTotalIncome" class="text-base font-extrabold text-emerald-300 font-mono">฿0</span>
+                    </div>
+                    <i class="fa-solid fa-sack-dollar text-emerald-500/40 text-lg"></i>
+                </div>
+                <div class="bg-rose-950/40 border border-rose-500/30 rounded-xl px-3 py-2 flex justify-between items-center">
+                    <div>
+                        <span class="text-[10px] text-rose-400 font-semibold block">รายจ่าย (<span id="statTotalKm">0 กม.</span>)</span>
+                        <span id="statTotalExpense" class="text-base font-extrabold text-rose-300 font-mono">฿0</span>
+                    </div>
+                    <i class="fa-solid fa-gas-pump text-rose-500/40 text-lg"></i>
+                </div>
+            </div>
+
+            <!-- Toggle Button for Extra Details (Tips, Cash, Oil) -->
+            <button onclick="toggleExtraDetails()" class="w-full py-1 text-[11px] text-slate-400 hover:text-slate-200 flex items-center justify-center gap-1 border-t border-slate-800/80 pt-2 transition">
+                <span id="toggleDetailText">ดูรายละเอียด ทิป / เงินสด / เช็กระยะรถ</span>
+                <i id="toggleDetailIcon" class="fa-solid fa-chevron-down text-[10px] transition-transform"></i>
+            </button>
+
+            <!-- Collapsible Extra Details -->
+            <div id="extraDetailsSection" class="hidden space-y-2.5 pt-1">
+                <div class="grid grid-cols-4 gap-1.5">
+                    <div class="bg-amber-950/30 border border-amber-500/20 rounded-xl p-1.5 text-center">
+                        <span class="text-[10px] text-amber-400 block">🎁 ทิปรวม</span>
+                        <span id="statTotalTip" class="text-xs font-bold text-amber-300 font-mono">฿0</span>
+                    </div>
+                    <div class="bg-teal-950/30 border border-teal-500/20 rounded-xl p-1.5 text-center">
+                        <span class="text-[10px] text-teal-400 block">💵 เงินสด</span>
+                        <span id="statTotalCash" class="text-xs font-bold text-teal-300 font-mono">฿0</span>
+                    </div>
+                    <div class="bg-blue-950/30 border border-blue-500/20 rounded-xl p-1.5 text-center">
+                        <span class="text-[10px] text-blue-400 block">📱 เงินโอน</span>
+                        <span id="statTotalTransfer" class="text-xs font-bold text-blue-300 font-mono">฿0</span>
+                    </div>
+                    <div class="bg-purple-950/30 border border-purple-500/20 rounded-xl p-1.5 text-center">
+                        <span class="text-[10px] text-purple-400 block">💼 กระเป๋า</span>
+                        <span id="statTotalWallet" class="text-xs font-bold text-purple-300 font-mono">฿0</span>
+                    </div>
+                </div>
+
+                <!-- Oil Maintenance Traffic-Light Bar -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 space-y-1.5">
+                    <div class="flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-oil-can text-amber-400"></i>
+                            <span class="text-[11px] text-slate-300 font-medium">ต้นทุนน้ำมัน: <b id="fuelPerKmDisplay" class="text-amber-300 font-mono">฿0.00/กม.</b></span>
+                        </div>
+                        <button onclick="resetOilKm()" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[10px] text-slate-300 rounded-lg">
+                            <i class="fa-solid fa-rotate-left mr-1"></i>รีเซ็ตไมล์น้ำมันเครื่อง
+                        </button>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-slate-400">
+                        <span>ระยะน้ำมันเครื่องสะสม</span>
+                        <span id="oilKmDisplay" class="font-mono text-sky-400 font-bold">0 / 2,000 กม.</span>
+                    </div>
+                    <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden">
+                        <div id="oilProgressBar" class="bg-emerald-500 h-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Dashboard Financial KPI Overview -->
-        <div class="glass-card rounded-2xl p-3.5 shadow-xl mb-4 space-y-2.5">
-            
-            <!-- Net Profit Hero Card with Real-time Fuel Meter -->
-            <div id="netProfitBox" class="bg-gradient-to-r from-sky-600 via-sky-500 to-indigo-600 rounded-xl p-3.5 text-white shadow-lg shadow-sky-950/50 border border-sky-400/30 transition-all duration-300">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <span class="text-xs text-sky-100 block font-light tracking-wide">กำไรสุทธิ (Net Profit)</span>
-                        <span id="statNetProfit" class="text-2xl font-black tracking-tight drop-shadow-sm">฿0.00</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-[11px] text-sky-100 block font-light">เฉลี่ยต่อรอบ</span>
-                        <span id="statAvgPerTrip" class="text-sm font-bold text-yellow-300">฿0 / รอบ</span>
-                        <span id="statAvgPerKm" class="text-[10px] text-sky-100/90 block">฿0.0 / กม.</span>
-                    </div>
-                </div>
-
-                <!-- Fuel Profit Status Meter Bar -->
-                <div class="mt-3 pt-2.5 border-t border-white/20">
-                    <div class="flex justify-between items-center text-[10px] mb-1">
-                        <span class="flex items-center gap-1 font-medium">
-                            <i class="fa-solid fa-gauge-high"></i> สถานะกำไรเทียบค่าน้ำมัน
-                        </span>
-                        <span id="fuelProfitStatusText" class="font-bold text-yellow-200">คำนวณผล...</span>
-                    </div>
-                    <div class="w-full bg-black/30 rounded-full h-2 overflow-hidden flex">
-                        <div id="fuelBarExpense" class="bg-rose-400 h-full transition-all duration-500" style="width: 0%"></div>
-                        <div id="fuelBarProfit" class="bg-emerald-400 h-full transition-all duration-500" style="width: 100%"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Top Level Totals (Income vs Expense) -->
-            <div class="grid grid-cols-2 gap-2.5">
-                <div class="bg-emerald-950/30 border border-emerald-500/20 rounded-xl p-2.5">
-                    <div class="flex justify-between items-center mb-0.5">
-                        <span class="text-[11px] font-medium text-emerald-400">
-                            <i class="fa-solid fa-arrow-down-left text-[10px] mr-1"></i> รายได้รวม
-                        </span>
-                        <span id="statTotalTrips" class="text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.2 rounded font-mono">0 รอบ</span>
-                    </div>
-                    <span id="statTotalIncome" class="text-lg font-bold text-emerald-300 block">฿0.00</span>
-                </div>
-                <div class="bg-rose-950/30 border border-rose-500/20 rounded-xl p-2.5">
-                    <div class="flex justify-between items-center mb-0.5">
-                        <span class="text-[11px] font-medium text-rose-400">
-                            <i class="fa-solid fa-arrow-up-right text-[10px] mr-1"></i> ค่าใช้จ่ายรวม
-                        </span>
-                        <span id="statTotalKm" class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded font-mono">0 กม.</span>
-                    </div>
-                    <span id="statTotalExpense" class="text-lg font-bold text-rose-300 block">฿0.00</span>
-                </div>
-            </div>
-
-            <!-- Detail Breakdown Grid (Tips & Payment Types) -->
-            <div class="grid grid-cols-4 gap-1.5 pt-0.5">
-                <div class="bg-amber-950/30 border border-amber-500/20 rounded-xl p-2 text-center">
-                    <span class="text-[10px] text-amber-400 font-medium block">🎁 ทิปรวม</span>
-                    <span id="statTotalTip" class="text-xs font-bold text-amber-300 block mt-0.5">฿0</span>
-                </div>
-                <div class="bg-teal-950/30 border border-teal-500/20 rounded-xl p-2 text-center">
-                    <span class="text-[10px] text-teal-400 font-medium block">💵 เงินสด</span>
-                    <span id="statTotalCash" class="text-xs font-bold text-teal-300 block mt-0.5">฿0</span>
-                </div>
-                <div class="bg-blue-950/30 border border-blue-500/20 rounded-xl p-2 text-center">
-                    <span class="text-[10px] text-blue-400 font-medium block">📱 เงินโอน</span>
-                    <span id="statTotalTransfer" class="text-xs font-bold text-blue-300 block mt-0.5">฿0</span>
-                </div>
-                <div class="bg-purple-950/30 border border-purple-500/20 rounded-xl p-2 text-center">
-                    <span class="text-[10px] text-purple-400 font-medium block">💼 กระเป๋า</span>
-                    <span id="statTotalWallet" class="text-xs font-bold text-purple-300 block mt-0.5">฿0</span>
-                </div>
-            </div>
-
-            <!-- Fuel Economy & Maintenance Widget -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between text-xs">
-                <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
-                        <i class="fa-solid fa-oil-can"></i>
-                    </div>
-                    <div>
-                        <span class="text-[11px] text-slate-300 font-medium block">อัตราน้ำมัน: <span id="fuelPerKmDisplay" class="text-amber-300 font-bold">฿0.00/กม.</span></span>
-                        <span class="text-[10px] text-slate-400">เช็คระยะน้ำมันเครื่อง: <span id="oilKmDisplay" class="text-sky-400 font-mono">0 / 2,000 กม.</span></span>
-                    </div>
-                </div>
-                <button onclick="resetOilKm()" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[10px] text-slate-300 rounded-lg">
-                    <i class="fa-solid fa-rotate-left mr-1"></i>รีเซ็ต
-                </button>
-            </div>
-        </div>
-
-        <!-- TAB 1: ADD DATA FORM -->
+        <!-- ==================== TAB 1: QUICK LOG FORM ==================== -->
         <div id="tab-add" class="space-y-3">
-            <!-- Form Type Switcher -->
-            <div class="grid grid-cols-2 p-1 bg-slate-900/90 rounded-xl text-xs font-medium border border-slate-800">
-                <button onclick="toggleFormType('trip')" id="form-type-trip" class="py-2 rounded-lg bg-sky-600 text-white font-bold transition shadow-sm flex items-center justify-center space-x-1.5">
-                    <i class="fa-solid fa-motorcycle"></i>
-                    <span>บันทึกงานรายรอบ</span>
-                </button>
-                <button onclick="toggleFormType('expense')" id="form-type-expense" class="py-2 rounded-lg text-slate-400 transition flex items-center justify-center space-x-1.5">
-                    <i class="fa-solid fa-gas-pump"></i>
-                    <span>บันทึกค่าใช้จ่าย</span>
+            <!-- Form Mode Switcher + 1-Tap Quick Fuel -->
+            <div class="flex items-center gap-1.5">
+                <div class="grid grid-cols-2 p-1 bg-slate-900 rounded-xl text-xs font-medium border border-slate-800 flex-1">
+                    <button onclick="toggleFormType('trip')" id="form-type-trip" class="py-2 rounded-lg bg-sky-600 text-white font-bold transition shadow-sm flex items-center justify-center space-x-1.5">
+                        <i class="fa-solid fa-motorcycle"></i>
+                        <span>งานรายรอบ</span>
+                    </button>
+                    <button onclick="toggleFormType('expense')" id="form-type-expense" class="py-2 rounded-lg text-slate-400 transition flex items-center justify-center space-x-1.5">
+                        <i class="fa-solid fa-gas-pump"></i>
+                        <span>ค่าใช้จ่าย</span>
+                    </button>
+                </div>
+                <!-- 1-Tap Instant Fuel Button -->
+                <button onclick="instantFuelLog(100)" title="กดปุ๊บ ลงบิลเติมน้ำมัน 100 บาททันที" class="py-2.5 px-3 bg-rose-950/80 hover:bg-rose-900 border border-rose-500/40 active:scale-95 text-rose-300 rounded-xl text-xs font-bold flex items-center space-x-1 shrink-0 shadow">
+                    <i class="fa-solid fa-gas-pump text-rose-400"></i>
+                    <span>+น้ำมัน ฿100</span>
                 </button>
             </div>
 
-            <!-- TRIP FORM -->
-            <form id="tripForm" onsubmit="handleSaveTrip(event)" class="glass-card rounded-2xl p-4 shadow-xl border border-slate-800/80 space-y-3.5 transition-all duration-300 glow-grab" id="tripFormCard">
-                <h3 class="font-bold text-slate-200 text-sm flex items-center justify-between border-b border-slate-800 pb-2.5">
-                    <span class="flex items-center gap-2">
+            <!-- TRIP FORM (3-Second Ergonomic Design) -->
+            <form id="tripForm" onsubmit="handleSaveTrip(event)" class="glass-card rounded-2xl p-3.5 shadow-xl border border-slate-800 space-y-3.5 transition-all duration-300 glow-grab">
+                
+                <!-- Header + Compact Date/Time -->
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                    <span class="font-bold text-slate-200 text-xs flex items-center gap-1.5">
                         <span class="w-2 h-4 bg-sky-500 rounded-full inline-block"></span>
-                        ลงบันทึกงานรายรอบ
+                        บันทึกงานด่วน (จำค่ายล่าสุดอัตโนมัติ)
                     </span>
-                    <span class="text-[10px] text-sky-400 font-mono" id="realtimeTripBadge">เรียลไทม์</span>
-                </h3>
+                    <div class="flex items-center space-x-1">
+                        <input type="date" id="tripDate" required class="bg-slate-950 border border-slate-800 text-slate-300 rounded-lg px-1.5 py-0.5 text-[10px] font-mono w-24">
+                        <input type="time" id="tripTime" required class="bg-slate-950 border border-slate-800 text-sky-400 font-bold rounded-lg px-1.5 py-0.5 text-[10px] font-mono">
+                    </div>
+                </div>
 
-                <!-- Date & Time Row -->
+                <!-- 1-TAP APP SELECTOR GRID (No Dropdown!) -->
+                <div>
+                    <label class="block text-[11px] text-slate-400 font-medium mb-1.5">1. เลือกค่ายแอป (แตะครั้งเดียว):</label>
+                    <input type="hidden" id="tripApp" value="Grab">
+                    <div class="grid grid-cols-3 gap-1.5" id="appGridSelector">
+                        <button type="button" onclick="selectAppTile('Grab')" data-app="Grab" class="app-tile py-2 px-2 rounded-xl border-2 border-[#00b14f] bg-[#00b14f]/20 text-white text-xs flex items-center justify-center space-x-1.5 transition">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#00b14f]"></span>
+                            <span>Grab</span>
+                        </button>
+                        <button type="button" onclick="selectAppTile('LINE MAN')" data-app="LINE MAN" class="app-tile py-2 px-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-xs flex items-center justify-center space-x-1.5 transition">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#00c300]"></span>
+                            <span>LINE MAN</span>
+                        </button>
+                        <button type="button" onclick="selectAppTile('ShopeeFood')" data-app="ShopeeFood" class="app-tile py-2 px-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-xs flex items-center justify-center space-x-1.5 transition">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#ee4d2d]"></span>
+                            <span>Shopee</span>
+                        </button>
+                        <button type="button" onclick="selectAppTile('MAXIM')" data-app="MAXIM" class="app-tile py-2 px-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-xs flex items-center justify-center space-x-1.5 transition">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                            <span>MAXIM</span>
+                        </button>
+                        <button type="button" onclick="selectAppTile('Robinhood')" data-app="Robinhood" class="app-tile py-2 px-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-xs flex items-center justify-center space-x-1.5 transition">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#c026d3]"></span>
+                            <span>Robinhood</span>
+                        </button>
+                        <button type="button" onclick="selectAppTile('Other')" data-app="Other" class="app-tile py-2 px-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-xs flex items-center justify-center space-x-1.5 transition">
+                            <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                            <span>วิน / อื่นๆ</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- FARE INPUT + LARGE INCREMENTAL CHIPS -->
+                <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800/90 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <label class="text-xs text-slate-300 font-semibold">2. ค่ารอบสุทธิ (บาท)</label>
+                        <button type="button" onclick="document.getElementById('tripFare').value = ''" class="text-[10px] text-rose-400 hover:underline">ล้างตัวเลข</button>
+                    </div>
+                    <input type="number" step="0.01" id="tripFare" inputmode="decimal" placeholder="0.00" required class="w-full bg-slate-900 border-2 border-sky-500/40 text-sky-400 rounded-xl px-3 py-2.5 text-2xl font-black text-center focus:ring-2 focus:ring-sky-500 focus:outline-none font-mono">
+                    
+                    <!-- Big Thumb Chips: Set or Add -->
+                    <div class="grid grid-cols-6 gap-1 pt-0.5">
+                        <button type="button" onclick="quickSetFare(35)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">35</button>
+                        <button type="button" onclick="quickSetFare(45)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">45</button>
+                        <button type="button" onclick="quickSetFare(60)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">60</button>
+                        <button type="button" onclick="quickSetFare(80)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">80</button>
+                        <button type="button" onclick="quickAddFareDelta(5)" class="py-1.5 bg-sky-950 hover:bg-sky-900 active:scale-95 text-sky-300 font-extrabold text-xs rounded-lg border border-sky-700">+5</button>
+                        <button type="button" onclick="quickAddFareDelta(10)" class="py-1.5 bg-sky-950 hover:bg-sky-900 active:scale-95 text-sky-300 font-extrabold text-xs rounded-lg border border-sky-700">+10</button>
+                    </div>
+                </div>
+
+                <!-- 1-TAP PAYMENT CHANNEL & BATCH COUNT -->
                 <div class="grid grid-cols-2 gap-2.5">
+                    <!-- Payment Type Pills -->
                     <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">วันที่</label>
-                        <input type="date" id="tripDate" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none font-mono">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">เวลา</label>
-                        <input type="time" id="tripTime" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none font-mono">
-                    </div>
-                </div>
-
-                <!-- Dropdown App Selector with Neon Effects -->
-                <div>
-                    <label class="block text-xs text-slate-400 font-medium mb-1">เลือกค่ายแอปพลิเคชัน</label>
-                    <select id="tripApp" onchange="updateAppGlow(this.value)" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none font-medium">
-                        <option value="Grab">🟢 Grab </option>
-                        <option value="LINE MAN">🟢LINE MAN </option>
-                        <option value="ShopeeFood">🟠 ShopeeFood </option>
-                        <option value="MAXIM">🟡 MAXIM </option>
-                        <option value="Robinhood">🟣 Robinhood </option>
-                        <option value="Other">⚪ อื่นๆ / วิน</option>
-                    </select>
-                </div>
-
-                <!-- Batch / Order Count Selector -->
-                <div>
-                    <label class="block text-xs text-slate-400 font-medium mb-1">จำนวนงานพ่วง/ออเดอร์ในรอบนี้</label>
-                    <div class="grid grid-cols-4 gap-1.5">
-                        <label class="cursor-pointer">
-                            <input type="radio" name="tripBatchCount" value="1" checked class="peer hidden">
-                            <div class="py-1.5 text-center text-xs font-semibold rounded-xl bg-slate-950 border border-slate-800 text-slate-400 peer-checked:bg-sky-600 peer-checked:text-white peer-checked:border-sky-400 transition">
-                                1 งาน
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="tripBatchCount" value="2" class="peer hidden">
-                            <div class="py-1.5 text-center text-xs font-semibold rounded-xl bg-slate-950 border border-slate-800 text-slate-400 peer-checked:bg-sky-600 peer-checked:text-white peer-checked:border-sky-400 transition">
-                                2 งาน
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="tripBatchCount" value="3" class="peer hidden">
-                            <div class="py-1.5 text-center text-xs font-semibold rounded-xl bg-slate-950 border border-slate-800 text-slate-400 peer-checked:bg-sky-600 peer-checked:text-white peer-checked:border-sky-400 transition">
-                                3 งาน
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="tripBatchCount" value="4" class="peer hidden">
-                            <div class="py-1.5 text-center text-xs font-semibold rounded-xl bg-slate-950 border border-slate-800 text-slate-400 peer-checked:bg-sky-600 peer-checked:text-white peer-checked:border-sky-400 transition">
-                                4+ งาน
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Fare & Quick Buttons -->
-                <div>
-                    <div class="flex justify-between items-center mb-1">
-                        <label class="text-xs text-slate-400 font-medium">ค่ารอบ/ค่าโดยสาร (บาท)</label>
-                        <div class="flex space-x-1">
-                            <button type="button" onclick="quickAddFare(35)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-sky-400 px-1.5 py-0.5 rounded border border-slate-700">35</button>
-                            <button type="button" onclick="quickAddFare(45)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-sky-400 px-1.5 py-0.5 rounded border border-slate-700">45</button>
-                            <button type="button" onclick="quickAddFare(60)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-sky-400 px-1.5 py-0.5 rounded border border-slate-700">60</button>
-                            <button type="button" onclick="quickAddFare(100)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-sky-400 px-1.5 py-0.5 rounded border border-slate-700">100</button>
+                        <label class="block text-[11px] text-slate-400 font-medium mb-1">ช่องทางรับเงิน</label>
+                        <input type="hidden" id="tripPaymentType" value="wallet">
+                        <div class="grid grid-cols-3 gap-1" id="paymentGridSelector">
+                            <button type="button" onclick="selectPaymentTile('wallet')" data-pay="wallet" class="pay-tile py-2 rounded-xl text-[11px] font-bold border border-purple-400 bg-purple-600 text-white transition">💼 แอป</button>
+                            <button type="button" onclick="selectPaymentTile('cash')" data-pay="cash" class="pay-tile py-2 rounded-xl text-[11px] font-medium border border-slate-800 bg-slate-950 text-slate-400 transition">💵 สด</button>
+                            <button type="button" onclick="selectPaymentTile('transfer')" data-pay="transfer" class="pay-tile py-2 rounded-xl text-[11px] font-medium border border-slate-800 bg-slate-950 text-slate-400 transition">📱 โอน</button>
                         </div>
                     </div>
-                    <input type="number" step="0.01" id="tripFare" placeholder="0.00" required class="w-full bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-3 py-2.5 text-base font-bold text-sky-400 focus:ring-1 focus:ring-sky-500 focus:outline-none">
+
+                    <!-- Batch Order Count -->
+                    <div>
+                        <label class="block text-[11px] text-slate-400 font-medium mb-1">งานพ่วงในรอบนี้</label>
+                        <div class="grid grid-cols-3 gap-1">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="tripBatchCount" value="1" checked class="peer hidden">
+                                <div class="py-2 text-center text-[11px] font-bold rounded-xl bg-slate-950 border border-slate-800 text-slate-400 peer-checked:bg-sky-600 peer-checked:text-white peer-checked:border-sky-400 transition">1 งาน</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="tripBatchCount" value="2" class="peer hidden">
+                                <div class="py-2 text-center text-[11px] font-bold rounded-xl bg-slate-950 border border-slate-800 text-slate-400 peer-checked:bg-sky-600 peer-checked:text-white peer-checked:border-sky-400 transition">พ่วง 2</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="tripBatchCount" value="3" class="peer hidden">
+                                <div class="py-2 text-center text-[11px] font-bold rounded-xl bg-slate-950 border border-slate-800 text-slate-400 peer-checked:bg-sky-600 peer-checked:text-white peer-checked:border-sky-400 transition">พ่วง 3+</div>
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Tip & Distance Row with Realtime Fuel Calculator -->
+                <!-- TIP & DISTANCE ROW -->
                 <div class="grid grid-cols-2 gap-2.5">
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs text-slate-400 font-medium">ทิป (บาท)</label>
+                            <label class="text-[11px] text-slate-400 font-medium">🎁 ทิปพิเศษ (บาท)</label>
                             <div class="flex space-x-1">
-                                <button type="button" onclick="quickAddTip(10)" class="text-[9px] bg-slate-800 text-amber-400 px-1 py-0.2 rounded border border-slate-700">+10</button>
-                                <button type="button" onclick="quickAddTip(20)" class="text-[9px] bg-slate-800 text-amber-400 px-1 py-0.2 rounded border border-slate-700">+20</button>
+                                <button type="button" onclick="quickAddTip(10)" class="text-[10px] bg-amber-950/80 text-amber-300 px-1.5 py-0.2 rounded border border-amber-700/50 font-bold">+10</button>
+                                <button type="button" onclick="quickAddTip(20)" class="text-[10px] bg-amber-950/80 text-amber-300 px-1.5 py-0.2 rounded border border-amber-700/50 font-bold">+20</button>
                             </div>
                         </div>
-                        <input type="number" step="0.01" id="tripTip" placeholder="0.00" value="0" class="w-full bg-slate-950 border border-slate-800 text-amber-300 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-1 focus:ring-amber-500 focus:outline-none">
+                        <input type="number" step="0.01" id="tripTip" inputmode="decimal" placeholder="0" value="0" class="w-full bg-slate-950 border border-slate-800 text-amber-300 rounded-xl px-3 py-2 text-sm font-bold font-mono focus:ring-1 focus:ring-amber-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">ระยะทาง (กม.)</label>
-                        <input type="number" step="0.1" id="tripDistance" oninput="calculateTripFuelEst()" placeholder="0.0" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-1 focus:ring-sky-500 focus:outline-none font-mono">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-[11px] text-slate-400 font-medium">🛣️ ระยะทาง (กม.)</label>
+                            <div class="flex space-x-1">
+                                <button type="button" onclick="quickSetDist(3)" class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded border border-slate-700">3กม.</button>
+                                <button type="button" onclick="quickSetDist(5)" class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded border border-slate-700">5กม.</button>
+                            </div>
+                        </div>
+                        <input type="number" step="0.1" id="tripDistance" inputmode="decimal" oninput="calculateTripFuelEst()" placeholder="0.0" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-sm font-mono focus:ring-1 focus:ring-sky-500 focus:outline-none">
                     </div>
                 </div>
 
-                <!-- Estimated Fuel Cost Display -->
-                <div id="estFuelCostBox" class="bg-rose-950/40 border border-rose-500/20 rounded-xl p-2 text-xs flex justify-between items-center hidden">
-                    <span class="text-rose-300 font-light text-[11px]"><i class="fa-solid fa-gas-pump mr-1"></i>ประเมินต้นทุนค่าน้ำมันรอบนี้:</span>
+                <!-- Realtime Fuel Estimate Alert -->
+                <div id="estFuelCostBox" class="bg-rose-950/40 border border-rose-500/30 rounded-xl px-3 py-1.5 text-xs flex justify-between items-center hidden">
+                    <span class="text-rose-300 text-[11px]"><i class="fa-solid fa-gas-pump mr-1"></i>หักต้นทุนน้ำมันรอบนี้ประมาณ:</span>
                     <span id="estFuelCostText" class="font-bold text-rose-400 font-mono">฿0.00</span>
                 </div>
 
-                <!-- Dropdown Payment Type Selector -->
+                <!-- QUICK NOTE TAGS & VOICE INPUT -->
                 <div>
-                    <label class="block text-xs text-slate-400 font-medium mb-1">ช่องทางรับเงิน</label>
-                    <select id="tripPaymentType" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none font-medium">
-                        <option value="cash">💵 เงินสด</option>
-                        <option value="transfer">📱 เงินโอน</option>
-                        <option value="wallet">💼 กระเป๋าแอป</option>
-                    </select>
-                </div>
-
-                <!-- Note with Voice-to-Text Button -->
-                <div>
-                    <div class="flex justify-between items-center mb-1">
-                        <label class="text-xs text-slate-400 font-medium">หมายเหตุงาน</label>
+                    <div class="flex justify-between items-center mb-1.5">
+                        <label class="text-[11px] text-slate-400 font-medium">หมายเหตุ (แตะป้ายลัด หรืออัดเสียง)</label>
                         <button type="button" onclick="startVoiceRecognition('tripNote')" id="voiceBtn-tripNote" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-sky-400 px-2 py-0.5 rounded-lg border border-slate-700 flex items-center space-x-1">
                             <i class="fa-solid fa-microphone"></i>
-                            <span>อัดเสียง</span>
+                            <span>พูดโน้ต</span>
                         </button>
                     </div>
-                    <input type="text" id="tripNote" placeholder="เช่น ส่งของคอนโด A, อาหารร้อน" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                    <!-- 1-Tap Quick Note Chips -->
+                    <div class="flex flex-wrap gap-1 mb-2">
+                        <button type="button" onclick="appendNoteTag('🏢 ส่งคอนโด/ตึก')" class="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded-lg border border-slate-800">🏢 คอนโด</button>
+                        <button type="button" onclick="appendNoteTag('🏠 หมู่บ้าน')" class="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded-lg border border-slate-800">🏠 หมู่บ้าน</button>
+                        <button type="button" onclick="appendNoteTag('⏳ รอร้านนาน')" class="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded-lg border border-slate-800">⏳ รอนาน</button>
+                        <button type="button" onclick="appendNoteTag('🌧️ ลุยฝน')" class="text-[10px] bg-slate-900 hover:bg-slate-800 text-slate-300 px-2 py-1 rounded-lg border border-slate-800">🌧️ ลุยฝน</button>
+                    </div>
+                    <input type="text" id="tripNote" placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)..." class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
                 </div>
 
-                <button type="submit" class="w-full bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 active:scale-[0.98] text-white font-medium py-3 rounded-xl shadow-lg shadow-sky-950 flex items-center justify-center space-x-2 transition">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    <span>บันทึกงานรอบนี้</span>
+                <!-- BIG THUMB SUBMIT BUTTON -->
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 hover:from-emerald-400 hover:to-sky-400 active:scale-[0.98] text-slate-950 font-black text-base py-3.5 rounded-xl shadow-lg shadow-emerald-950/60 flex items-center justify-center space-x-2 transition">
+                    <i class="fa-solid fa-bolt text-lg"></i>
+                    <span>บันทึกงานรอบนี้ทันที</span>
                 </button>
             </form>
 
-            <!-- EXPENSE FORM (Hidden by default) -->
-            <form id="expenseForm" onsubmit="handleSaveExpense(event)" class="glass-card rounded-2xl p-4 shadow-xl border border-slate-800/80 space-y-3.5 hidden">
-                <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2 border-b border-slate-800 pb-2.5">
-                    <span class="w-2 h-4 bg-rose-500 rounded-full inline-block"></span>
-                    ลงบันทึกค่าใช้จ่าย
-                </h3>
-
-                <div class="grid grid-cols-2 gap-2.5">
-                    <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">วันที่</label>
-                        <input type="date" id="expDate" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-rose-500 focus:outline-none font-mono">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 font-medium mb-1">เวลา</label>
-                        <input type="time" id="expTime" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-rose-500 focus:outline-none font-mono">
+            <!-- EXPENSE FORM (1-Tap Category Pills) -->
+            <form id="expenseForm" onsubmit="handleSaveExpense(event)" class="glass-card rounded-2xl p-4 shadow-xl border border-rose-500/30 space-y-3.5 hidden">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <h3 class="font-bold text-rose-300 text-xs flex items-center gap-2">
+                        <span class="w-2 h-4 bg-rose-500 rounded-full inline-block"></span>
+                        ลงบันทึกค่าใช้จ่าย
+                    </h3>
+                    <div class="flex items-center space-x-1">
+                        <input type="date" id="expDate" required class="bg-slate-950 border border-slate-800 text-slate-300 rounded-lg px-1.5 py-0.5 text-[10px] font-mono w-24">
+                        <input type="time" id="expTime" required class="bg-slate-950 border border-slate-800 text-rose-400 font-bold rounded-lg px-1.5 py-0.5 text-[10px] font-mono">
                     </div>
                 </div>
 
+                <!-- 1-Tap Expense Category Selector -->
                 <div>
-                    <label class="block text-xs text-slate-400 font-medium mb-1">ประเภทค่าใช้จ่าย</label>
-                    <select id="expCategory" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-rose-500 focus:outline-none font-medium">
-                        <option value="น้ำมัน">⛽ ค่าน้ำมัน</option>
-                        <option value="อาหาร/เครื่องดื่ม">🍲 ค่าอาหาร/เครื่องดื่ม</option>
-                        <option value="เติมเครดิตแอป">📱 เติมเครดิตแอป</option>
-                        <option value="ซ่อมบำรุงรถ">🔧 ซ่อมบำรุง/ถ่ายน้ำมันเครื่อง</option>
-                        <option value="อื่นๆ">📦 ค่าใช้จ่ายอื่นๆ</option>
-                    </select>
+                    <label class="block text-[11px] text-slate-400 font-medium mb-1.5">เลือกหมวดหมู่รายจ่าย</label>
+                    <input type="hidden" id="expCategory" value="น้ำมัน">
+                    <div class="grid grid-cols-3 gap-1.5">
+                        <button type="button" onclick="selectExpCatTile('น้ำมัน')" data-expcat="น้ำมัน" class="expcat-tile py-2 px-2 rounded-xl border border-rose-500 bg-rose-600 text-white font-bold text-xs transition">⛽ น้ำมัน</button>
+                        <button type="button" onclick="selectExpCatTile('อาหาร/เครื่องดื่ม')" data-expcat="อาหาร/เครื่องดื่ม" class="expcat-tile py-2 px-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-xs transition">🍲 อาหาร/น้ำ</button>
+                        <button type="button" onclick="selectExpCatTile('เติมเครดิตแอป')" data-expcat="เติมเครดิตแอป" class="expcat-tile py-2 px-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-xs transition">📱 เครดิตแอป</button>
+                        <button type="button" onclick="selectExpCatTile('ซ่อมบำรุงรถ')" data-expcat="ซ่อมบำรุงรถ" class="expcat-tile py-2 px-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-xs transition">🔧 ซ่อมรถ</button>
+                        <button type="button" onclick="selectExpCatTile('อื่นๆ')" data-expcat="อื่นๆ" class="expcat-tile py-2 px-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 text-xs transition col-span-2">📦 ค่าใช้จ่ายอื่นๆ</button>
+                    </div>
                 </div>
 
-                <div>
-                    <div class="flex justify-between items-center mb-1">
-                        <label class="text-xs text-slate-400 font-medium">จำนวนเงิน (บาท)</label>
-                        <div class="flex space-x-1">
-                            <button type="button" onclick="quickAddExp(50)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-rose-400 px-1.5 py-0.5 rounded border border-slate-700">50</button>
-                            <button type="button" onclick="quickAddExp(100)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-rose-400 px-1.5 py-0.5 rounded border border-slate-700">100</button>
-                            <button type="button" onclick="quickAddExp(200)" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-rose-400 px-1.5 py-0.5 rounded border border-slate-700">200</button>
-                        </div>
+                <!-- Expense Amount + Quick Buttons -->
+                <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800 space-y-2">
+                    <label class="block text-xs text-slate-300 font-semibold">จำนวนเงิน (บาท)</label>
+                    <input type="number" step="0.01" id="expAmount" inputmode="decimal" placeholder="0.00" required class="w-full bg-slate-900 border-2 border-rose-500/40 text-rose-400 rounded-xl px-3 py-2 text-2xl font-black text-center font-mono focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                    <div class="grid grid-cols-5 gap-1">
+                        <button type="button" onclick="quickAddExp(40)" class="py-1.5 bg-slate-800 text-rose-300 font-bold text-xs rounded-lg border border-slate-700">40</button>
+                        <button type="button" onclick="quickAddExp(60)" class="py-1.5 bg-slate-800 text-rose-300 font-bold text-xs rounded-lg border border-slate-700">60</button>
+                        <button type="button" onclick="quickAddExp(100)" class="py-1.5 bg-slate-800 text-rose-300 font-bold text-xs rounded-lg border border-slate-700">100</button>
+                        <button type="button" onclick="quickAddExp(150)" class="py-1.5 bg-slate-800 text-rose-300 font-bold text-xs rounded-lg border border-slate-700">150</button>
+                        <button type="button" onclick="quickAddExp(200)" class="py-1.5 bg-slate-800 text-rose-300 font-bold text-xs rounded-lg border border-slate-700">200</button>
                     </div>
-                    <input type="number" step="0.01" id="expAmount" placeholder="0.00" required class="w-full bg-slate-950 border border-slate-800 text-rose-400 rounded-xl px-3 py-2.5 text-base font-bold focus:ring-1 focus:ring-rose-500 focus:outline-none">
                 </div>
 
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="text-xs text-slate-400 font-medium">รายละเอียดเพิ่มเติม</label>
-                        <button type="button" onclick="startVoiceRecognition('expNote')" id="voiceBtn-expNote" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-rose-400 px-2 py-0.5 rounded-lg border border-slate-700 flex items-center space-x-1">
+                        <button type="button" onclick="startVoiceRecognition('expNote')" id="voiceBtn-expNote" class="text-[10px] bg-slate-800 text-rose-400 px-2 py-0.5 rounded-lg border border-slate-700 flex items-center space-x-1">
                             <i class="fa-solid fa-microphone"></i>
                             <span>อัดเสียง</span>
                         </button>
                     </div>
-                    <input type="text" id="expNote" placeholder="เช่น เติม 95 เพียวๆ, ซ่อมยางรั่ว" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-rose-500 focus:outline-none">
+                    <input type="text" id="expNote" placeholder="เช่น โซฮอล์ 95, ข้าวผัดกะเพรา, เปลี่ยนยาง" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-rose-500 focus:outline-none">
                 </div>
 
-                <button type="submit" class="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 active:scale-[0.98] text-white font-medium py-3 rounded-xl shadow-lg shadow-rose-950 flex items-center justify-center space-x-2 transition">
+                <button type="submit" class="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 active:scale-[0.98] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-rose-950 flex items-center justify-center space-x-2 transition">
                     <i class="fa-solid fa-floppy-disk"></i>
                     <span>บันทึกค่าใช้จ่าย</span>
                 </button>
             </form>
         </div>
 
-        <!-- TAB 2: HISTORY LIST -->
+        <!-- ==================== TAB 2: HISTORY LIST ==================== -->
         <div id="tab-history" class="space-y-3 hidden">
-            <!-- Filter Type Switcher inside History -->
             <div class="flex justify-between items-center px-1">
-                <div class="flex space-x-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-[11px]">
+                <div class="flex space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-[11px]">
                     <button onclick="filterHistoryType('all')" id="hist-filter-all" class="px-2.5 py-1 rounded-lg bg-sky-600 text-white font-medium">ทั้งหมด</button>
                     <button onclick="filterHistoryType('trip')" id="hist-filter-trip" class="px-2.5 py-1 rounded-lg text-slate-400">งานวิ่ง</button>
                     <button onclick="filterHistoryType('expense')" id="hist-filter-expense" class="px-2.5 py-1 rounded-lg text-slate-400">ค่าใช้จ่าย</button>
@@ -462,14 +510,12 @@
             </div>
 
             <div id="historyContainer" class="space-y-2">
-                <!-- Records injected by JS -->
+                <!-- Injected via JS -->
             </div>
         </div>
 
-        <!-- TAB 3: STATS & OVERVIEW -->
+        <!-- ==================== TAB 3: STATS & BACKUP ==================== -->
         <div id="tab-stats" class="space-y-3.5 hidden">
-
-            <!-- Best Hourly Performance Chart Card -->
             <div class="glass-card rounded-2xl p-4 shadow-xl">
                 <div class="flex justify-between items-center mb-3">
                     <h4 class="font-bold text-slate-200 text-xs flex items-center gap-2">
@@ -482,7 +528,6 @@
                 </div>
             </div>
 
-            <!-- App Breakdown Chart Card -->
             <div class="glass-card rounded-2xl p-4 shadow-xl">
                 <h4 class="font-bold text-slate-200 text-xs mb-3 flex items-center gap-2">
                     <i class="fa-solid fa-chart-column text-sky-400"></i> สัดส่วนรายได้ตามค่ายแอป
@@ -492,7 +537,6 @@
                 </div>
             </div>
 
-            <!-- Expense Breakdown Chart Card -->
             <div class="glass-card rounded-2xl p-4 shadow-xl">
                 <h4 class="font-bold text-slate-200 text-xs mb-3 flex items-center gap-2">
                     <i class="fa-solid fa-pie-chart text-rose-400"></i> สัดส่วนค่าใช้จ่าย
@@ -502,41 +546,38 @@
                 </div>
             </div>
 
-            <!-- Data Management & Backup/Restore Actions -->
+            <!-- Backup & Data Management -->
             <div class="glass-card rounded-2xl p-4 shadow-xl space-y-3">
                 <h4 class="font-bold text-slate-200 text-xs flex items-center gap-2 border-b border-slate-800 pb-2">
-                    <i class="fa-solid fa-database text-slate-400"></i> จัดการข้อมูล & สำรองระบบ (Backup & Restore)
+                    <i class="fa-solid fa-database text-slate-400"></i> สำรองข้อมูล & จัดการระบบ
                 </h4>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="exportCSV()" class="p-2.5 bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-slate-700">
+                    <button onclick="exportCSV()" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 border border-slate-700">
                         <i class="fa-solid fa-download text-emerald-400"></i>
                         <span>ดาวน์โหลด CSV</span>
                     </button>
-                    <button onclick="exportGoogleSheets()" class="p-2.5 bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-emerald-500/30">
+                    <button onclick="exportGoogleSheets()" class="p-2.5 bg-emerald-950/60 hover:bg-emerald-900/60 text-emerald-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 border border-emerald-500/30">
                         <i class="fa-solid fa-file-excel text-emerald-400"></i>
-                        <span>เปิด Google Sheets</span>
+                        <span>ส่งออก Sheets</span>
                     </button>
                 </div>
-                
-                <!-- JSON Backup & Restore -->
-                <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800/80">
-                    <button onclick="backupJSON()" class="p-2.5 bg-indigo-950/60 hover:bg-indigo-900/60 text-indigo-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-indigo-500/30">
+                <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800">
+                    <button onclick="backupJSON()" class="p-2.5 bg-indigo-950/60 hover:bg-indigo-900/60 text-indigo-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 border border-indigo-500/30">
                         <i class="fa-solid fa-file-export text-indigo-400"></i>
                         <span>Backup JSON</span>
                     </button>
-                    <label class="p-2.5 bg-purple-950/60 hover:bg-purple-900/60 text-purple-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-purple-500/30 cursor-pointer">
+                    <label class="p-2.5 bg-purple-950/60 hover:bg-purple-900/60 text-purple-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 border border-purple-500/30 cursor-pointer">
                         <i class="fa-solid fa-file-import text-purple-400"></i>
                         <span>Restore JSON</span>
                         <input type="file" id="restoreFile" accept=".json" onchange="restoreJSON(event)" class="hidden">
                     </label>
                 </div>
-
                 <div class="grid grid-cols-2 gap-2 pt-1">
-                    <button onclick="loadDemoData()" class="p-2.5 bg-sky-950/60 hover:bg-sky-900/60 text-sky-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-sky-500/30">
+                    <button onclick="loadDemoData()" class="p-2.5 bg-sky-950/60 hover:bg-sky-900/60 text-sky-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 border border-sky-500/30">
                         <i class="fa-solid fa-flask text-sky-400"></i>
-                        <span>โหลดข้อมูลตัวอย่าง</span>
+                        <span>ข้อมูลตัวอย่าง</span>
                     </button>
-                    <button onclick="confirmClearData()" class="p-2.5 bg-rose-950/60 hover:bg-rose-900/60 text-rose-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 transition border border-rose-500/30">
+                    <button onclick="confirmClearData()" class="p-2.5 bg-rose-950/60 hover:bg-rose-900/60 text-rose-300 rounded-xl text-xs font-medium flex items-center justify-center space-x-1.5 border border-rose-500/30">
                         <i class="fa-solid fa-trash-can"></i>
                         <span>ล้างข้อมูลทั้งหมด</span>
                     </button>
@@ -546,31 +587,50 @@
 
     </main>
 
-    <!-- Bottom Mobile Navigation Bar -->
-    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-[#0f172a]/95 backdrop-blur-lg border-t border-slate-800/80 shadow-2xl max-w-md mx-auto">
-        <div class="grid grid-cols-3 py-1.5 px-2">
+    <!-- Bottom Thumb-Zone Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-[#0b1120]/95 backdrop-blur-lg border-t border-slate-800 shadow-2xl max-w-md mx-auto">
+        <div class="grid grid-cols-3 py-2 px-2">
             <button onclick="switchTab('add')" id="bottom-nav-add" class="flex flex-col items-center justify-center py-1 text-slate-400 transition bottom-nav-active">
-                <i class="fa-solid fa-circle-plus text-lg mb-0.5"></i>
-                <span class="text-[10px]">บันทึกข้อมูล</span>
+                <i class="fa-solid fa-bolt text-lg mb-0.5"></i>
+                <span class="text-[11px]">บันทึกด่วน</span>
             </button>
             <button onclick="switchTab('history')" id="bottom-nav-history" class="flex flex-col items-center justify-center py-1 text-slate-400 transition">
                 <i class="fa-solid fa-list-check text-lg mb-0.5"></i>
-                <span class="text-[10px]">ประวัติงาน</span>
+                <span class="text-[11px]">ประวัติงาน</span>
             </button>
             <button onclick="switchTab('stats')" id="bottom-nav-stats" class="flex flex-col items-center justify-center py-1 text-slate-400 transition">
                 <i class="fa-solid fa-chart-pie text-lg mb-0.5"></i>
-                <span class="text-[10px]">สถิติสรุปผล</span>
+                <span class="text-[11px]">สถิติ & สำรอง</span>
             </button>
         </div>
     </nav>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-16 left-1/2 -translate-x-1/2 bg-slate-800 border border-slate-700 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center space-x-2">
+    <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-slate-800 border border-slate-600 text-white text-xs font-medium px-4 py-2.5 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center space-x-2 whitespace-nowrap">
         <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
         <span id="toastMsg">บันทึกข้อมูลเรียบร้อย</span>
     </div>
 
-    <!-- Modal confirmation -->
+    <!-- Daily Goal Setting Modal -->
+    <div id="goalModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-5 max-w-xs w-full shadow-2xl space-y-4">
+            <h3 class="font-bold text-slate-100 text-sm flex items-center gap-2">
+                <i class="fa-solid fa-bullseye text-amber-400"></i> ตั้งเป้าหมายกำไรสุทธิต่อวัน
+            </h3>
+            <input type="number" id="dailyGoalInput" placeholder="1000" class="w-full bg-slate-950 border border-slate-700 text-amber-300 text-xl font-bold text-center rounded-xl p-2.5 font-mono">
+            <div class="grid grid-cols-3 gap-1.5 text-xs">
+                <button type="button" onclick="document.getElementById('dailyGoalInput').value = 600" class="py-1.5 bg-slate-800 rounded-lg text-slate-300">฿600</button>
+                <button type="button" onclick="document.getElementById('dailyGoalInput').value = 1000" class="py-1.5 bg-slate-800 rounded-lg text-slate-300">฿1,000</button>
+                <button type="button" onclick="document.getElementById('dailyGoalInput').value = 1500" class="py-1.5 bg-slate-800 rounded-lg text-slate-300">฿1,500</button>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="closeGoalModal()" class="flex-1 py-2 bg-slate-800 text-slate-300 text-xs font-medium rounded-xl">ยกเลิก</button>
+                <button onclick="saveDailyGoal()" class="flex-1 py-2 bg-amber-500 text-slate-950 text-xs font-bold rounded-xl">บันทึกเป้า</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clear Confirmation Modal -->
     <div id="confirmModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 max-w-xs w-full shadow-2xl space-y-4 text-center">
             <div class="w-12 h-12 bg-rose-950/80 border border-rose-500/30 rounded-full flex items-center justify-center mx-auto text-rose-400">
@@ -578,7 +638,7 @@
             </div>
             <div>
                 <h3 class="font-bold text-slate-100 text-sm">ยืนยันการล้างข้อมูล?</h3>
-                <p class="text-xs text-slate-400 mt-1">รายการบันทึกทั้งหมดจะถูกลบและไม่สามารถฟื้นคืนได้</p>
+                <p class="text-xs text-slate-400 mt-1">รายการบันทึกทั้งหมดจะถูกลบและไม่สามารถกู้คืนได้</p>
             </div>
             <div class="flex space-x-2">
                 <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-800 text-slate-300 text-xs font-medium rounded-xl border border-slate-700">ยกเลิก</button>
@@ -589,7 +649,7 @@
 
     <!-- Edit Record Modal -->
     <div id="editModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-700/80 rounded-2xl p-4 max-w-sm w-full shadow-2xl space-y-3 max-h-[90vh] overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-4 max-w-sm w-full shadow-2xl space-y-3 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
                 <h3 class="font-bold text-slate-100 text-sm flex items-center gap-2">
                     <i class="fa-solid fa-pen-to-square text-sky-400"></i>
@@ -604,72 +664,69 @@
                 <input type="hidden" id="editRecordId">
                 <input type="hidden" id="editRecordType">
 
-                <!-- Date & Time -->
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-[11px] text-slate-400 mb-1">วันที่</label>
-                        <input type="date" id="editDate" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-mono focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                        <input type="date" id="editDate" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-mono">
                     </div>
                     <div>
                         <label class="block text-[11px] text-slate-400 mb-1">เวลา</label>
-                        <input type="time" id="editTime" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-mono focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                        <input type="time" id="editTime" required class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-mono">
                     </div>
                 </div>
 
-                <!-- Trip Specific Fields -->
                 <div id="editTripFields" class="space-y-3">
-                    <div>
-                        <label class="block text-[11px] text-slate-400 mb-1">ค่ายแอปพลิเคชัน</label>
-                        <select id="editTripApp" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
-                            <option value="Grab">🟢 Grab</option>
-                            <option value="LINE MAN">🟢⚡ LINE MAN</option>
-                            <option value="ShopeeFood">🟠 ShopeeFood</option>
-                            <option value="MAXIM">🟡 MAXIM</option>
-                            <option value="Robinhood">🟣 Robinhood</option>
-                            <option value="Other">⚪ อื่นๆ / วิน</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-[11px] text-slate-400 mb-1">จำนวนงานพ่วง</label>
-                        <select id="editTripBatch" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
-                            <option value="1">1 งาน</option>
-                            <option value="2">2 งาน</option>
-                            <option value="3">3 งาน</option>
-                            <option value="4">4+ งาน</option>
-                        </select>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[11px] text-slate-400 mb-1">ค่ายแอป</label>
+                            <select id="editTripApp" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs">
+                                <option value="Grab">🟢 Grab</option>
+                                <option value="LINE MAN">🟢 LINE MAN</option>
+                                <option value="ShopeeFood">🟠 ShopeeFood</option>
+                                <option value="MAXIM">🟡 MAXIM</option>
+                                <option value="Robinhood">🟣 Robinhood</option>
+                                <option value="Other">⚪ อื่นๆ / วิน</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-400 mb-1">จำนวนงานพ่วง</label>
+                            <select id="editTripBatch" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs">
+                                <option value="1">1 งาน</option>
+                                <option value="2">2 งาน</option>
+                                <option value="3">3+ งาน</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-3 gap-2">
                         <div>
                             <label class="block text-[11px] text-slate-400 mb-1">ค่ารอบ (฿)</label>
-                            <input type="number" step="0.01" id="editTripFare" class="w-full bg-slate-950 border border-slate-800 text-sky-400 font-bold rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                            <input type="number" step="0.01" id="editTripFare" class="w-full bg-slate-950 border border-slate-800 text-sky-400 font-bold rounded-xl px-2.5 py-1.5 text-xs">
                         </div>
                         <div>
                             <label class="block text-[11px] text-slate-400 mb-1">ทิป (฿)</label>
-                            <input type="number" step="0.01" id="editTripTip" class="w-full bg-slate-950 border border-slate-800 text-amber-300 font-semibold rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none">
+                            <input type="number" step="0.01" id="editTripTip" class="w-full bg-slate-950 border border-slate-800 text-amber-300 font-semibold rounded-xl px-2.5 py-1.5 text-xs">
                         </div>
                         <div>
                             <label class="block text-[11px] text-slate-400 mb-1">ระยะ (กม.)</label>
-                            <input type="number" step="0.1" id="editTripDistance" class="w-full bg-slate-950 border border-slate-800 text-slate-200 font-mono rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                            <input type="number" step="0.1" id="editTripDistance" class="w-full bg-slate-950 border border-slate-800 text-slate-200 font-mono rounded-xl px-2.5 py-1.5 text-xs">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-[11px] text-slate-400 mb-1">ช่องทางรับเงิน</label>
-                        <select id="editTripPayment" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                        <select id="editTripPayment" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs">
+                            <option value="wallet">💼 กระเป๋าแอป</option>
                             <option value="cash">💵 เงินสด</option>
                             <option value="transfer">📱 เงินโอน</option>
-                            <option value="wallet">💼 กระเป๋าแอป</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Expense Specific Fields -->
                 <div id="editExpenseFields" class="space-y-3 hidden">
                     <div>
                         <label class="block text-[11px] text-slate-400 mb-1">ประเภทค่าใช้จ่าย</label>
-                        <select id="editExpCategory" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-rose-500 focus:outline-none">
+                        <select id="editExpCategory" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs">
                             <option value="น้ำมัน">⛽ ค่าน้ำมัน</option>
                             <option value="อาหาร/เครื่องดื่ม">🍲 ค่าอาหาร/เครื่องดื่ม</option>
                             <option value="เติมเครดิตแอป">📱 เติมเครดิตแอป</option>
@@ -679,30 +736,33 @@
                     </div>
                     <div>
                         <label class="block text-[11px] text-slate-400 mb-1">จำนวนเงิน (บาท)</label>
-                        <input type="number" step="0.01" id="editExpAmount" class="w-full bg-slate-950 border border-slate-800 text-rose-400 font-bold rounded-xl px-2.5 py-1.5 text-sm focus:ring-1 focus:ring-rose-500 focus:outline-none">
+                        <input type="number" step="0.01" id="editExpAmount" class="w-full bg-slate-950 border border-slate-800 text-rose-400 font-bold rounded-xl px-2.5 py-1.5 text-sm">
                     </div>
                 </div>
 
-                <!-- Common Note Field -->
                 <div>
-                    <label class="block text-[11px] text-slate-400 mb-1">หมายเหตุ / รายละเอียด</label>
-                    <input type="text" id="editNote" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 focus:outline-none">
+                    <label class="block text-[11px] text-slate-400 mb-1">หมายเหตุ</label>
+                    <input type="text" id="editNote" class="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-2.5 py-1.5 text-xs">
                 </div>
 
                 <div class="flex space-x-2 pt-2">
-                    <button type="button" onclick="closeEditModal()" class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-xl border border-slate-700">ยกเลิก</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-sky-950">บันทึกการแก้ไข</button>
+                    <button type="button" onclick="closeEditModal()" class="flex-1 py-2.5 bg-slate-800 text-slate-300 text-xs font-medium rounded-xl">ยกเลิก</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-sky-600 text-white text-xs font-bold rounded-xl shadow-lg">บันทึกการแก้ไข</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- JavaScript Application Logic -->
     <script>
-        // State Management
+        // State Management & Smart Memory
         let trips = JSON.parse(localStorage.getItem('rider_trips')) || [];
         let expenses = JSON.parse(localStorage.getItem('rider_expenses')) || [];
         let accumulatedKm = parseFloat(localStorage.getItem('rider_oil_km')) || 0;
+        let dailyGoal = parseFloat(localStorage.getItem('rider_daily_goal')) || 1000;
+        let lastUsedApp = localStorage.getItem('rider_last_app') || 'Grab';
+        let lastUsedPay = localStorage.getItem('rider_last_pay') || 'wallet';
+        let isSunlightMode = localStorage.getItem('rider_sunlight') === 'true';
         let currentHistoryFilter = 'all';
 
         // Chart instances
@@ -710,65 +770,185 @@
         let expenseChartInstance = null;
         let hourlyChartInstance = null;
 
-        // Helper functions for real-time Date & Time
         function getRealtimeDateString() {
             const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
+            return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
         }
 
         function getRealtimeTimeString() {
             const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            return `${hours}:${minutes}`;
+            return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         }
 
-        // Initialize App
         window.addEventListener('DOMContentLoaded', () => {
+            if (isSunlightMode) document.body.classList.add('sunlight-mode');
             resetFormDatesToRealtime();
             if (trips.length === 0 && expenses.length === 0) {
                 generateDemoData();
             }
-            updateAppGlow('Grab');
+            // Restore Smart Memory selections
+            selectAppTile(lastUsedApp);
+            selectPaymentTile(lastUsedPay);
             setQuickDate('today');
         });
 
-        function resetFormDatesToRealtime() {
-            const todayRealtime = getRealtimeDateString();
-            const currentTime = getRealtimeTimeString();
-            document.getElementById('tripDate').value = todayRealtime;
-            document.getElementById('tripTime').value = currentTime;
-            document.getElementById('expDate').value = todayRealtime;
-            document.getElementById('expTime').value = currentTime;
+        function toggleSunlightMode() {
+            isSunlightMode = !isSunlightMode;
+            document.body.classList.toggle('sunlight-mode', isSunlightMode);
+            localStorage.setItem('rider_sunlight', isSunlightMode);
+            showToast(isSunlightMode ? '☀️ เปิดโหมดสู้แดด (High Contrast)' : '🌙 ปิดโหมดสู้แดด', 'fa-sun text-amber-400');
         }
 
-        function updateAppGlow(appValue) {
+        function toggleDateDrawer() {
+            document.getElementById('customDateDrawer').classList.toggle('hidden');
+        }
+
+        function toggleExtraDetails() {
+            const sec = document.getElementById('extraDetailsSection');
+            const icon = document.getElementById('toggleDetailIcon');
+            sec.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // Goal Modal Functions
+        function openGoalModal() {
+            document.getElementById('dailyGoalInput').value = dailyGoal;
+            document.getElementById('goalModal').classList.remove('hidden');
+        }
+        function closeGoalModal() {
+            document.getElementById('goalModal').classList.add('hidden');
+        }
+        function saveDailyGoal() {
+            const val = parseFloat(document.getElementById('dailyGoalInput').value);
+            if (val > 0) {
+                dailyGoal = val;
+                localStorage.setItem('rider_daily_goal', dailyGoal.toString());
+                renderDashboard();
+                showToast(`ตั้งเป้าหมายรายวัน ฿${dailyGoal.toLocaleString()} แล้ว!`, 'fa-bullseye text-amber-400');
+            }
+            closeGoalModal();
+        }
+
+        function resetFormDatesToRealtime() {
+            const d = getRealtimeDateString();
+            const t = getRealtimeTimeString();
+            document.getElementById('tripDate').value = d;
+            document.getElementById('tripTime').value = t;
+            document.getElementById('expDate').value = d;
+            document.getElementById('expTime').value = t;
+        }
+
+        // 1-Tap App Selection & Neon Glow
+        function selectAppTile(appName) {
+            document.getElementById('tripApp').value = appName;
+            lastUsedApp = appName;
+            localStorage.setItem('rider_last_app', appName);
+
+            const colorMap = {
+                'Grab': 'border-[#00b14f] bg-[#00b14f]/25 text-white app-tile-active',
+                'LINE MAN': 'border-[#00c300] bg-[#00c300]/25 text-white app-tile-active',
+                'ShopeeFood': 'border-[#ee4d2d] bg-[#ee4d2d]/25 text-white app-tile-active',
+                'MAXIM': 'border-amber-400 bg-amber-400/25 text-white app-tile-active',
+                'Robinhood': 'border-[#c026d3] bg-[#c026d3]/25 text-white app-tile-active',
+                'Other': 'border-sky-400 bg-sky-400/25 text-white app-tile-active'
+            };
+
+            document.querySelectorAll('.app-tile').forEach(btn => {
+                const isMatch = btn.getAttribute('data-app') === appName;
+                btn.className = `app-tile py-2 px-2 rounded-xl text-xs flex items-center justify-center space-x-1.5 transition ${
+                    isMatch ? 'border-2 ' + colorMap[appName] : 'border border-slate-800 bg-slate-950 text-slate-400'
+                }`;
+            });
+
             const formCard = document.getElementById('tripForm');
             formCard.classList.remove('glow-grab', 'glow-lineman', 'glow-shopee', 'glow-maxim', 'glow-robinhood', 'glow-other');
-            
-            if (appValue === 'Grab') formCard.classList.add('glow-grab');
-            else if (appValue === 'LINE MAN') formCard.classList.add('glow-lineman');
-            else if (appValue === 'ShopeeFood') formCard.classList.add('glow-shopee');
-            else if (appValue === 'MAXIM') formCard.classList.add('glow-maxim');
-            else if (appValue === 'Robinhood') formCard.classList.add('glow-robinhood');
+            if (appName === 'Grab') formCard.classList.add('glow-grab');
+            else if (appName === 'LINE MAN') formCard.classList.add('glow-lineman');
+            else if (appName === 'ShopeeFood') formCard.classList.add('glow-shopee');
+            else if (appName === 'MAXIM') formCard.classList.add('glow-maxim');
+            else if (appName === 'Robinhood') formCard.classList.add('glow-robinhood');
             else formCard.classList.add('glow-other');
+        }
+
+        // 1-Tap Payment Type Selector
+        function selectPaymentTile(payType) {
+            document.getElementById('tripPaymentType').value = payType;
+            lastUsedPay = payType;
+            localStorage.setItem('rider_last_pay', payType);
+
+            const activeStyles = {
+                'wallet': 'border-purple-400 bg-purple-600 text-white font-bold',
+                'cash': 'border-teal-400 bg-teal-600 text-white font-bold',
+                'transfer': 'border-blue-400 bg-blue-600 text-white font-bold'
+            };
+
+            document.querySelectorAll('.pay-tile').forEach(btn => {
+                const p = btn.getAttribute('data-pay');
+                btn.className = `pay-tile py-2 rounded-xl text-[11px] border transition ${
+                    p === payType ? activeStyles[p] : 'border-slate-800 bg-slate-950 text-slate-400 font-medium'
+                }`;
+            });
+        }
+
+        // 1-Tap Expense Category Selector
+        function selectExpCatTile(catName) {
+            document.getElementById('expCategory').value = catName;
+            document.querySelectorAll('.expcat-tile').forEach(btn => {
+                const c = btn.getAttribute('data-expcat');
+                const spanClass = c === 'อื่นๆ' ? 'col-span-2' : '';
+                btn.className = `expcat-tile py-2 px-2 rounded-xl text-xs border transition ${spanClass} ${
+                    c === catName ? 'border-rose-400 bg-rose-600 text-white font-bold' : 'border-slate-800 bg-slate-950 text-slate-400'
+                }`;
+            });
+        }
+
+        // Quick Input Helpers
+        function quickSetFare(val) { document.getElementById('tripFare').value = val; }
+        function quickAddFareDelta(delta) {
+            const cur = parseFloat(document.getElementById('tripFare').value) || 0;
+            document.getElementById('tripFare').value = cur + delta;
+        }
+        function quickAddTip(val) {
+            const cur = parseFloat(document.getElementById('tripTip').value) || 0;
+            document.getElementById('tripTip').value = cur + val;
+        }
+        function quickSetDist(val) {
+            document.getElementById('tripDistance').value = val;
+            calculateTripFuelEst();
+        }
+        function quickAddExp(val) { document.getElementById('expAmount').value = val; }
+
+        function appendNoteTag(tagText) {
+            const el = document.getElementById('tripNote');
+            el.value = el.value ? `${el.value} ${tagText}` : tagText;
+        }
+
+        // 1-Tap Instant Fuel Log
+        function instantFuelLog(amount) {
+            const newExpense = {
+                id: 'E_' + Date.now(),
+                date: getRealtimeDateString(),
+                time: getRealtimeTimeString(),
+                category: 'น้ำมัน',
+                amount: amount,
+                note: 'เติมน้ำมันด่วน (1-Tap)',
+                createdAt: new Date().toISOString()
+            };
+            expenses.unshift(newExpense);
+            localStorage.setItem('rider_expenses', JSON.stringify(expenses));
+            showToast(`⛽ บันทึกค่าน้ำมัน ฿${amount} เรียบร้อย!`, 'fa-gas-pump text-rose-400');
+            renderDashboard();
         }
 
         function calculateTripFuelEst() {
             const dist = parseFloat(document.getElementById('tripDistance').value) || 0;
             const box = document.getElementById('estFuelCostBox');
-            
-            // Calculate current average fuel cost per km
             const totalFuelExp = expenses.filter(e => e.category === 'น้ำมัน').reduce((s, e) => s + e.amount, 0);
             const totalKm = trips.reduce((s, t) => s + (t.distance || 0), 0);
-            const avgFuelPerKm = totalKm > 0 ? (totalFuelExp / totalKm) : 1.2; // default 1.2 THB/km if no data
+            const avgFuelPerKm = totalKm > 0 && totalFuelExp > 0 ? (totalFuelExp / totalKm) : 1.2;
 
             if (dist > 0) {
-                const estCost = dist * avgFuelPerKm;
-                document.getElementById('estFuelCostText').innerText = `฿${estCost.toFixed(2)}`;
+                document.getElementById('estFuelCostText').innerText = `฿${(dist * avgFuelPerKm).toFixed(2)}`;
                 box.classList.remove('hidden');
             } else {
                 box.classList.add('hidden');
@@ -781,17 +961,15 @@
                 showToast('เบราว์เซอร์ไม่รองรับการอัดเสียง', 'fa-circle-exclamation text-amber-400');
                 return;
             }
-
             const recognition = new SpeechRecognition();
             recognition.lang = 'th-TH';
             recognition.interimResults = false;
 
             const btn = document.getElementById(`voiceBtn-${targetInputId}`);
             btn.classList.add('recording-pulse', 'bg-rose-600', 'text-white');
-            showToast('กำลังฟังเสียงพูดของคุณ...', 'fa-microphone text-rose-400');
+            showToast('🎙️ กำลังฟังเสียงพูดของคุณ...', 'fa-microphone text-rose-400');
 
             recognition.start();
-
             recognition.onresult = (event) => {
                 const transcript = event.results[0][0].transcript;
                 const inputEl = document.getElementById(targetInputId);
@@ -799,12 +977,10 @@
                 btn.classList.remove('recording-pulse', 'bg-rose-600', 'text-white');
                 showToast('ถอดความเสียงเรียบร้อย', 'fa-circle-check text-emerald-400');
             };
-
             recognition.onerror = () => {
                 btn.classList.remove('recording-pulse', 'bg-rose-600', 'text-white');
                 showToast('ไม่สามารถจับเสียงได้ ลองใหม่อีกครั้ง', 'fa-circle-exclamation text-rose-400');
             };
-
             recognition.onend = () => {
                 btn.classList.remove('recording-pulse', 'bg-rose-600', 'text-white');
             };
@@ -815,9 +991,7 @@
             let start = new Date();
             let end = new Date();
 
-            if (type === 'today') {
-                // today
-            } else if (type === 'week') {
+            if (type === 'week') {
                 const day = today.getDay();
                 const diffToMonday = today.getDate() - day + (day === 0 ? -6 : 1);
                 start.setDate(diffToMonday);
@@ -827,13 +1001,7 @@
                 end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
             }
 
-            const format = (d) => {
-                const year = d.getFullYear();
-                const month = String(d.getMonth() + 1).padStart(2, '0');
-                const day = String(d.getDate()).padStart(2, '0');
-                return `${year}-${month}-${day}`;
-            };
-
+            const format = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
             document.getElementById('startDate').value = format(start);
             document.getElementById('endDate').value = format(end);
 
@@ -842,11 +1010,9 @@
 
             ['today', 'week', 'month'].forEach(r => {
                 const btn = document.getElementById(`btn-quick-${r}`);
-                if (r === type) {
-                    btn.className = "py-1.5 px-2 bg-sky-600 text-white font-medium text-xs rounded-xl shadow-md border border-sky-400/30 transition flex items-center justify-center space-x-1";
-                } else {
-                    btn.className = "py-1.5 px-2 bg-slate-800/80 text-slate-300 hover:bg-slate-700 font-medium text-xs rounded-xl border border-slate-700/70 transition flex items-center justify-center space-x-1";
-                }
+                btn.className = r === type
+                    ? "py-1 px-2 bg-sky-600 text-white font-semibold text-xs rounded-lg shadow transition"
+                    : "py-1 px-2 text-slate-400 hover:text-slate-200 font-medium text-xs rounded-lg transition";
             });
 
             renderDashboard();
@@ -855,19 +1021,10 @@
         function customDateChanged() {
             document.getElementById('displayDateRangeText').innerText = 'กำหนดเอง';
             ['today', 'week', 'month'].forEach(r => {
-                const btn = document.getElementById(`btn-quick-${r}`);
-                btn.className = "py-1.5 px-2 bg-slate-800/80 text-slate-300 font-medium text-xs rounded-xl border border-slate-700/70 transition flex items-center justify-center space-x-1";
+                document.getElementById(`btn-quick-${r}`).className = "py-1 px-2 text-slate-400 font-medium text-xs rounded-lg transition";
             });
             renderDashboard();
         }
-
-        // Quick input helpers
-        function quickAddFare(val) { document.getElementById('tripFare').value = val; }
-        function quickAddTip(val) {
-            const cur = parseFloat(document.getElementById('tripTip').value) || 0;
-            document.getElementById('tripTip').value = cur + val;
-        }
-        function quickAddExp(val) { document.getElementById('expAmount').value = val; }
 
         function resetOilKm() {
             accumulatedKm = 0;
@@ -878,23 +1035,14 @@
 
         function generateDemoData() {
             const today = getRealtimeDateString();
-            const yesterdayDate = new Date(Date.now() - 86400000);
-            const yesterday = yesterdayDate.toISOString().split('T')[0];
-            
             trips = [
-                { id: 'T_1', date: today, time: '14:20', app: 'Grab', fare: 65, tip: 20, total: 85, paymentType: 'cash', distance: 4.2, note: 'ส่งของคอนโด A (ทิปเงินสด 20)', createdAt: new Date(Date.now() - 3600000*2).toISOString() },
-                { id: 'T_2', date: today, time: '13:10', app: 'LINE MAN', fare: 52, tip: 0, total: 52, paymentType: 'transfer', distance: 3.1, note: 'ส่งอาหารหมู่บ้าน B (ลูกค้าสแกนจ่าย)', createdAt: new Date(Date.now() - 3600000*3).toISOString() },
-                { id: 'T_3', date: today, time: '12:05', app: 'ShopeeFood', fare: 48, tip: 15, total: 63, paymentType: 'wallet', distance: 2.8, note: 'ส่งชานมไข่มุก (ทิปในแอป)', createdAt: new Date(Date.now() - 3600000*4).toISOString() },
-                { id: 'T_4', date: today, time: '12:45', app: 'Grab', fare: 110, tip: 10, total: 120, paymentType: 'transfer', distance: 8.5, note: 'วิ่งส่งผู้โดยสารข้ามเขต', createdAt: new Date(Date.now() - 3600000*5).toISOString() },
-                { id: 'T_5', date: today, time: '09:30', app: 'MAXIM', fare: 40, tip: 0, total: 40, paymentType: 'cash', distance: 2.0, note: 'รับส่งด่วนในซอย', createdAt: new Date(Date.now() - 3600000*6).toISOString() },
-                { id: 'T_6', date: yesterday, time: '18:15', app: 'Grab', fare: 85, tip: 30, total: 115, paymentType: 'wallet', distance: 5.4, note: 'ส่งของหนัก ลูกค้าใจดีให้ทิปเพิ่ม', createdAt: new Date(yesterdayDate.getTime() - 3600000*2).toISOString() }
+                { id: 'T_1', date: today, time: '11:45', app: 'Grab', batchCount: 1, fare: 65, tip: 20, total: 85, paymentType: 'cash', distance: 4.2, note: '🏢 ส่งคอนโด/ตึก', createdAt: new Date(Date.now() - 3600000).toISOString() },
+                { id: 'T_2', date: today, time: '10:30', app: 'LINE MAN', batchCount: 2, fare: 78, tip: 0, total: 78, paymentType: 'transfer', distance: 5.1, note: '🏠 หมู่บ้าน', createdAt: new Date(Date.now() - 7200000).toISOString() },
+                { id: 'T_3', date: today, time: '09:15', app: 'ShopeeFood', batchCount: 1, fare: 48, tip: 10, total: 58, paymentType: 'wallet', distance: 2.8, note: 'ชานมไข่มุก', createdAt: new Date(Date.now() - 10800000).toISOString() }
             ];
-
             expenses = [
-                { id: 'E_1', date: today, time: '09:00', category: 'น้ำมัน', amount: 120, note: 'เติมแก๊สโซฮอล์ 95 เต็มถัง', createdAt: new Date(Date.now() - 3600000*6).toISOString() },
-                { id: 'E_2', date: today, time: '12:30', category: 'อาหาร/เครื่องดื่ม', amount: 65, note: 'ข้าวเที่ยง + กาแฟดำ', createdAt: new Date(Date.now() - 3600000*3).toISOString() }
+                { id: 'E_1', date: today, time: '08:45', category: 'น้ำมัน', amount: 100, note: 'แก๊สโซฮอล์ 95', createdAt: new Date(Date.now() - 12000000).toISOString() }
             ];
-
             localStorage.setItem('rider_trips', JSON.stringify(trips));
             localStorage.setItem('rider_expenses', JSON.stringify(expenses));
         }
@@ -907,7 +1055,6 @@
 
         function handleSaveTrip(e) {
             e.preventDefault();
-
             const date = document.getElementById('tripDate').value;
             const time = document.getElementById('tripTime').value || getRealtimeTimeString();
             const app = document.getElementById('tripApp').value;
@@ -920,49 +1067,39 @@
 
             const newTrip = {
                 id: 'T_' + Date.now(),
-                date,
-                time,
-                app,
-                batchCount,
-                fare,
-                tip,
+                date, time, app, batchCount, fare, tip,
                 total: fare + tip,
-                paymentType,
-                distance,
-                note,
+                paymentType, distance, note,
                 createdAt: new Date().toISOString()
             };
 
             trips.unshift(newTrip);
             localStorage.setItem('rider_trips', JSON.stringify(trips));
 
-            // Accumulate oil mileage
             accumulatedKm += distance;
             localStorage.setItem('rider_oil_km', accumulatedKm.toString());
 
+            // Clear inputs but keep last used App & Payment Type!
             document.getElementById('tripFare').value = '';
             document.getElementById('tripTip').value = '0';
             document.getElementById('tripDistance').value = '';
             document.getElementById('tripNote').value = '';
             document.getElementById('estFuelCostBox').classList.add('hidden');
-            
-            // Reset batch selector to 1
             const defaultBatch = document.querySelector('input[name="tripBatchCount"][value="1"]');
             if (defaultBatch) defaultBatch.checked = true;
 
             resetFormDatesToRealtime();
 
             if (accumulatedKm >= 2000) {
-                showToast('🚨 ครบกำหนด 2,000 กม.! ควรเปลี่ยนน้ำมันเครื่อง', 'fa-triangle-exclamation text-amber-400');
+                showToast('🚨 ครบ 2,000 กม.! อย่าลืมเปลี่ยนน้ำมันเครื่อง', 'fa-triangle-exclamation text-amber-400');
             } else {
-                showToast('บันทึกงานรายรอบสำเร็จ!', 'fa-circle-check text-emerald-400');
+                showToast(`✅ บันทึก +฿${newTrip.total} (${app}) สำเร็จ!`, 'fa-circle-check text-emerald-400');
             }
             renderDashboard();
         }
 
         function handleSaveExpense(e) {
             e.preventDefault();
-
             const date = document.getElementById('expDate').value;
             const time = document.getElementById('expTime').value || getRealtimeTimeString();
             const category = document.getElementById('expCategory').value;
@@ -971,11 +1108,7 @@
 
             const newExpense = {
                 id: 'E_' + Date.now(),
-                date,
-                time,
-                category,
-                amount,
-                note,
+                date, time, category, amount, note,
                 createdAt: new Date().toISOString()
             };
 
@@ -986,7 +1119,7 @@
             document.getElementById('expNote').value = '';
             resetFormDatesToRealtime();
 
-            showToast('บันทึกค่าใช้จ่ายสำเร็จ!', 'fa-circle-check text-emerald-400');
+            showToast(`บันทึกค่าใช้จ่าย -฿${amount} สำเร็จ!`, 'fa-circle-check text-rose-400');
             renderDashboard();
         }
 
@@ -994,19 +1127,8 @@
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
 
-            const filteredTrips = trips.filter(t => {
-                if (!startDate && !endDate) return true;
-                if (startDate && t.date < startDate) return false;
-                if (endDate && t.date > endDate) return false;
-                return true;
-            });
-
-            const filteredExpenses = expenses.filter(e => {
-                if (!startDate && !endDate) return true;
-                if (startDate && e.date < startDate) return false;
-                if (endDate && e.date > endDate) return false;
-                return true;
-            });
+            const filteredTrips = trips.filter(t => (!startDate || t.date >= startDate) && (!endDate || t.date <= endDate));
+            const filteredExpenses = expenses.filter(e => (!startDate || e.date >= startDate) && (!endDate || e.date <= endDate));
 
             const totalIncome = filteredTrips.reduce((sum, t) => sum + t.total, 0);
             const totalTrips = filteredTrips.length;
@@ -1017,58 +1139,56 @@
             const avgPerTrip = totalTrips > 0 ? (totalIncome / totalTrips) : 0;
             const avgPerKm = totalDistance > 0 ? (totalIncome / totalDistance) : 0;
 
+            // Calculate Earnings Per Hour (from earliest to latest trip of filtered set)
+            let hourlyRate = 0;
+            if (filteredTrips.length >= 2) {
+                const minsList = filteredTrips.map(t => {
+                    const [hh, mm] = (t.time || '00:00').split(':').map(Number);
+                    return hh * 60 + (mm || 0);
+                });
+                const spanHours = Math.max(1, (Math.max(...minsList) - Math.min(...minsList)) / 60);
+                hourlyRate = totalIncome / spanHours;
+            } else if (filteredTrips.length === 1) {
+                hourlyRate = totalIncome;
+            }
+
             const totalTip = filteredTrips.reduce((sum, t) => sum + (t.tip || 0), 0);
             const totalCash = filteredTrips.filter(t => t.paymentType === 'cash').reduce((sum, t) => sum + t.total, 0);
             const totalTransfer = filteredTrips.filter(t => t.paymentType === 'transfer').reduce((sum, t) => sum + t.total, 0);
             const totalWallet = filteredTrips.filter(t => (t.paymentType === 'wallet' || !t.paymentType)).reduce((sum, t) => sum + t.total, 0);
 
-            // Fuel Economy Metric Calculation
-            const avgFuelPerKm = totalDistance > 0 ? (fuelExpense / totalDistance) : 0;
-            document.getElementById('fuelPerKmDisplay').innerText = `฿${avgFuelPerKm.toFixed(2)}/กม.`;
-            document.getElementById('oilKmDisplay').innerText = `${accumulatedKm.toFixed(1)} / 2,000 กม.`;
+            // Update DOM stats
+            document.getElementById('statNetProfit').innerText = `฿${netProfit.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('statHourlyRate').innerText = `⚡ ฿${Math.round(hourlyRate).toLocaleString()} / ชม.`;
+            document.getElementById('statAvgPerTrip').innerText = `฿${avgPerTrip.toFixed(0)} / รอบ`;
+            document.getElementById('statAvgPerKm').innerText = `฿${avgPerKm.toFixed(1)} / กม.`;
 
-            document.getElementById('statTotalIncome').innerText = `฿${totalIncome.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('statTotalIncome').innerText = `฿${totalIncome.toLocaleString()}`;
             document.getElementById('statTotalTrips').innerText = `${totalTrips} รอบ`;
             document.getElementById('statTotalKm').innerText = `${totalDistance.toFixed(1)} กม.`;
-            
-            document.getElementById('statTotalExpense').innerText = `฿${totalExpense.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('statTotalExpense').innerText = `฿${totalExpense.toLocaleString()}`;
 
             document.getElementById('statTotalTip').innerText = `฿${totalTip.toLocaleString()}`;
             document.getElementById('statTotalCash').innerText = `฿${totalCash.toLocaleString()}`;
             document.getElementById('statTotalTransfer').innerText = `฿${totalTransfer.toLocaleString()}`;
             document.getElementById('statTotalWallet').innerText = `฿${totalWallet.toLocaleString()}`;
 
-            const netProfitEl = document.getElementById('statNetProfit');
-            netProfitEl.innerText = `฿${netProfit.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            
-            // Update Fuel Profit Meter & Hero Box Theme
-            const profitBox = document.getElementById('netProfitBox');
-            const fuelStatusText = document.getElementById('fuelProfitStatusText');
-            const fuelBarExpense = document.getElementById('fuelBarExpense');
-            const fuelBarProfit = document.getElementById('fuelBarProfit');
+            // Daily Goal Progress
+            document.getElementById('goalTargetText').innerText = `฿${dailyGoal.toLocaleString()}`;
+            const goalPct = Math.max(0, Math.min(100, Math.round((netProfit / dailyGoal) * 100)));
+            document.getElementById('goalProgressBar').style.width = `${goalPct}%`;
+            document.getElementById('goalStatusText').innerText = netProfit >= dailyGoal
+                ? `🎉 ทะลุเป้าแล้ว! (${goalPct}%)`
+                : `อีก ฿${Math.max(0, dailyGoal - netProfit).toLocaleString()} ถึงเป้า (${goalPct}%)`;
 
-            if (netProfit < 0) {
-                profitBox.className = "bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 rounded-xl p-3.5 text-white shadow-lg shadow-rose-950/50 border border-rose-400/30 transition-all duration-300";
-                fuelStatusText.innerText = "🚨 ขาดทุน / ค่าใช้จ่ายสูงกว่ารายรับ";
-                fuelBarExpense.style.width = "100%";
-                fuelBarProfit.style.width = "0%";
-            } else {
-                profitBox.className = "bg-gradient-to-r from-sky-600 via-sky-500 to-indigo-600 rounded-xl p-3.5 text-white shadow-lg shadow-sky-950/50 border border-sky-400/30 transition-all duration-300";
-                if (totalIncome > 0) {
-                    const expRatio = Math.min(100, Math.round((totalExpense / totalIncome) * 100));
-                    const profitRatio = 100 - expRatio;
-                    fuelStatusText.innerText = `✅ กำไร ${profitRatio}% (ต้นทุน ${expRatio}%)`;
-                    fuelBarExpense.style.width = `${expRatio}%`;
-                    fuelBarProfit.style.width = `${profitRatio}%`;
-                } else {
-                    fuelStatusText.innerText = "พร้อมรับงานรอบแรกของวัน";
-                    fuelBarExpense.style.width = "0%";
-                    fuelBarProfit.style.width = "100%";
-                }
-            }
-
-            document.getElementById('statAvgPerTrip').innerText = `฿${avgPerTrip.toFixed(1)} / รอบ`;
-            document.getElementById('statAvgPerKm').innerText = `฿${avgPerKm.toFixed(1)} / กม.`;
+            // Oil Maintenance Traffic Light
+            const avgFuelPerKm = totalDistance > 0 ? (fuelExpense / totalDistance) : 0;
+            document.getElementById('fuelPerKmDisplay').innerText = `฿${avgFuelPerKm.toFixed(2)}/กม.`;
+            document.getElementById('oilKmDisplay').innerText = `${accumulatedKm.toFixed(1)} / 2,000 กม.`;
+            const oilPct = Math.min(100, (accumulatedKm / 2000) * 100);
+            const oilBar = document.getElementById('oilProgressBar');
+            oilBar.style.width = `${oilPct}%`;
+            oilBar.className = oilPct >= 90 ? 'bg-rose-500 h-full transition-all' : (oilPct >= 75 ? 'bg-amber-400 h-full transition-all' : 'bg-emerald-500 h-full transition-all');
 
             renderHistoryList(filteredTrips, filteredExpenses);
             renderCharts(filteredTrips, filteredExpenses);
@@ -1077,12 +1197,9 @@
         function filterHistoryType(type) {
             currentHistoryFilter = type;
             ['all', 'trip', 'expense'].forEach(f => {
-                const btn = document.getElementById(`hist-filter-${f}`);
-                if (f === type) {
-                    btn.className = "px-2.5 py-1 rounded-lg bg-sky-600 text-white font-medium";
-                } else {
-                    btn.className = "px-2.5 py-1 rounded-lg text-slate-400 hover:text-slate-200";
-                }
+                document.getElementById(`hist-filter-${f}`).className = f === type
+                    ? "px-2.5 py-1 rounded-lg bg-sky-600 text-white font-medium"
+                    : "px-2.5 py-1 rounded-lg text-slate-400 hover:text-slate-200";
             });
             renderDashboard();
         }
@@ -1091,165 +1208,78 @@
             const container = document.getElementById('historyContainer');
             container.innerHTML = '';
 
-            let combinedList = [];
+            let combined = [];
             if (currentHistoryFilter === 'all' || currentHistoryFilter === 'trip') {
-                combinedList.push(...filteredTrips.map(t => ({ ...t, type: 'trip' })));
+                combined.push(...filteredTrips.map(t => ({ ...t, type: 'trip' })));
             }
             if (currentHistoryFilter === 'all' || currentHistoryFilter === 'expense') {
-                combinedList.push(...filteredExpenses.map(e => ({ ...e, type: 'expense' })));
+                combined.push(...filteredExpenses.map(e => ({ ...e, type: 'expense' })));
             }
+            combined.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-            combinedList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            document.getElementById('historyCount').innerText = `${combined.length} รายการ`;
 
-            document.getElementById('historyCount').innerText = `${combinedList.length} รายการ`;
-
-            if (combinedList.length === 0) {
-                container.innerHTML = `
-                    <div class="glass-card rounded-2xl p-8 text-center border border-slate-800">
-                        <i class="fa-solid fa-inbox text-3xl text-slate-600 mb-2"></i>
-                        <p class="text-xs text-slate-400">ยังไม่มีรายการบันทึกในช่วงเวลาที่เลือก</p>
-                    </div>
-                `;
+            if (combined.length === 0) {
+                container.innerHTML = `<div class="glass-card rounded-2xl p-8 text-center text-xs text-slate-400">ยังไม่มีรายการบันทึกในช่วงเวลานี้</div>`;
                 return;
             }
 
-            combinedList.forEach(item => {
+            combined.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "glass-card rounded-xl p-3 shadow-md border border-slate-800/80 flex items-center justify-between";
-                const timeDisplay = item.time ? `<span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded font-mono">${item.time} น.</span>` : '';
+                card.className = "glass-card rounded-xl p-3 shadow border border-slate-800 flex items-center justify-between";
+                const timeBadge = item.time ? `<span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded font-mono">${item.time}</span>` : '';
 
                 if (item.type === 'trip') {
-                    let appColor = 'bg-slate-700 text-white';
-                    let appLogoHtml = '';
-
-                    if (item.app === 'Grab') {
-                        appColor = 'bg-[#00b14f] text-white';
-                        appLogoHtml = `
-                            <div class="w-10 h-10 rounded-xl bg-[#06291a] border-2 border-[#00b14f] shadow-[0_0_12px_rgba(0,177,79,0.4)] flex items-center justify-center shrink-0">
-                                <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none">
-                                    <path d="M25 13.5C23.5 11.5 21 10.5 18 10.5C12.8 10.5 9 14.2 9 18.5C9 22.8 12.8 26.5 18 26.5C22.8 26.5 26.5 23.2 26.5 18.5H18.5V21.5H23.2C22.5 23 20.5 23.8 18 23.8C14.5 23.8 12 21.5 12 18.5C12 15.5 14.5 13.2 18 13.2C20 13.2 21.6 13.9 22.8 15.2L25 13.5Z" fill="white" stroke="#00b14f" stroke-width="0.6"/>
-                                </svg>
-                            </div>
-                        `;
-                    } else if (item.app === 'LINE MAN') {
-                        appColor = 'bg-[#00c300] text-slate-950 font-bold';
-                        appLogoHtml = `
-                            <div class="w-10 h-10 rounded-xl bg-[#072b12] border-2 border-[#00c300] shadow-[0_0_12px_rgba(0,195,0,0.4)] flex items-center justify-center shrink-0">
-                                <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none">
-                                    <rect x="8" y="10" width="20" height="14" rx="5" fill="#00c300"/>
-                                    <path d="M14 24L12 28L18 24H14Z" fill="#00c300"/>
-                                    <text x="18" y="19.5" text-anchor="middle" fill="#05200d" font-size="7.5" font-weight="900" font-family="sans-serif">LINE</text>
-                                </svg>
-                            </div>
-                        `;
-                    } else if (item.app === 'ShopeeFood') {
-                        appColor = 'bg-[#ee4d2d] text-white';
-                        appLogoHtml = `
-                            <div class="w-10 h-10 rounded-xl bg-[#38160c] border-2 border-[#ee4d2d] shadow-[0_0_12px_rgba(238,77,45,0.4)] flex items-center justify-center shrink-0">
-                                <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none">
-                                    <path d="M11 13H25L26.5 26.5H9.5L11 13Z" fill="#ee4d2d"/>
-                                    <path d="M14.5 13V11.5C14.5 9.6 16 8 18 8C20 8 21.5 9.6 21.5 11.5V13" stroke="#ee4d2d" stroke-width="2" stroke-linecap="round"/>
-                                    <path d="M14.5 16.5V20M13.5 16.5V18.5C13.5 19.2 14 19.6 14.5 19.6C15 19.6 15.5 19.2 15.5 18.5V16.5M14.5 20V23.5" stroke="#38160c" stroke-width="1.3" stroke-linecap="round"/>
-                                    <path d="M19 16.5H22.5M19 16.5V23.5M19 19.8H21.8" stroke="#38160c" stroke-width="1.8" stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                        `;
-                    } else if (item.app === 'MAXIM') {
-                        appColor = 'bg-amber-400 text-slate-950 font-bold';
-                        appLogoHtml = `
-                            <div class="w-10 h-10 rounded-xl bg-[#3d0c11] border-2 border-[#fbbf24] shadow-[0_0_12px_rgba(251,191,36,0.4)] flex flex-col items-center justify-center shrink-0">
-                                <svg class="w-5 h-4" viewBox="0 0 24 18" fill="none">
-                                    <path d="M4 13C6 8 11 5 18 6L15 8.5L21 9.5C17 11.5 13 12 10 15L11 11.5C8 12 6 13 4 13Z" fill="#fbbf24"/>
-                                </svg>
-                                <span class="text-[6.5px] font-black tracking-tighter text-[#fbbf24] leading-none mt-0.5">MAXIM</span>
-                            </div>
-                        `;
-                    } else if (item.app === 'Robinhood') {
-                        appColor = 'bg-[#9d223c] text-white';
-                        appLogoHtml = `
-                            <div class="w-10 h-10 rounded-xl bg-[#2a0b2e] border-2 border-[#c026d3] shadow-[0_0_12px_rgba(192,38,211,0.4)] flex items-center justify-center shrink-0">
-                                <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none">
-                                    <path d="M10 23C13 17 19 13 27 12C24 18 19 23 12 25L10 23Z" fill="#e879f9"/>
-                                    <path d="M10 26L23 15" stroke="#f0abfc" stroke-width="1.5" stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                        `;
-                    } else {
-                        appLogoHtml = `
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500/20 via-indigo-500/20 to-rose-500/20 border-2 border-sky-400 shadow-[0_0_12px_rgba(56,189,248,0.35)] flex items-center justify-center text-sky-300 shrink-0">
-                                <i class="fa-solid fa-motorcycle text-base"></i>
-                            </div>
-                        `;
-                    }
-
-                    const batchBadge = (item.batchCount && item.batchCount > 1) 
-                        ? `<span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-700/50 px-1.5 py-0.5 rounded font-medium">🍔 พ่วง ${item.batchCount} งาน</span>` 
-                        : '';
-
-                    const payLabel = item.paymentType === 'cash' ? '💵 สด' : (item.paymentType === 'transfer' ? '📱 โอน' : '💼 กระเป๋า');
+                    const badgeColors = {
+                        'Grab': 'bg-[#00b14f] text-white',
+                        'LINE MAN': 'bg-[#00c300] text-slate-950 font-bold',
+                        'ShopeeFood': 'bg-[#ee4d2d] text-white',
+                        'MAXIM': 'bg-amber-400 text-slate-950 font-bold',
+                        'Robinhood': 'bg-[#9d223c] text-white'
+                    };
+                    const appColor = badgeColors[item.app] || 'bg-sky-600 text-white';
+                    const payLabel = item.paymentType === 'cash' ? '💵 สด' : (item.paymentType === 'transfer' ? '📱 โอน' : '💼 แอป');
+                    const batchBadge = (item.batchCount && item.batchCount > 1) ? `<span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-700 px-1.5 py-0.5 rounded">พ่วง ${item.batchCount}</span>` : '';
 
                     card.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            ${appLogoHtml}
-                            <div>
-                                <div class="flex flex-wrap items-center gap-1">
-                                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${appColor}">${item.app}</span>
-                                    ${timeDisplay}
-                                    ${batchBadge}
-                                    <span class="text-[10px] bg-slate-800/90 text-slate-300 px-1.5 py-0.5 rounded">${payLabel}</span>
-                                    ${item.tip > 0 ? `<span class="text-[10px] bg-amber-950/80 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded font-medium">+ทิป ฿${item.tip}</span>` : ''}
-                                </div>
-                                <p class="text-xs text-slate-400 mt-1">${item.note || 'ไม่มีหมายเหตุ'} ${item.distance > 0 ? `<span class="text-slate-500 font-mono">(${item.distance} กม.)</span>` : ''}</p>
+                        <div class="space-y-1">
+                            <div class="flex flex-wrap items-center gap-1">
+                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${appColor}">${item.app}</span>
+                                ${timeBadge}
+                                ${batchBadge}
+                                <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded">${payLabel}</span>
+                                ${item.tip > 0 ? `<span class="text-[10px] bg-amber-950 text-amber-300 border border-amber-500/30 px-1.5 py-0.5 rounded">+ทิป ฿${item.tip}</span>` : ''}
                             </div>
+                            <p class="text-xs text-slate-400">${item.note || 'งานวิ่งทั่วไป'} ${item.distance > 0 ? `<span class="font-mono text-slate-500">(${item.distance} กม.)</span>` : ''}</p>
                         </div>
                         <div class="text-right flex items-center space-x-1.5 shrink-0">
                             <div class="mr-1">
                                 <span class="text-sm font-bold text-emerald-400 block font-mono">+฿${(item.total || 0).toLocaleString()}</span>
                                 <span class="text-[10px] text-slate-500 font-mono">${item.date}</span>
                             </div>
-                            <button onclick="openEditModal('trip', '${item.id}')" title="แก้ไข" class="text-slate-500 hover:text-sky-400 p-1.5 bg-slate-800/60 rounded-lg transition">
-                                <i class="fa-solid fa-pen-to-square text-xs"></i>
-                            </button>
-                            <button onclick="deleteItem('trip', '${item.id}')" title="ลบ" class="text-slate-500 hover:text-rose-400 p-1.5 bg-slate-800/60 rounded-lg transition">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
+                            <button onclick="openEditModal('trip', '${item.id}')" class="text-slate-400 hover:text-sky-400 p-1.5 bg-slate-800/80 rounded-lg"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
+                            <button onclick="deleteItem('trip', '${item.id}')" class="text-slate-400 hover:text-rose-400 p-1.5 bg-slate-800/80 rounded-lg"><i class="fa-solid fa-trash-can text-xs"></i></button>
                         </div>
                     `;
                 } else {
-                    let expIcon = 'fa-receipt';
-                    if (item.category === 'น้ำมัน') expIcon = 'fa-gas-pump';
-                    else if (item.category === 'อาหาร/เครื่องดื่ม') expIcon = 'fa-utensils';
-                    else if (item.category === 'เติมเครดิตแอป') expIcon = 'fa-wallet';
-                    else if (item.category === 'ซ่อมบำรุงรถ') expIcon = 'fa-wrench';
-
                     card.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-xl bg-[#360d17] border-2 border-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.35)] text-rose-400 flex items-center justify-center text-sm shrink-0">
-                                <i class="fa-solid ${expIcon}"></i>
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-xs font-bold text-rose-400">⛽ ${item.category}</span>
+                                ${timeBadge}
                             </div>
-                            <div>
-                                <div class="flex flex-wrap items-center gap-1">
-                                    <span class="text-xs font-semibold text-rose-300">${item.category}</span>
-                                    ${timeDisplay}
-                                </div>
-                                <p class="text-xs text-slate-400 mt-1">${item.note || 'ค่าใช้จ่ายทั่วไป'}</p>
-                            </div>
+                            <p class="text-xs text-slate-400">${item.note || 'รายจ่ายทั่วไป'}</p>
                         </div>
                         <div class="text-right flex items-center space-x-1.5 shrink-0">
                             <div class="mr-1">
                                 <span class="text-sm font-bold text-rose-400 block font-mono">-฿${(item.amount || 0).toLocaleString()}</span>
                                 <span class="text-[10px] text-slate-500 font-mono">${item.date}</span>
                             </div>
-                            <button onclick="openEditModal('expense', '${item.id}')" title="แก้ไข" class="text-slate-500 hover:text-sky-400 p-1.5 bg-slate-800/60 rounded-lg transition">
-                                <i class="fa-solid fa-pen-to-square text-xs"></i>
-                            </button>
-                            <button onclick="deleteItem('expense', '${item.id}')" title="ลบ" class="text-slate-500 hover:text-rose-400 p-1.5 bg-slate-800/60 rounded-lg transition">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
+                            <button onclick="openEditModal('expense', '${item.id}')" class="text-slate-400 hover:text-sky-400 p-1.5 bg-slate-800/80 rounded-lg"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
+                            <button onclick="deleteItem('expense', '${item.id}')" class="text-slate-400 hover:text-rose-400 p-1.5 bg-slate-800/80 rounded-lg"><i class="fa-solid fa-trash-can text-xs"></i></button>
                         </div>
                     `;
                 }
-
                 container.appendChild(card);
             });
         }
@@ -1257,18 +1287,14 @@
         function openEditModal(type, id) {
             document.getElementById('editRecordId').value = id;
             document.getElementById('editRecordType').value = type;
-
             const tripFields = document.getElementById('editTripFields');
             const expFields = document.getElementById('editExpenseFields');
 
             if (type === 'trip') {
                 const item = trips.find(t => t.id === id);
                 if (!item) return;
-
-                document.getElementById('editModalTitle').innerText = 'แก้ไขรายการงานวิ่ง';
                 tripFields.classList.remove('hidden');
                 expFields.classList.add('hidden');
-
                 document.getElementById('editDate').value = item.date;
                 document.getElementById('editTime').value = item.time || '00:00';
                 document.getElementById('editTripApp').value = item.app;
@@ -1276,35 +1302,28 @@
                 document.getElementById('editTripFare').value = item.fare;
                 document.getElementById('editTripTip').value = item.tip || 0;
                 document.getElementById('editTripDistance').value = item.distance || 0;
-                document.getElementById('editTripPayment').value = item.paymentType || 'cash';
+                document.getElementById('editTripPayment').value = item.paymentType || 'wallet';
                 document.getElementById('editNote').value = item.note || '';
             } else {
                 const item = expenses.find(e => e.id === id);
                 if (!item) return;
-
-                document.getElementById('editModalTitle').innerText = 'แก้ไขรายการค่าใช้จ่าย';
                 tripFields.classList.add('hidden');
                 expFields.classList.remove('hidden');
-
                 document.getElementById('editDate').value = item.date;
                 document.getElementById('editTime').value = item.time || '00:00';
                 document.getElementById('editExpCategory').value = item.category;
                 document.getElementById('editExpAmount').value = item.amount;
                 document.getElementById('editNote').value = item.note || '';
             }
-
             document.getElementById('editModal').classList.remove('hidden');
         }
 
-        function closeEditModal() {
-            document.getElementById('editModal').classList.add('hidden');
-        }
+        function closeEditModal() { document.getElementById('editModal').classList.add('hidden'); }
 
         function handleUpdateRecord(e) {
             e.preventDefault();
             const id = document.getElementById('editRecordId').value;
             const type = document.getElementById('editRecordType').value;
-
             const date = document.getElementById('editDate').value;
             const time = document.getElementById('editTime').value;
             const note = document.getElementById('editNote').value.trim();
@@ -1318,20 +1337,14 @@
                     const tip = parseFloat(document.getElementById('editTripTip').value) || 0;
 
                     trips[idx] = {
-                        ...trips[idx],
-                        date,
-                        time,
+                        ...trips[idx], date, time,
                         app: document.getElementById('editTripApp').value,
                         batchCount: parseInt(document.getElementById('editTripBatch').value, 10) || 1,
-                        fare,
-                        tip,
-                        total: fare + tip,
+                        fare, tip, total: fare + tip,
                         distance: newDistance,
                         paymentType: document.getElementById('editTripPayment').value,
                         note
                     };
-
-                    // Update accumulated oil distance accurately
                     accumulatedKm = Math.max(0, accumulatedKm - oldDistance + newDistance);
                     localStorage.setItem('rider_oil_km', accumulatedKm.toString());
                     localStorage.setItem('rider_trips', JSON.stringify(trips));
@@ -1340,9 +1353,7 @@
                 const idx = expenses.findIndex(e => e.id === id);
                 if (idx !== -1) {
                     expenses[idx] = {
-                        ...expenses[idx],
-                        date,
-                        time,
+                        ...expenses[idx], date, time,
                         category: document.getElementById('editExpCategory').value,
                         amount: parseFloat(document.getElementById('editExpAmount').value) || 0,
                         note
@@ -1350,9 +1361,8 @@
                     localStorage.setItem('rider_expenses', JSON.stringify(expenses));
                 }
             }
-
             closeEditModal();
-            showToast('อัปเดตข้อมูลเรียบร้อยแล้ว!', 'fa-circle-check text-emerald-400');
+            showToast('อัปเดตข้อมูลเรียบร้อย!', 'fa-circle-check text-emerald-400');
             renderDashboard();
         }
 
@@ -1369,48 +1379,32 @@
         }
 
         function renderCharts(filteredTrips, filteredExpenses) {
-            // 1. Hourly Income Chart (Best Hourly Performance)
             const hourlyIncome = Array(24).fill(0);
             filteredTrips.forEach(t => {
                 if (t.time) {
                     const hour = parseInt(t.time.split(':')[0], 10);
-                    if (!isNaN(hour) && hour >= 0 && hour < 24) {
-                        hourlyIncome[hour] += t.total;
-                    }
+                    if (!isNaN(hour) && hour >= 0 && hour < 24) hourlyIncome[hour] += t.total;
                 }
             });
 
-            let maxIncome = 0;
-            let peakHour = -1;
-            hourlyIncome.forEach((inc, h) => {
-                if (inc > maxIncome) {
-                    maxIncome = inc;
-                    peakHour = h;
-                }
-            });
-
-            document.getElementById('bestHourBadge').innerText = peakHour >= 0 
-                ? `ช่วงพีค: ${String(peakHour).padStart(2, '0')}:00 - ${String(peakHour + 1).padStart(2, '0')}:00 น.` 
-                : 'ช่วงพีค: --:00 น.';
+            let maxIncome = 0, peakHour = -1;
+            hourlyIncome.forEach((inc, h) => { if (inc > maxIncome) { maxIncome = inc; peakHour = h; } });
+            document.getElementById('bestHourBadge').innerText = peakHour >= 0 ? `พีค: ${String(peakHour).padStart(2, '0')}:00 น.` : '--:00 น.';
 
             const ctxHourly = document.getElementById('hourlyChart').getContext('2d');
             if (hourlyChartInstance) hourlyChartInstance.destroy();
-
-            const hourlyLabels = Array.from({length: 24}, (_, i) => `${String(i).padStart(2, '0')}:00`);
             hourlyChartInstance = new Chart(ctxHourly, {
                 type: 'bar',
                 data: {
-                    labels: hourlyLabels,
+                    labels: Array.from({length: 24}, (_, i) => `${String(i).padStart(2, '0')}:00`),
                     datasets: [{
-                        label: 'รายได้ (บาท)',
                         data: hourlyIncome,
                         backgroundColor: hourlyIncome.map((_, i) => i === peakHour ? '#fbbf24' : '#38bdf8'),
                         borderRadius: 4
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
                         x: { ticks: { color: '#94a3b8', font: { size: 9 } }, grid: { display: false } },
@@ -1419,64 +1413,45 @@
                 }
             });
 
-            // 2. App Breakdown Chart
             const appTotals = {};
-            filteredTrips.forEach(t => {
-                appTotals[t.app] = (appTotals[t.app] || 0) + t.total;
-            });
-
-            const appLabels = Object.keys(appTotals);
-            const appData = Object.values(appTotals);
-
+            filteredTrips.forEach(t => { appTotals[t.app] = (appTotals[t.app] || 0) + t.total; });
             const ctxApp = document.getElementById('appChart').getContext('2d');
             if (appChartInstance) appChartInstance.destroy();
-
             appChartInstance = new Chart(ctxApp, {
                 type: 'bar',
                 data: {
-                    labels: appLabels.length > 0 ? appLabels : ['ไม่มีข้อมูล'],
+                    labels: Object.keys(appTotals).length ? Object.keys(appTotals) : ['ไม่มีข้อมูล'],
                     datasets: [{
-                        label: 'รายได้ (บาท)',
-                        data: appData.length > 0 ? appData : [0],
-                        backgroundColor: ['#00b14f', '#00c300', '#ee4d2d', '#ea1d24', '#9d223c', '#64748b'],
+                        data: Object.values(appTotals).length ? Object.values(appTotals) : [0],
+                        backgroundColor: ['#00b14f', '#00c300', '#ee4d2d', '#fbbf24', '#c026d3', '#38bdf8'],
                         borderRadius: 8
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: '#1e293b' } },
+                        x: { ticks: { color: '#94a3b8', font: { size: 10 } } },
                         y: { beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: '#1e293b' } }
                     }
                 }
             });
 
-            // 3. Expense Breakdown Chart
             const expTotals = {};
-            filteredExpenses.forEach(e => {
-                expTotals[e.category] = (expTotals[e.category] || 0) + e.amount;
-            });
-
-            const expLabels = Object.keys(expTotals);
-            const expData = Object.values(expTotals);
-
+            filteredExpenses.forEach(e => { expTotals[e.category] = (expTotals[e.category] || 0) + e.amount; });
             const ctxExp = document.getElementById('expenseChart').getContext('2d');
             if (expenseChartInstance) expenseChartInstance.destroy();
-
             expenseChartInstance = new Chart(ctxExp, {
                 type: 'doughnut',
                 data: {
-                    labels: expLabels.length > 0 ? expLabels : ['ไม่มีข้อมูล'],
+                    labels: Object.keys(expTotals).length ? Object.keys(expTotals) : ['ไม่มีข้อมูล'],
                     datasets: [{
-                        data: expData.length > 0 ? expData : [1],
+                        data: Object.values(expTotals).length ? Object.values(expTotals) : [1],
                         backgroundColor: ['#f43f5e', '#fb923c', '#a855f7', '#0ea5e9', '#64748b']
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 }, color: '#94a3b8' } } }
                 }
             });
@@ -1487,7 +1462,6 @@
                 document.getElementById(`tab-${tab}`).classList.add('hidden');
                 document.getElementById(`bottom-nav-${tab}`).classList.remove('bottom-nav-active');
             });
-
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
             document.getElementById(`bottom-nav-${tabName}`).classList.add('bottom-nav-active');
         }
@@ -1515,57 +1489,43 @@
             const toast = document.getElementById('toast');
             document.getElementById('toastMsg').innerText = msg;
             document.getElementById('toastIcon').className = `fa-solid ${iconClass}`;
-
             toast.classList.remove('opacity-0');
-            setTimeout(() => {
-                toast.classList.add('opacity-0');
-            }, 2500);
+            setTimeout(() => toast.classList.add('opacity-0'), 2500);
         }
 
         function backupJSON() {
-            const backupData = {
-                version: '3.0',
-                exportDate: new Date().toISOString(),
-                trips: trips,
-                expenses: expenses,
-                oilKm: accumulatedKm
-            };
-
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `Rider_Backup_${new Date().toISOString().split('T')[0]}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-
-            showToast('ส่งออกไฟล์ Backup JSON สำเร็จ!', 'fa-circle-check text-emerald-400');
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+                version: '4.0', exportDate: new Date().toISOString(),
+                trips, expenses, oilKm: accumulatedKm, dailyGoal
+            }, null, 2));
+            const a = document.createElement('a');
+            a.href = dataStr;
+            a.download = `KAAB_Rider_Backup_${getRealtimeDateString()}.json`;
+            a.click();
+            showToast('สำรองไฟล์ JSON สำเร็จ!', 'fa-circle-check text-emerald-400');
         }
 
         function restoreJSON(event) {
             const file = event.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const importedData = JSON.parse(e.target.result);
-                    if (importedData.trips && importedData.expenses) {
-                        trips = importedData.trips;
-                        expenses = importedData.expenses;
-                        accumulatedKm = importedData.oilKm || 0;
-
+                    const data = JSON.parse(e.target.result);
+                    if (data.trips && data.expenses) {
+                        trips = data.trips;
+                        expenses = data.expenses;
+                        accumulatedKm = data.oilKm || 0;
+                        dailyGoal = data.dailyGoal || 1000;
                         localStorage.setItem('rider_trips', JSON.stringify(trips));
                         localStorage.setItem('rider_expenses', JSON.stringify(expenses));
                         localStorage.setItem('rider_oil_km', accumulatedKm.toString());
-
-                        showToast('Restore ข้อมูลเรียบร้อยแล้ว!', 'fa-circle-check text-emerald-400');
+                        localStorage.setItem('rider_daily_goal', dailyGoal.toString());
+                        showToast('กู้คืนข้อมูลสำเร็จ!', 'fa-circle-check text-emerald-400');
                         renderDashboard();
-                    } else {
-                        showToast('รูปแบบไฟล์ JSON ไม่ถูกต้อง', 'fa-circle-exclamation text-rose-400');
                     }
                 } catch (err) {
-                    showToast('เกิดข้อผิดพลาดในการอ่านไฟล์', 'fa-circle-exclamation text-rose-400');
+                    showToast('ไฟล์ JSON ไม่ถูกต้อง', 'fa-circle-exclamation text-rose-400');
                 }
             };
             reader.readAsText(file);
@@ -1576,78 +1536,35 @@
                 showToast('ไม่มีข้อมูลสำหรับส่งออก', 'fa-circle-exclamation text-amber-400');
                 return;
             }
-
-            let csvContent = "\uFEFF";
-            csvContent += "ประเภท,วันที่,เวลา,แอป/หมวดหมู่,จำนวนงานพ่วง,ค่ารอบ/ค่าใช้จ่าย,ทิป,ช่องทางรับเงิน,ระยะทาง (กม.),รวมเงิน,หมายเหตุ\n";
-
+            let csv = "\uFEFFประเภท,วันที่,เวลา,แอป/หมวดหมู่,จำนวนงานพ่วง,ค่ารอบ/ค่าใช้จ่าย,ทิป,ช่องทางรับเงิน,ระยะทาง (กม.),รวมเงิน,หมายเหตุ\n";
             trips.forEach(t => {
-                const payText = t.paymentType === 'cash' ? 'เงินสด' : (t.paymentType === 'transfer' ? 'เงินโอน' : 'กระเป๋าแอป');
-                csvContent += `รายรับ,${t.date},${t.time || '-'},${t.app},${t.batchCount || 1},${t.fare},${t.tip},${payText},${t.distance || 0},${t.total},"${t.note || ''}"\n`;
+                const pay = t.paymentType === 'cash' ? 'เงินสด' : (t.paymentType === 'transfer' ? 'เงินโอน' : 'กระเป๋าแอป');
+                csv += `รายรับ,${t.date},${t.time || '-'},${t.app},${t.batchCount || 1},${t.fare},${t.tip},${pay},${t.distance || 0},${t.total},"${t.note || ''}"\n`;
             });
-
             expenses.forEach(e => {
-                csvContent += `รายจ่าย,${e.date},${e.time || '-'},${e.category},- ,${e.amount},0,-,-,${e.amount},"${e.note || ''}"\n`;
+                csv += `รายจ่าย,${e.date},${e.time || '-'},${e.category},-,${e.amount},0,-,-,${e.amount},"${e.note || ''}"\n`;
             });
-
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
+            const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Rider_Report_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `KAAB_Report_${getRealtimeDateString()}.csv`;
             a.click();
             URL.revokeObjectURL(url);
-
-            showToast('ส่งออก CSV เรียบร้อยแล้ว', 'fa-circle-check text-emerald-400');
+            showToast('ดาวน์โหลด CSV เรียบร้อย!', 'fa-circle-check text-emerald-400');
         }
 
         function exportGoogleSheets() {
-            if (trips.length === 0 && expenses.length === 0) {
-                showToast('ไม่มีข้อมูลสำหรับส่งออก', 'fa-circle-exclamation text-amber-400');
-                return;
-            }
-
-            let csvContent = "\uFEFF";
-            csvContent += "ประเภท,วันที่,เวลา,แอป/หมวดหมู่,จำนวนงานพ่วง,ค่ารอบ/ค่าใช้จ่าย,ทิป,ช่องทางรับเงิน,ระยะทาง (กม.),รวมเงิน,หมายเหตุ\n";
-
-            trips.forEach(t => {
-                const payText = t.paymentType === 'cash' ? 'เงินสด' : (t.paymentType === 'transfer' ? 'เงินโอน' : 'กระเป๋าแอป');
-                csvContent += `รายรับ,${t.date},${t.time || '-'},${t.app},${t.batchCount || 1},${t.fare},${t.tip},${payText},${t.distance || 0},${t.total},"${t.note || ''}"\n`;
-            });
-
-            expenses.forEach(e => {
-                csvContent += `รายจ่าย,${e.date},${e.time || '-'},${e.category},- ,${e.amount},0,-,-,${e.amount},"${e.note || ''}"\n`;
-            });
-
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Rider_Report_GoogleSheets_${new Date().toISOString().split('T')[0]}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-
-            setTimeout(() => {
-                window.open('https://sheets.new', '_blank');
-            }, 800);
-
-            showToast('กำลังดาวน์โหลดไฟล์และเปิด Google Sheets...', 'fa-circle-check text-emerald-400');
+            exportCSV();
+            setTimeout(() => window.open('https://sheets.new', '_blank'), 800);
         }
 
-        function confirmClearData() {
-            document.getElementById('confirmModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('confirmModal').classList.add('hidden');
-        }
-
+        function confirmClearData() { document.getElementById('confirmModal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('confirmModal').classList.add('hidden'); }
         function executeClearData() {
             localStorage.removeItem('rider_trips');
             localStorage.removeItem('rider_expenses');
             localStorage.removeItem('rider_oil_km');
-            trips = [];
-            expenses = [];
-            accumulatedKm = 0;
+            trips = []; expenses = []; accumulatedKm = 0;
             closeModal();
             showToast('ล้างข้อมูลทั้งหมดแล้ว', 'fa-trash-can text-rose-400');
             renderDashboard();
