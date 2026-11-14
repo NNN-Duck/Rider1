@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KAAB RIDER PRO v4.0 - ระบบบันทึกงานไรเดอร์มืออาชีพ</title>
+    <title>KAAB RIDER PRO v4 - ระบบบันทึกงานไรเดอร์</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -343,12 +343,12 @@
                     
                     <!-- Big Thumb Chips: Set or Add -->
                     <div class="grid grid-cols-6 gap-1 pt-0.5">
-                        <button type="button" onclick="quickSetFare(35)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">35</button>
-                        <button type="button" onclick="quickSetFare(45)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">45</button>
-                        <button type="button" onclick="quickSetFare(60)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">60</button>
-                        <button type="button" onclick="quickSetFare(80)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">80</button>
+                        <button type="button" onclick="quickSetFare(18)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">18</button>
+                        <button type="button" onclick="quickSetFare(21)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">21</button>
+                        <button type="button" onclick="quickSetFare(31)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">31</button>
+                        <button type="button" onclick="quickSetFare(50)" class="py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold text-xs rounded-lg border border-slate-700">50</button>
+                        <button type="button" onclick="quickAddFareDelta(1)" class="py-1.5 bg-sky-950 hover:bg-sky-900 active:scale-95 text-sky-300 font-extrabold text-xs rounded-lg border border-sky-700">+1</button>
                         <button type="button" onclick="quickAddFareDelta(5)" class="py-1.5 bg-sky-950 hover:bg-sky-900 active:scale-95 text-sky-300 font-extrabold text-xs rounded-lg border border-sky-700">+5</button>
-                        <button type="button" onclick="quickAddFareDelta(10)" class="py-1.5 bg-sky-950 hover:bg-sky-900 active:scale-95 text-sky-300 font-extrabold text-xs rounded-lg border border-sky-700">+10</button>
                     </div>
                 </div>
 
@@ -359,9 +359,9 @@
                         <label class="block text-[11px] text-slate-400 font-medium mb-1">ช่องทางรับเงิน</label>
                         <input type="hidden" id="tripPaymentType" value="wallet">
                         <div class="grid grid-cols-3 gap-1" id="paymentGridSelector">
-                            <button type="button" onclick="selectPaymentTile('wallet')" data-pay="wallet" class="pay-tile py-2 rounded-xl text-[11px] font-bold border border-purple-400 bg-purple-600 text-white transition">💼 แอป</button>
                             <button type="button" onclick="selectPaymentTile('cash')" data-pay="cash" class="pay-tile py-2 rounded-xl text-[11px] font-medium border border-slate-800 bg-slate-950 text-slate-400 transition">💵 สด</button>
                             <button type="button" onclick="selectPaymentTile('transfer')" data-pay="transfer" class="pay-tile py-2 rounded-xl text-[11px] font-medium border border-slate-800 bg-slate-950 text-slate-400 transition">📱 โอน</button>
+                            <button type="button" onclick="selectPaymentTile('wallet')" data-pay="wallet" class="pay-tile py-2 rounded-xl text-[11px] font-bold border border-purple-400 bg-purple-600 text-white transition">💼 แอป</button>
                         </div>
                     </div>
 
@@ -391,6 +391,8 @@
                         <div class="flex justify-between items-center mb-1">
                             <label class="text-[11px] text-slate-400 font-medium">🎁 ทิปพิเศษ (บาท)</label>
                             <div class="flex space-x-1">
+                                <button type="button" onclick="quickAddTip(1)" class="text-[10px] bg-amber-950/80 text-amber-300 px-1.5 py-0.2 rounded border border-amber-700/50 font-bold">+1</button>
+                                <button type="button" onclick="quickAddTip(5)" class="text-[10px] bg-amber-950/80 text-amber-300 px-1.5 py-0.2 rounded border border-amber-700/50 font-bold">+5</button>
                                 <button type="button" onclick="quickAddTip(10)" class="text-[10px] bg-amber-950/80 text-amber-300 px-1.5 py-0.2 rounded border border-amber-700/50 font-bold">+10</button>
                                 <button type="button" onclick="quickAddTip(20)" class="text-[10px] bg-amber-950/80 text-amber-300 px-1.5 py-0.2 rounded border border-amber-700/50 font-bold">+20</button>
                             </div>
@@ -401,6 +403,8 @@
                         <div class="flex justify-between items-center mb-1">
                             <label class="text-[11px] text-slate-400 font-medium">🛣️ ระยะทาง (กม.)</label>
                             <div class="flex space-x-1">
+                                <button type="button" onclick="quickSetDist(1)" class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded border border-slate-700">1กม.</button>
+                                <button type="button" onclick="quickSetDist(2)" class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded border border-slate-700">2กม.</button>
                                 <button type="button" onclick="quickSetDist(3)" class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded border border-slate-700">3กม.</button>
                                 <button type="button" onclick="quickSetDist(5)" class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded border border-slate-700">5กม.</button>
                             </div>
